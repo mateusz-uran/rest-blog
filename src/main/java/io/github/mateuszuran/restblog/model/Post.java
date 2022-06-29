@@ -1,11 +1,18 @@
 package io.github.mateuszuran.restblog.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table
 public class Post {
@@ -19,4 +26,6 @@ public class Post {
             cascade =  CascadeType.ALL,
             mappedBy = "post")
     private PostImage image;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    private Set<Comment> comment;
 }
