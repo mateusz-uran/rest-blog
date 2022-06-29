@@ -1,5 +1,6 @@
 package io.github.mateuszuran.restblog.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,4 +15,8 @@ public class PostImage {
     private String imagePath;
     private String imageName;
     private String imageType;
+    @JsonBackReference
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 }
