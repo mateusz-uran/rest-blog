@@ -26,12 +26,12 @@ public class PostService {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post with given id not found"));
     }
 
-    public Post editPost(Long id, Post post) {
+    public void editPost(Long id, Post post) {
         Post postFromDb = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post with given id not found"));
         postFromDb.setHeader(post.getHeader());
         postFromDb.setContent(post.getContent());
         postFromDb.setImage(post.getImage());
-        return repository.save(postFromDb);
+        repository.save(postFromDb);
     }
 
     public void deletePost(Long id) {

@@ -27,20 +27,18 @@ public class CommentService {
     }
 
     public List<Comment> getAllComments(Long id) {
-        return repository.findByPostId(id);
+        return repository.findAllByPostId(id);
     }
 
-    public Comment getCommentById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Comment with given id not found"));
+    public Comment getCommentById(Long postId, Long commentId) {
+        Comment comment = repository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("Comment with given id not found"));
+        return repository.findAllByPostId(postId)
+                .stream()
+                .filter(findComment -> comment.getId().equals(findComment.getId())).findAny().orElseThrow(() -> new IllegalArgumentException("Comment in this post doesn't exists"));
     }
 
-    public void editComment(Long id, Comment comment) {
-        Comment commentFromDb = repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Comment with given id not found"));
-        commentFromDb.setAuthor(comment.getAuthor());
-        commentFromDb.setContent(comment.getContent());
-        commentFromDb.setDate(comment.getDate());
-        commentFromDb.setPost(comment.getPost());
-        repository.save(commentFromDb);
+    public void editComment() {
+
     }
 
     public void deleteComment(Long id) {

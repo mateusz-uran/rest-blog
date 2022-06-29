@@ -21,10 +21,16 @@ public class CommentController {
         this.service = service;
     }
 
-    @GetMapping("/{id}/comment")
+    @GetMapping("/{id}/comments")
     public ResponseEntity<List<Comment>> getAllComments(@PathVariable("id") Long id) {
         List<Comment> comments = service.getAllComments(id);
         return new ResponseEntity<>(comments, HttpStatus.OK);
+    }
+
+    @GetMapping("/{postId}/comment/{commentId}")
+    public ResponseEntity<Comment> getComment(@PathVariable("postId") Long postId, @PathVariable("commentId") Long commentId) {
+        Comment comment = service.getCommentById(postId, commentId);
+        return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
     @PostMapping("{id}/add-comment")
