@@ -1,6 +1,7 @@
 package io.github.mateuszuran.restblog.controller;
 
 import io.github.mateuszuran.restblog.model.Comment;
+import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +22,9 @@ public class CommentController {
         this.service = service;
     }
 
-    @GetMapping("/{id}/comments")
-    public ResponseEntity<List<Comment>> getAllComments(@PathVariable("id") Long id) {
-        List<Comment> comments = service.getAllComments(id);
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity<List<Comment>> getAllComments(@PathVariable("postId") Long postId) {
+        List<Comment> comments = service.getAllComments(postId);
         return new ResponseEntity<>(comments, HttpStatus.OK);
     }
 
@@ -33,11 +34,23 @@ public class CommentController {
         return new ResponseEntity<>(comment, HttpStatus.OK);
     }
 
-    @PostMapping("{id}/add-comment")
-    public ResponseEntity<Comment> saveComment(@PathVariable("id") Long id, @RequestBody Comment comment) {
-        Comment newComment = service.addComment(id ,comment);
+    @PostMapping("{postId}/add-comment")
+    public ResponseEntity<Comment> saveComment(@PathVariable("postId") Long postIdd, @RequestBody Comment comment) {
+        Comment newComment = service.addComment(postIdd ,comment);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("comment", "/api/v1/post/" + id + "/comment/" + newComment.getId().toString());
+        httpHeaders.add("comment", "/api/v1/post/" + postIdd + "/comment/" + newComment.getId().toString());
         return new ResponseEntity<>(newComment, httpHeaders, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{postId}/comment/{commentId}")
+    public ResponseEntity<Comment> updatePost(@PathVariable("postId") Long postId, @PathVariable("commentId") Long commentId, @RequestBody Comment comment) {
+        service.editComment(postId, commentId, comment);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{postId}/comment/{commentId}")
+    public ResponseEntity<Comment> deleteComment(@PathVariable("commentId") Long commentId) {
+        service.deleteComment(commentId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

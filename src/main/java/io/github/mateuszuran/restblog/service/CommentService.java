@@ -1,6 +1,7 @@
 package io.github.mateuszuran.restblog.service;
 
 import io.github.mateuszuran.restblog.model.Comment;
+import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import org.springframework.stereotype.Service;
@@ -34,14 +35,34 @@ public class CommentService {
         Comment comment = repository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("Comment with given id not found"));
         return repository.findAllByPostId(postId)
                 .stream()
-                .filter(findComment -> comment.getId().equals(findComment.getId())).findAny().orElseThrow(() -> new IllegalArgumentException("Comment in this post doesn't exists"));
+                .filter(findComment -> comment.getId().equals(findComment.getId())).findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Comment in this post doesn't exists"));
     }
 
-    public void editComment() {
-
+    public void editComment(Long postId, Long commentId, Comment comment) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("Post with given id not found"));
+        Comment commentFromDb = repository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("Comment with given id not found"));
+        var result = post.getComment()
+                .stream()
+                .filter(findComment -> findComment.equals(commentFromDb)).findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Comment in this post doesn't exists"));
+        result.setAuthor(comment.getAuthor());
+        result.setContent(comment.getContent());
+        result.setDate(comment.getDate());
+        result.setPost(post);
+        repository.save(result);
     }
 
-    public void deleteComment(Long id) {
-        repository.deleteById(id);
+    public void deleteCommentTest(Long postId, Long commentId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("Post with given id not found"));
+        Comment commentToDelete = post.getComment()
+                .stream()
+                .filter(findComment -> findComment.getId().equals(commentId)).findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Comment with given id not found"));
+        repository.deleteById(commentToDelete.getId());
+    }
+
+    public void deleteComment(Long commentId) {
+        repository.deleteById(commentId);
     }
 }
