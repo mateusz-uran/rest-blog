@@ -2,6 +2,8 @@ package io.github.mateuszuran.restblog.controller;
 
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.service.PostService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/post")
 public class PostController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostController.class);
     private final PostService service;
 
     public PostController(final PostService service) {
@@ -19,33 +22,27 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> posts = service.getAllPosts();
-        return new ResponseEntity<>(posts, HttpStatus.OK);
+    public List<Post> getAllPosts() {
+        return service.getAllPosts();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPost(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(service.getPost(id), HttpStatus.OK);
+    public Post getSinglePost(@PathVariable("id") Long id) {
+        return service.getPost(id);
     }
 
     @PostMapping
-    public ResponseEntity<Post> savePost(@RequestBody Post post) {
-        Post newPost = service.addPost(post);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("post", "/api/v1/post/" + newPost.getId().toString());
-        return new ResponseEntity<>(newPost, httpHeaders, HttpStatus.CREATED);
+    public Post savePost(@RequestBody Post newPost) {
+        return service.addPost(newPost);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable("id") Long id, @RequestBody Post post) {
-        service.editPost(id, post);
-        return new ResponseEntity<>(service.getPost(id), HttpStatus.OK);
+    public Post replacePost(@PathVariable("id") Long id, @RequestBody Post post) {
+        return service.editPost(id, post);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Post> deletePost(@PathVariable("id") Long id) {
+    public void deletePost(@PathVariable("id") Long id) {
         service.deletePost(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

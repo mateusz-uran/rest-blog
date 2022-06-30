@@ -42,7 +42,7 @@ public class CommentService {
     public void editComment(Long postId, Long commentId, Comment comment) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("Post with given id not found"));
         Comment commentFromDb = repository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("Comment with given id not found"));
-        var result = post.getComment()
+        var result = post.getComments()
                 .stream()
                 .filter(findComment -> findComment.equals(commentFromDb)).findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Comment in this post doesn't exists"));
@@ -55,7 +55,7 @@ public class CommentService {
 
     public void deleteCommentTest(Long postId, Long commentId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("Post with given id not found"));
-        Comment commentToDelete = post.getComment()
+        Comment commentToDelete = post.getComments()
                 .stream()
                 .filter(findComment -> findComment.getId().equals(commentId)).findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Comment with given id not found"));

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Getter
@@ -27,5 +28,10 @@ public class Post {
             mappedBy = "post")
     private PostImage image;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
-    private Set<Comment> comment;
+    private Set<Comment> comments;
+
+    public void updateForm(Post source) {
+        header = source.header;
+        content = source.content;
+    }
 }
