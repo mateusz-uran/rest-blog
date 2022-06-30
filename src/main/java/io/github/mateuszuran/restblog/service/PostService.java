@@ -2,21 +2,25 @@ package io.github.mateuszuran.restblog.service;
 
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Post;
-import io.github.mateuszuran.restblog.model.PostImage;
-import io.github.mateuszuran.restblog.repository.PostImageRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
+import org.apache.el.util.ReflectionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class PostService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostService.class);
     private final PostRepository repository;
-    private final PostImageRepository imageRepository;
 
-    public PostService(final PostRepository repository, final PostImageRepository imageRepository) {
+    public PostService(final PostRepository repository) {
         this.repository = repository;
-        this.imageRepository = imageRepository;
     }
 
     public Post addPost(Post newPost) {
@@ -24,7 +28,7 @@ public class PostService {
     }
 
     public List<Post> getAllPosts() {
-        return  repository.findAll();
+        return repository.findAll();
     }
 
     public Post getPost(Long id) {
@@ -33,18 +37,35 @@ public class PostService {
     }
 
     public Post editPost(Long id, Post newPost) {
-        PostImage image = imageRepository.findByPostId(id);
         return repository.findById(id)
                 .map(post -> {
                     post.updateForm(newPost);
-                    post.setImage(image);
                     return repository.save(post);
                 })
-                .orElseGet(() -> {
-                    newPost.setId(id);
-                    return repository.save(newPost);
-                });
+                .orElseThrow(() -> new PostNotFoundException(id));
+    }
+
+    public Post updatePost(Long id, Post partialPost) {
+        Post post = repository.findById(id).orElseThrow();
+        if(repository.findById(id).isPresent()) {
+            if(partialPost.getHeader() != null) {
+                post.setHeader(partialPost.getHeader());
+            }
+            if(partialPost.getContent() != null) {
+                post.setContent(partialPost.getContent());
+            }
+            if(partialPost.getImageName() != null) {
+                post.setImageName(partialPost.getImageName());
+            }
+            if(partialPost.getImagePath() != null) {
+                post.setImagePath(partialPost.getImagePath());
+            }
+            if(partialPost.getImageType() != null) {
+                post.setImageType(partialPost.getImageType());
+            }
         }
+        return repository.save(post);
+    }
 
     public void deletePost(Long id) {
         repository.deleteById(id);

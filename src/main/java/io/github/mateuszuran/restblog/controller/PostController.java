@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/post")
@@ -39,6 +40,11 @@ public class PostController {
     @PutMapping("/{id}")
     public Post replacePost(@PathVariable("id") Long id, @RequestBody Post post) {
         return service.editPost(id, post);
+    }
+
+    @PatchMapping("/{id}")
+    public Post partialUpdate(@PathVariable("id") Long id, @RequestBody Post post) {
+        return service.updatePost(id, post);
     }
 
     @DeleteMapping("/{id}")

@@ -24,11 +24,4 @@ public class Comment {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Comment )) return false;
-        return id != null && id.equals(((Comment) o).getId());
-    }
 }
