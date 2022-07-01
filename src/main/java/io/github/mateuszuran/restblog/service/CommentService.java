@@ -1,5 +1,6 @@
 package io.github.mateuszuran.restblog.service;
 
+import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Comment;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
@@ -18,13 +19,11 @@ public class CommentService {
         this.postRepository = postRepository;
     }
 
-    public Comment addComment(Long id, Comment comment) {
-        Comment newComment = new Comment();
-        newComment.setAuthor(comment.getAuthor());
-        newComment.setContent(comment.getContent());
-        newComment.setDate(comment.getDate());
-        newComment.setPost(postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post with given id not found")));
-        return repository.save(newComment);
+    public Comment addComment(Long id, Comment newComment) {
+        return postRepository.findById(id).map(post -> {
+            newComment.setPost(post);
+            return repository.save(newComment);
+        }).orElseThrow(() -> new PostNotFoundException(id));
     }
 
     public List<Comment> getAllComments(Long id) {
