@@ -1,9 +1,6 @@
 package io.github.mateuszuran.restblog.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,6 +11,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table
+@Builder
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +30,18 @@ public class Post {
         imagePath = source.imagePath;
         imageName = source.imageName;
         imageType = source.imageType;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", header='" + header + '\'' +
+                ", content='" + content + '\'' +
+                ", imagePath='" + imagePath + '\'' +
+                ", imageName='" + imageName + '\'' +
+                ", imageType='" + imageType + '\'' +
+                ", comments=" + comments +
+                '}';
     }
 }

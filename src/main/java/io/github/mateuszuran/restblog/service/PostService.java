@@ -3,16 +3,11 @@ package io.github.mateuszuran.restblog.service;
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.PostRepository;
-import org.apache.el.util.ReflectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class PostService {
@@ -46,7 +41,7 @@ public class PostService {
     }
 
     public Post updatePost(Long id, Post partialPost) {
-        Post post = repository.findById(id).orElseThrow();
+        Post post = repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         if(repository.findById(id).isPresent()) {
             if(partialPost.getHeader() != null) {
                 post.setHeader(partialPost.getHeader());
@@ -68,6 +63,8 @@ public class PostService {
     }
 
     public void deletePost(Long id) {
-        repository.deleteById(id);
+        if(repository.findById(id).orElseThrow(() -> new PostNotFoundException(id)) != null) {
+            repository.deleteById(id);
+        }
     }
 }
