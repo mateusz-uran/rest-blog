@@ -3,14 +3,11 @@ package io.github.mateuszuran.restblog.service;
 import io.github.mateuszuran.restblog.exception.CommentNotFoundException;
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Comment;
-import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CommentService {
@@ -24,7 +21,7 @@ public class CommentService {
 
     public Comment addCommentToPost(Long id, Comment comment) {
         Comment newComment = new Comment();
-        newComment.addComment(comment);
+        newComment.toUpdate(comment);
         newComment.setPost(postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id)));
         return repository.save(newComment);
     }

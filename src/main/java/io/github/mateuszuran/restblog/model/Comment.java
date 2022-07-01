@@ -30,10 +30,4 @@ public class Comment {
         content = toUpdate.content;
         date = toUpdate.date;
     }
-
-    public void addComment(Comment comment) {
-        author = comment.author;
-        content = comment.content;
-        date = comment.date;
-    }
 }
