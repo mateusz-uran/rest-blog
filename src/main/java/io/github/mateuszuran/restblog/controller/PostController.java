@@ -58,4 +58,9 @@ public class PostController {
             @RequestParam("file") MultipartFile file) {
         service.uploadImageToPost(postId, file);
     }
+
+    @GetMapping("/{postId}/download")
+    public byte[] downloadPostImage(@PathVariable("postId") Long postId) {
+        return service.downloadPostImage(postId);
+    }
 }

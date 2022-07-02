@@ -104,4 +104,12 @@ public class PostService {
             throw new IllegalStateException(e);
         }
     }
+
+    public byte[] downloadPostImage(final Long postId) {
+        Post post = repository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
+        String path = String.format("%s/%s",
+                BucketName.POST_IMAGE.getBucketName(),
+                postId);
+        return fileStore.download(path, post.getImageName());
+    }
 }
