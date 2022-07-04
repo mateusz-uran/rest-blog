@@ -177,6 +177,22 @@ img {
   padding: 0 10px;
 }
 
+.AddPost {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.AddPost .wrapper {
+  width: 1170px;
+}
+
+.AddPost .wrapper .postModal {
+  background-color: transparent;
+  border: 0;
+  color: black;
+}
+
 @media screen and (max-width: 850px) {
   .Navbar .leftSide .links a {
     font-size: 20px;

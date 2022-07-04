@@ -14,7 +14,7 @@ const About = () => {
             <p>My name is Mateusz and I'm 25. I've graduated at the beggining of 2022 IT studies
               with specialization for web development.
             </p>
-            <p>
+            <div>
               <h4>Technologies and Languages I'm using</h4>
               <ul>
                 <li>Java 11</li>
@@ -30,7 +30,7 @@ const About = () => {
                 <li>CSS</li>
                 <li>JavaScript - basics</li>
               </ul>
-            </p>
+            </div>
           </div>
         </div>
       </div>
