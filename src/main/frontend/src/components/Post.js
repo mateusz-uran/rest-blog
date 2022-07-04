@@ -25,7 +25,7 @@ const Post = () => {
         {post.id ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : null}
         <br/>
         <br/>
-        <h1>{post.header}</h1>
+        <h2>{post.header}</h2>
         <p>{post.content}</p>
         <MyDropzone postId={post.id}/>
         <br/>
