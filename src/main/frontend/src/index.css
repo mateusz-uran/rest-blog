@@ -99,7 +99,7 @@ img {
 .Home .wrapper {
   display: flex;
   width: 1170px;
-  min-height: 70vh;
+  min-height: 80vh;
   align-items: center;
   justify-content: center;
 }
@@ -142,11 +142,38 @@ img {
 
 .About .leftSide {
   width: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 .About .rightSide {
   width: 50%;
   text-align: left;
+  display: flex;
+  position: relative;
+}
+
+.About .rightSide .line {
+  content: '';
+  position: absolute;
+  height: 100%;
+  background-color: #282C35;
+}
+
+.About .rightSide .content {
+  position: relative;
+  margin-left: 15px;
+}
+
+.About .rightSide .content ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.About .rightSide .content li {
+  margin: 0;
+  padding: 0 10px;
 }
 
 @media screen and (max-width: 850px) {
