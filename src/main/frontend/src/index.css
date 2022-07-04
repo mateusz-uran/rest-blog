@@ -144,6 +144,7 @@ img {
   width: 50%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .About .rightSide {
@@ -212,5 +213,14 @@ img {
   .Home .wrapper {
     flex-direction: column;
     align-items: center;
+  }
+
+  .About .wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .About .leftSide, .About .rightSide {
+    width: 80%;
   }
 }
