@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../App.css';
 import axios from 'axios'
-import {  useDropzone} from 'react-dropzone'
+import { useDropzone } from 'react-dropzone'
 import image from '../images/Basic_Element_15-30_(18).jpg'
+import { Link } from "react-router-dom";
 
 const client = axios.create({
-  baseURL: "http://localhost:8080/api/v1/post" 
+  baseURL: "http://localhost:8080/api/v1/post/"
 });
 
 const Post = () => {
@@ -20,11 +21,11 @@ const Post = () => {
   const deletePost = async (id) => {
     await client.delete(`${id}`);
     setPosts(
-       posts.filter((post) => {
-          return post.id !== id;
-       })
+      posts.filter((post) => {
+        return post.id !== id;
+      })
     );
- };
+  };
 
   useEffect(() => {
     fetchPosts();
@@ -35,22 +36,25 @@ const Post = () => {
     return (
       <div key={index}>
         {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={image} alt=''></img>}
-        <br/>
-        <br/>
+        <br />
+        <br />
         <h2>{post.header}</h2>
         <p>{post.content}</p>
-        <MyDropzone postId={post.id}/>
-        <br/>
+        <MyDropzone postId={post.id} />
+        <br />
         <div className="button" >
           <div className="delete-btn" onClick={() => deletePost(post.id)}>Delete</div>
         </div>
-        <br/>
+        <Link
+          to={`/editpost/${post.id}`}
+        >Edit</Link>
+        <br />
       </div>
     )
   })
 }
 
-function MyDropzone({postId}) {
+function MyDropzone({ postId }) {
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0];
 
@@ -61,12 +65,12 @@ function MyDropzone({postId}) {
 
     axios.post(
       `http://localhost:8080/api/v1/post/${postId}/upload`,
-    formData, 
-    {
-      headers: {
-        "Content-Type": "multipart/form-data"
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       }
-    }
     ).then(() => {
       console.log("File uploaded successfully");
       window.location.reload()
@@ -75,7 +79,7 @@ function MyDropzone({postId}) {
     });
 
   });
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
   return (
     <div {...getRootProps()}>

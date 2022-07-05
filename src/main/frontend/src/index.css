@@ -94,6 +94,7 @@ img {
   background-color: #282C35;
   color: white;
   justify-content: center;
+  flex-direction: column;
 }
 
 .Home .wrapper {
@@ -129,6 +130,8 @@ img {
   display: flex;
   width: 100%;
   justify-content: center;
+  background-color: white;
+  color: black;
 }
 
 .About .wrapper {
@@ -236,7 +239,8 @@ img {
     align-items: center;
   }
 
-  .About .leftSide, .About .rightSide {
+  .About .leftSide,
+  .About .rightSide {
     width: 80%;
   }
 }
