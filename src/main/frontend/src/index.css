@@ -9,6 +9,8 @@ body {
   padding: 0;
 }
 
+img {width: 100%; height: auto;}
+
 button:hover {
   cursor: pointer;
 }
@@ -16,12 +18,6 @@ button:hover {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-
-img {
-  width: 300px;
-  height: 300px;
-  object-fit: cover;
 }
 
 .Navbar {
@@ -90,107 +86,94 @@ img {
 
 .Home {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  background-color: #282C35;
-  color: white;
+  background-color: white;
   justify-content: center;
+  align-items: center;
 }
 
 .Home .wrapper {
-  display: flex;
-  width: 1170px;
-  min-height: 80vh;
-  align-items: center;
-  justify-content: center;
-}
-
-.Home img {
-  object-fit: contain;
-}
-
-.Home .leftSide {
-  text-align: left;
-  margin: 15px;
-  width: 50%;
-  padding-left: 15px;
-}
-
-.Home .leftSide h1 {
-  margin: 0;
-}
-
-.Home .rightSide {
-  margin: 15px;
-  width: 50%;
-  padding-right: 15px;
-}
-
-.About {
-  display: flex;
   width: 100%;
-  justify-content: center;
-}
-
-.About .wrapper {
-  display: flex;
-  width: 1170px;
-  min-height: 70vh;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5em;
-}
-
-.About .leftSide {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.About .rightSide {
-  width: 50%;
-  text-align: left;
-  display: flex;
-  position: relative;
-}
-
-.About .rightSide .line {
-  content: '';
-  position: absolute;
+  min-height: 80vh;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Home .wrapper:nth-child(odd) {
   background-color: #282C35;
 }
 
-.About .rightSide .content {
-  position: relative;
-  margin-left: 15px;
-}
-
-.About .rightSide .content ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.About .rightSide .content li {
-  margin: 0;
-  padding: 0 10px;
-}
-
-.AddPost {
-  width: 100%;
+.Home .wrapper .main {
+  max-width: 1170px;
+  height: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  padding: 1.5em 2em;
 }
 
-.AddPost .wrapper {
-  width: 1170px;
+.Home .wrapper .main .leftSide {
+  width: 50%;
+  text-align: left;
 }
 
-.AddPost .wrapper .postModal {
-  background-color: transparent;
-  border: 0;
-  color: black;
+.Home .wrapper .main .rightSide {
+  width: 50%;
+}
+
+.Home .wrapper .about {
+  max-width: 1170px;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: white;
+  padding: 1.5em 2em;
+}
+
+.Home .wrapper .about .leftSide {
+  width: 50%;
+}
+
+.Home .wrapper .about .rightSide {
+  width: 50%;
+  text-align: left;
+}
+
+.Home .wrapper .projects {
+  max-width: 1170px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5em 2em;
+}
+
+.Home .wrapper .projects .postContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 1em 2em;
+}
+
+.Home .wrapper .projects .postContainer .text {
+  width: 50%;
+}
+
+.Home .wrapper .projects .postContainer .image {
+  width: 50%;
+}
+
+.Home .wrapper .main .rightSide, 
+.Home .wrapper .about .rightSide {
+  margin-left: 15px;
 }
 
 @media screen and (max-width: 850px) {
@@ -226,17 +209,35 @@ img {
     font-size: 20px;
   }
 
-  .Home .wrapper {
+  .Home .wrapper .main {
     flex-direction: column;
-    align-items: center;
   }
 
-  .About .wrapper {
+  .Home .wrapper .about {
     flex-direction: column;
-    align-items: center;
   }
 
-  .About .leftSide, .About .rightSide {
-    width: 80%;
+  .Home .wrapper .projects .postContainer {
+    flex-direction: column;
+  }
+
+  .Home .wrapper .main .leftSide, 
+  .Home .wrapper .about .leftSide {
+    width: 100%;
+    text-align: left;
+  }
+  
+  .Home .wrapper .main .rightSide, 
+  .Home .wrapper .about .rightSide {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .Home .wrapper .projects .postContainer .text {
+    width: 100%;
+  }
+
+  .Home .wrapper .projects .postContainer .image {
+    width: 100%;
   }
 }
