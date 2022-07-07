@@ -176,6 +176,40 @@ code {
   margin-left: 15px;
 }
 
+.Home .wrapper .projects .postContainer .comments {
+  width: 100%;
+  height: 100%;
+}
+
+.Home .wrapper .projects .postContainer .comments .commentContainer {
+  width: 50%;
+  background-color: #282C35;
+  color: white;
+  display: flex;
+  height: 100%;
+}
+
+.Home .wrapper .projects .postContainer .comments .commentContainer .leftSide {
+  width: 20%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Home .wrapper .projects .postContainer .comments .commentContainer .rightSide {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background-color: #007FFF;
+  align-items: flex-start;
+}
+
+.Home .wrapper .projects .postContainer .comments .commentContainer .leftSide img {
+  width: 50px;
+}
+
 @media screen and (max-width: 850px) {
   .Navbar .leftSide .links a {
     font-size: 20px;
