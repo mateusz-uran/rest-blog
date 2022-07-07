@@ -106,6 +106,10 @@ code {
   background-color: #282C35;
 }
 
+.Home .wrapper:nth-child(even) {
+  background-color: #eaeaeb;
+}
+
 .Home .wrapper .main {
   max-width: 1170px;
   height: 100%;
@@ -182,32 +186,39 @@ code {
 }
 
 .Home .wrapper .projects .postContainer .comments .commentContainer {
-  width: 50%;
+  width: 100%;
   background-color: #282C35;
   color: white;
   display: flex;
   height: 100%;
+  border-bottom: 2px solid white;
 }
 
-.Home .wrapper .projects .postContainer .comments .commentContainer .leftSide {
-  width: 20%;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
+.Home .wrapper .projects .postContainer .comments .commentContainer .leftSide,
 .Home .wrapper .projects .postContainer .comments .commentContainer .rightSide {
-  width: 70%;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  background-color: #007FFF;
-  align-items: flex-start;
+  padding: .3rem .5rem;
 }
 
 .Home .wrapper .projects .postContainer .comments .commentContainer .leftSide img {
-  width: 50px;
+  width: 70px;
+  border-radius: 50%;
+}
+
+.Home .wrapper .projects .postContainer .comments .commentContainer .rightSide {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Home .wrapper .projects .postContainer .comments .commentContainer .rightSide .row {
+  display: flex;
+  padding: .5rem 0;
+}
+
+.Home .wrapper .projects .postContainer .comments .commentContainer .rightSide .row p {
+  padding-right: .8rem;
+  margin: 0;
 }
 
 @media screen and (max-width: 850px) {

@@ -103,14 +103,16 @@ const Home = () => {
                     <div className='comments' key={index}>
                       <div className='commentContainer'>
                         <div className='leftSide'>
-                          <div>
+                          <div className='row'>
                             <img src={user_basic} alt=''></img>
                           </div>
-                          <div>{comment.date}</div>
                         </div>
                         <div className='rightSide'>
-                          <div>{comment.author}</div>
-                          <div>{comment.content}</div>
+                          <div className='row'>
+                            <p>{comment.author}</p>
+                            <p>{comment.date}</p>
+                          </div>
+                          <div className='row'><p>{comment.content}</p></div>
                         </div>
                       </div>
                     </div>
