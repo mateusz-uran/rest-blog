@@ -32,7 +32,7 @@ const Home = () => {
     );
   };
 
-  const deleteComment = async (postId ,id) => {
+  const deleteComment = async (postId, id) => {
     await axios.delete(`http://localhost:8080/api/v1/post/${postId}/delete-comment/${id}`);
     window.location.reload()
   };
@@ -104,7 +104,7 @@ const Home = () => {
                   <div className="delete-btn" onClick={() => deletePost(post.id)}>Delete</div>
                   <Link to={`/editpost/${post.id}`}>Edit</Link>
                 </div>
-                <AddComment postId={post.id}/>
+                <AddComment postId={post.id} />
                 {
                   post.comments.map((comment, index) => (
                     <div className='comments' key={index}>
@@ -122,6 +122,7 @@ const Home = () => {
                           <div className='row'><p>{comment.content}</p></div>
                         </div>
                         <div className="delete-btn" onClick={() => deleteComment(post.id, comment.id)}>Delete</div>
+                        <EditComment postId={post.id} commentId={comment.id} />
                       </div>
                     </div>
                   ))
@@ -167,6 +168,54 @@ function AddComment({ postId }) {
         onChange={(e) => onInputChange(e)}
       />
       <button type={"submit"} className={"btn btn-outline-primary"}>
+        Submit
+      </button>
+    </form>
+  )
+}
+
+function EditComment({ postId, commentId }) {
+  const [comment, setComment] = useState({
+    content: ""
+  });
+
+  const { content } = comment;
+
+  const onInputChange = (e) => {
+    setComment({ ...comment, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    loadComment()
+  }, [])
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await axios.put(`http://localhost:8080/api/v1/post/${postId}/edit-comment/${commentId}`, comment);
+  };
+
+  const loadComment = async () => {
+    const result = await axios.get(`http://localhost:8080/api/v1/post/${postId}/comment/${commentId}`)
+    setComment(result.data)
+  }
+
+  return (
+    <form onSubmit={(e) => onSubmit(e)}>
+      <div className={"mb-3"}>
+        <label htmlFor={"Name"} className={"form-label"}>
+          Name
+        </label>
+        <input
+          type={"text"}
+          className={"form-control"}
+          placeholder={"Enter your name"}
+          name={"content"}
+          value={content}
+          onChange={(e) => onInputChange(e)}
+        />
+      </div>
+
+      <button type={"submit"} className={"btn btn-success"}>
         Submit
       </button>
     </form>
