@@ -8,6 +8,7 @@ import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
 import { FaRegHandPeace } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Moment from 'moment';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post/"
@@ -29,6 +30,11 @@ const Home = () => {
         return post.id !== id;
       })
     );
+  };
+
+  const deleteComment = async (postId ,id) => {
+    await axios.delete(`http://localhost:8080/api/v1/post/${postId}/delete-comment/${id}`);
+    window.location.reload()
   };
 
   useEffect(() => {
@@ -98,6 +104,7 @@ const Home = () => {
                   <div className="delete-btn" onClick={() => deletePost(post.id)}>Delete</div>
                   <Link to={`/editpost/${post.id}`}>Edit</Link>
                 </div>
+                <AddComment postId={post.id}/>
                 {
                   post.comments.map((comment, index) => (
                     <div className='comments' key={index}>
@@ -114,6 +121,7 @@ const Home = () => {
                           </div>
                           <div className='row'><p>{comment.content}</p></div>
                         </div>
+                        <div className="delete-btn" onClick={() => deleteComment(post.id, comment.id)}>Delete</div>
                       </div>
                     </div>
                   ))
@@ -124,6 +132,44 @@ const Home = () => {
         </div>
       </div>
     </div>
+  )
+}
+
+function AddComment({ postId }) {
+  const [comment, setComment] = useState({
+    content: "",
+    date: "",
+    author: ""
+  });
+
+  const { content } = comment;
+
+  const onInputChange = (e) => {
+    setComment({ ...comment, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (e) => {
+    const formatDate = Moment().format('DD-MM-YYYY, h:mm A')
+    const defaultUser = "user";
+    comment.date = formatDate;
+    comment.author = defaultUser;
+    await axios.post(`http://localhost:8080/api/v1/post/${postId}/add-comment`, comment);
+  };
+
+  return (
+    <form onSubmit={(e) => onSubmit(e)}>
+      <input
+        type={"text"}
+        className={"form-control"}
+        placeholder={"Enter your comment"}
+        name={"content"}
+        value={content}
+        onChange={(e) => onInputChange(e)}
+      />
+      <button type={"submit"} className={"btn btn-outline-primary"}>
+        Submit
+      </button>
+    </form>
   )
 }
 
