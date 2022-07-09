@@ -9,6 +9,10 @@ import user_basic from '../images/Basic_Ui_(186).jpg'
 import { FaRegHandPeace } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Moment from 'moment';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Modal, Button } from 'react-bootstrap';
+import AddCommentModal from './AddCommentModal';
+import EditCommentModal from './EditCommentModal';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post/"
@@ -17,10 +21,11 @@ const client = axios.create({
 const Home = () => {
 
   const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
 
   const fetchPosts = async () => {
     let response = await client.get();
-    setPosts(response.data)
+    setPosts(response.data);
   }
 
   const deletePost = async (id) => {
@@ -34,12 +39,16 @@ const Home = () => {
 
   const deleteComment = async (postId, id) => {
     await axios.delete(`http://localhost:8080/api/v1/post/${postId}/delete-comment/${id}`);
-    window.location.reload()
+    setComments(
+      comments.filter((comment) => {
+        return comment.id !== id;
+      })
+    );
   };
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [posts]);
 
   return (
     <div className='Home'>
@@ -91,6 +100,7 @@ const Home = () => {
       </div>
       <div className='wrapper'>
         <div className='projects'>
+          <InfoModal />
           {
             posts.map((post, index) => (
               <div className='postContainer' key={index}>
@@ -104,7 +114,7 @@ const Home = () => {
                   <div className="delete-btn" onClick={() => deletePost(post.id)}>Delete</div>
                   <Link to={`/editpost/${post.id}`}>Edit</Link>
                 </div>
-                <AddComment postId={post.id} />
+                <AddCommentModal postId={post.id} />
                 {
                   post.comments.map((comment, index) => (
                     <div className='comments' key={index}>
@@ -121,8 +131,8 @@ const Home = () => {
                           </div>
                           <div className='row'><p>{comment.content}</p></div>
                         </div>
+                        <EditCommentModal postId={post.id} commentId={comment.id}/>
                         <div className="delete-btn" onClick={() => deleteComment(post.id, comment.id)}>Delete</div>
-                        <EditComment postId={post.id} commentId={comment.id} />
                       </div>
                     </div>
                   ))
@@ -134,6 +144,78 @@ const Home = () => {
       </div>
     </div>
   )
+}
+
+function InfoModal() {
+
+  const [post, setPost] = useState({
+    header: "",
+    content: ""
+  });
+
+  const { header, content } = post;
+
+  const onInputChange = (e) => {
+    setPost({ ...post, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    await axios.post("http://localhost:8080/api/v1/post", post);
+  };
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  return (
+    <>
+      <Button className="nextButton" onClick={handleShow}>
+        Dodaj post
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form className='form' onSubmit={(e) => onSubmit(e)}>
+            <div className='form-row'>
+              <label htmlFor='name' className='form-label'>
+                Title
+              </label>
+              <input
+                type={"text"}
+                className={"form-control"}
+                placeholder={"Enter your name"}
+                name={"header"}
+                value={header}
+                onChange={(e) => onInputChange(e)}
+              />
+            </div>
+            <div className='form-row'>
+              <label htmlFor='email' className='form-label'>
+                Content
+              </label>
+              <input
+                type={"text"}
+                className={"form-control"}
+                placeholder={"Enter your username"}
+                name={"content"}
+                value={content}
+                onChange={(e) => onInputChange(e)}
+              />
+            </div>
+            <Button variant="secondary" onClick={handleClose}>
+              Close
+            </Button>
+            <Button type={"submit"} variant="primary" onClick={handleClose}>
+              Save Changes
+            </Button>
+          </form>
+        </Modal.Body>
+      </Modal>
+    </>
+  );
 }
 
 function AddComment({ postId }) {
