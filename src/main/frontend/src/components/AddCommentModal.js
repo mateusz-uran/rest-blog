@@ -25,6 +25,7 @@ export default function AddCommentModal({ postId }) {
     comment.date = formatDate;
     comment.author = defaultUser;
     await axios.post(`http://localhost:8080/api/v1/post/${postId}/add-comment`, comment);
+    setComment('')
   };
 
   const [show, setShow] = useState(false);
