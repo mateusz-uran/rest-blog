@@ -7,13 +7,11 @@ import image_about from '../images/V1228_generated.jpg'
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
 import { FaRegHandPeace } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import Moment from 'moment';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import AddCommentModal from './AddCommentModal';
 import EditCommentModal from './EditCommentModal';
-import EditPOstModal from './EditPostModal';
+import EditPostModal from './EditPostModal';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post/"
@@ -54,7 +52,6 @@ const Home = () => {
   return (
     <div className='Home'>
       <div className='manage'>
-        <Link className='default-link' to={"/addpost"}>Add Post</Link>
       </div>
       <div className='wrapper'>
         <div className='main'>
@@ -101,7 +98,7 @@ const Home = () => {
       </div>
       <div className='wrapper'>
         <div className='projects'>
-          <InfoModal />
+          <AddPostModal />
           {
             posts.map((post, index) => (
               <div className='postContainer' key={index}>
@@ -112,8 +109,8 @@ const Home = () => {
                 <div className='image'>
                   {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
                   <MyDropzone postId={post.id} />
-                  <div className="delete-btn" onClick={() => deletePost(post.id)}>Delete</div>
-                  <EditPOstModal postId={post.id}/>
+                  <Button className="nextButton" onClick={() => deletePost(post.id)}>Usuń post</Button>
+                  <EditPostModal postId={post.id} />
                 </div>
                 <AddCommentModal postId={post.id} />
                 {
@@ -132,8 +129,8 @@ const Home = () => {
                           </div>
                           <div className='row'><p>{comment.content}</p></div>
                         </div>
-                        <EditCommentModal postId={post.id} commentId={comment.id}/>
-                        <div className="delete-btn" onClick={() => deleteComment(post.id, comment.id)}>Delete</div>
+                        <EditCommentModal postId={post.id} commentId={comment.id} />
+                        <Button className="nextButton" onClick={() => deleteComment(post.id, comment.id)}>Usuń komentarz</Button>
                       </div>
                     </div>
                   ))
@@ -147,7 +144,7 @@ const Home = () => {
   )
 }
 
-function InfoModal() {
+function AddPostModal() {
 
   const [post, setPost] = useState({
     header: "",
@@ -176,18 +173,16 @@ function InfoModal() {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className='form' onSubmit={(e) => onSubmit(e)}>
             <div className='form-row'>
               <label htmlFor='name' className='form-label'>
-                Title
+                Nagłówek
               </label>
               <input
                 type={"text"}
                 className={"form-control"}
-                placeholder={"Enter your name"}
                 name={"header"}
                 value={header}
                 onChange={(e) => onInputChange(e)}
@@ -195,114 +190,27 @@ function InfoModal() {
             </div>
             <div className='form-row'>
               <label htmlFor='email' className='form-label'>
-                Content
+                Treść posta
               </label>
               <input
                 type={"text"}
                 className={"form-control"}
-                placeholder={"Enter your username"}
                 name={"content"}
                 value={content}
                 onChange={(e) => onInputChange(e)}
               />
             </div>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              Zamknij
             </Button>
             <Button type={"submit"} variant="primary" onClick={handleClose}>
-              Save Changes
+              Zapisz zmiany
             </Button>
           </form>
         </Modal.Body>
       </Modal>
     </>
   );
-}
-
-function AddComment({ postId }) {
-  const [comment, setComment] = useState({
-    content: "",
-    date: "",
-    author: ""
-  });
-
-  const { content } = comment;
-
-  const onInputChange = (e) => {
-    setComment({ ...comment, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = async (e) => {
-    const formatDate = Moment().format('DD-MM-YYYY, h:mm A')
-    const defaultUser = "user";
-    comment.date = formatDate;
-    comment.author = defaultUser;
-    await axios.post(`http://localhost:8080/api/v1/post/${postId}/add-comment`, comment);
-  };
-
-  return (
-    <form onSubmit={(e) => onSubmit(e)}>
-      <input
-        type={"text"}
-        className={"form-control"}
-        placeholder={"Enter your comment"}
-        name={"content"}
-        value={content}
-        onChange={(e) => onInputChange(e)}
-      />
-      <button type={"submit"} className={"btn btn-outline-primary"}>
-        Submit
-      </button>
-    </form>
-  )
-}
-
-function EditComment({ postId, commentId }) {
-  const [comment, setComment] = useState({
-    content: ""
-  });
-
-  const { content } = comment;
-
-  const onInputChange = (e) => {
-    setComment({ ...comment, [e.target.name]: e.target.value });
-  };
-
-  useEffect(() => {
-    loadComment()
-  }, [])
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    await axios.put(`http://localhost:8080/api/v1/post/${postId}/edit-comment/${commentId}`, comment);
-  };
-
-  const loadComment = async () => {
-    const result = await axios.get(`http://localhost:8080/api/v1/post/${postId}/comment/${commentId}`)
-    setComment(result.data)
-  }
-
-  return (
-    <form onSubmit={(e) => onSubmit(e)}>
-      <div className={"mb-3"}>
-        <label htmlFor={"Name"} className={"form-label"}>
-          Name
-        </label>
-        <input
-          type={"text"}
-          className={"form-control"}
-          placeholder={"Enter your name"}
-          name={"content"}
-          value={content}
-          onChange={(e) => onInputChange(e)}
-        />
-      </div>
-
-      <button type={"submit"} className={"btn btn-success"}>
-        Submit
-      </button>
-    </form>
-  )
 }
 
 function MyDropzone({ postId }) {
@@ -324,7 +232,6 @@ function MyDropzone({ postId }) {
       }
     ).then(() => {
       console.log("File uploaded successfully");
-      window.location.reload()
     }).catch(err => {
       console.log(err)
     });

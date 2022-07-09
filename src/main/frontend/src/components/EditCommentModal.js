@@ -38,18 +38,17 @@ export default function EditCommentModal({ postId, commentId }) {
   return (
     <>
       <Button className="nextButton" onClick={handleShow}>
-        Dodaj post
+        Edytuj komentarz
       </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={(e) => onSubmit(e)}>
             <div className={"mb-3"}>
               <label htmlFor={"Name"} className={"form-label"}>
-                Name
+                Treść
               </label>
               <input
                 type={"text"}
@@ -62,10 +61,10 @@ export default function EditCommentModal({ postId, commentId }) {
             </div>
 
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              Zamknij
             </Button>
             <Button type={"submit"} variant="primary" onClick={handleClose}>
-              Save Changes
+              Zapisz zmiany
             </Button>
           </form>
         </Modal.Body>
