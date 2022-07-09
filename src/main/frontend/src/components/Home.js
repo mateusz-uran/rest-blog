@@ -13,6 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import AddCommentModal from './AddCommentModal';
 import EditCommentModal from './EditCommentModal';
+import EditPOstModal from './EditPostModal';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post/"
@@ -112,7 +113,7 @@ const Home = () => {
                   {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
                   <MyDropzone postId={post.id} />
                   <div className="delete-btn" onClick={() => deletePost(post.id)}>Delete</div>
-                  <Link to={`/editpost/${post.id}`}>Edit</Link>
+                  <EditPOstModal postId={post.id}/>
                 </div>
                 <AddCommentModal postId={post.id} />
                 {
