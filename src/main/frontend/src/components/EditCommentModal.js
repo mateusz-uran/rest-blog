@@ -3,6 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import Moment from 'moment';
+import { MdOutlineEdit } from 'react-icons/md'
 
 export default function EditCommentModal({ postId, commentId }) {
 
@@ -37,9 +38,7 @@ export default function EditCommentModal({ postId, commentId }) {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button className="nextButton" onClick={handleShow}>
-        Edytuj komentarz
-      </Button>
+      <MdOutlineEdit onClick={handleShow}/>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

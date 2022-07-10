@@ -7,6 +7,8 @@ import image_about from '../images/V1228_generated.jpg'
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
 import { FaRegHandPeace } from "react-icons/fa";
+import { MdDeleteForever } from 'react-icons/md';
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import AddCommentModal from './AddCommentModal';
@@ -51,8 +53,6 @@ const Home = () => {
 
   return (
     <div className='Home'>
-      <div className='manage'>
-      </div>
       <div className='wrapper'>
         <div className='main'>
           <div className='leftSide'>
@@ -98,7 +98,9 @@ const Home = () => {
       </div>
       <div className='wrapper'>
         <div className='projects'>
-          <AddPostModal />
+          <div className='post-modal'>
+            <AddPostModal />
+          </div>
           {
             posts.map((post, index) => (
               <div className='postContainer' key={index}>
@@ -109,28 +111,35 @@ const Home = () => {
                 <div className='image'>
                   {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
                   <MyDropzone postId={post.id} />
-                  <Button className="nextButton" onClick={() => deletePost(post.id)}>Usuń post</Button>
-                  <EditPostModal postId={post.id} />
+                  <div className='post-icons'>
+                    <EditPostModal postId={post.id} />
+                    <MdDeleteForever onClick={() => deletePost(post.id)}/>
+                  </div>
                 </div>
-                <AddCommentModal postId={post.id} />
+                <div className='comment-button'>
+                  <AddCommentModal postId={post.id} />
+                </div>
                 {
                   post.comments.map((comment, index) => (
                     <div className='comments' key={index}>
-                      <div className='commentContainer'>
-                        <div className='leftSide'>
-                          <div className='row'>
-                            <img src={user_basic} alt=''></img>
-                          </div>
+                      <div className='leftSide'>
+                        <img src={user_basic} alt=''></img>
+                      </div>
+                      <div className='rightSide'>
+                        <div className='row'>
+                          <p>{comment.author}&nbsp;&nbsp;{comment.date}</p>
                         </div>
-                        <div className='rightSide'>
-                          <div className='row'>
-                            <p>{comment.author}</p>
-                            <p>{comment.date}</p>
-                          </div>
-                          <div className='row'><p>{comment.content}</p></div>
+                        <div className='row'>
+                          <p>{comment.content}</p>
                         </div>
-                        <EditCommentModal postId={post.id} commentId={comment.id} />
-                        <Button className="nextButton" onClick={() => deleteComment(post.id, comment.id)}>Usuń komentarz</Button>
+                      </div>
+                      <div className='side'>
+                        <div className='icon'>
+                          <EditCommentModal postId={post.id} commentId={comment.id} />
+                        </div>
+                        <div className='icon'>
+                          <MdDeleteForever onClick={() => deleteComment(post.id, comment.id)} />
+                        </div>
                       </div>
                     </div>
                   ))
@@ -168,10 +177,7 @@ function AddPostModal() {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button className="nextButton" onClick={handleShow}>
-        Dodaj post
-      </Button>
-
+      <AiOutlinePlusCircle onClick={handleShow} />
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>

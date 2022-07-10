@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
+import { MdOutlineEdit } from 'react-icons/md'
 
 export default function EditPostModal({ postId }) {
 
@@ -37,9 +38,7 @@ export default function EditPostModal({ postId }) {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button className="nextButton" onClick={handleShow}>
-        Edytuj post
-      </Button>
+      <MdOutlineEdit onClick={handleShow}/>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

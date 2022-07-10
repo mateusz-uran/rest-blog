@@ -3,6 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import Moment from 'moment';
+import { MdModeComment } from 'react-icons/md';
 
 export default function AddCommentModal({ postId }) {
 
@@ -33,9 +34,7 @@ export default function AddCommentModal({ postId }) {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button className="nextButton" onClick={handleShow}>
-        Skomentuj
-      </Button>
+      <MdModeComment onClick={handleShow}/>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -49,7 +48,6 @@ export default function AddCommentModal({ postId }) {
               <input
                 type={"text"}
                 className={"form-control"}
-                placeholder={"Enter your name"}
                 name={"content"}
                 value={content}
                 onChange={(e) => onInputChange(e)}
@@ -60,7 +58,7 @@ export default function AddCommentModal({ postId }) {
               Zamknij
             </Button>
             <Button type={"submit"} variant="primary" onClick={handleClose}>
-              Zapisz zmiany
+              Dodaj komentarz
             </Button>
           </form>
         </Modal.Body>

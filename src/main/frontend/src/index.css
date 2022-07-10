@@ -9,7 +9,10 @@ body {
   padding: 0;
 }
 
-img {width: 100%; height: auto;}
+img {
+  width: 100%;
+  height: auto;
+}
 
 button:hover {
   cursor: pointer;
@@ -102,11 +105,11 @@ code {
   justify-content: center;
 }
 
-.Home .wrapper:nth-child(odd) {
+.Home .wrapper:nth-child(even) {
   background-color: #282C35;
 }
 
-.Home .wrapper:nth-child(even) {
+.Home .wrapper:nth-child(odd) {
   background-color: #eaeaeb;
 }
 
@@ -153,15 +156,25 @@ code {
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding: 1.5em 2em;
+}
+
+.Home .wrapper .projects .post-modal {
+  color: white;
+  font-size: larger;
+  margin: 0 2em;
+  background-color: #007FFF;
+  padding: .2em .2em;
+  display: flex;
+  border-radius: 50%;
 }
 
 .Home .wrapper .projects .postContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: flex-start;
   height: 100%;
   width: 100%;
   padding: 1em 2em;
@@ -169,13 +182,25 @@ code {
 
 .Home .wrapper .projects .postContainer .text {
   width: 50%;
+  text-align: left;
 }
 
 .Home .wrapper .projects .postContainer .image {
   width: 50%;
 }
 
-.Home .wrapper .main .rightSide, 
+.Home .wrapper .projects .postContainer .image .post-icons {
+  background-color: #282C35;
+  color: white;
+}
+
+.Home .wrapper .projects .postContainer .comment-button {
+  margin: .5em 0;
+  font-size: larger;
+  color: #007FFF;
+}
+
+.Home .wrapper .main .rightSide,
 .Home .wrapper .about .rightSide {
   margin-left: 15px;
 }
@@ -183,42 +208,45 @@ code {
 .Home .wrapper .projects .postContainer .comments {
   width: 100%;
   height: 100%;
-}
-
-.Home .wrapper .projects .postContainer .comments .commentContainer {
-  width: 100%;
+  display: flex;
+  flex-direction: row;
   background-color: #282C35;
   color: white;
+  margin: 20px 0;
+}
+
+.Home .wrapper .projects .postContainer .comments .leftSide,
+.Home .wrapper .projects .postContainer .comments .rightSide {
+  padding: .5em .8em;
+}
+
+.Home .wrapper .projects .postContainer .comments .leftSide {
+  width: 15%;
   display: flex;
-  height: 100%;
-  border-bottom: 2px solid white;
+  align-items: center;
+  justify-content: center;
 }
 
-.Home .wrapper .projects .postContainer .comments .commentContainer .leftSide,
-.Home .wrapper .projects .postContainer .comments .commentContainer .rightSide {
-  padding: .3rem .5rem;
-}
-
-.Home .wrapper .projects .postContainer .comments .commentContainer .leftSide img {
-  width: 70px;
+.Home .wrapper .projects .postContainer .comments .leftSide img {
+  width: 80px;
   border-radius: 50%;
+  object-fit: contain;
 }
 
-.Home .wrapper .projects .postContainer .comments .commentContainer .rightSide {
-  text-align: left;
+.Home .wrapper .projects .postContainer .comments .rightSide {
+  width: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  text-align: left;
 }
 
-.Home .wrapper .projects .postContainer .comments .commentContainer .rightSide .row {
+.Home .wrapper .projects .postContainer .comments .side {
+  width: 5%;
+  background-color: #007FFF;
   display: flex;
-  padding: .5rem 0;
-}
-
-.Home .wrapper .projects .postContainer .comments .commentContainer .rightSide .row p {
-  padding-right: .8rem;
-  margin: 0;
+  flex-direction: column;
+  font-size: large;
+  justify-content: center;
 }
 
 @media screen and (max-width: 850px) {
@@ -266,13 +294,13 @@ code {
     flex-direction: column;
   }
 
-  .Home .wrapper .main .leftSide, 
+  .Home .wrapper .main .leftSide,
   .Home .wrapper .about .leftSide {
     width: 100%;
     text-align: left;
   }
-  
-  .Home .wrapper .main .rightSide, 
+
+  .Home .wrapper .main .rightSide,
   .Home .wrapper .about .rightSide {
     width: 100%;
     margin-left: 0;
@@ -285,4 +313,23 @@ code {
   .Home .wrapper .projects .postContainer .image {
     width: 100%;
   }
+
+  .Home .wrapper .projects .postContainer .comments {
+    flex-direction: column;
+  }
+
+  .Home .wrapper .projects .postContainer .comments .leftSide,
+  .Home .wrapper .projects .postContainer .comments .rightSide,
+  .Home .wrapper .projects .postContainer .comments .side {
+    width: 100%;
+  }
+
+  .Home .wrapper .projects .postContainer .comments .side {
+    flex-direction: row;
+  }
+  
+  .Home .wrapper .projects .postContainer .comments .side .icon {
+    padding: .2em .5em;
+  }
+
 }
