@@ -192,7 +192,7 @@ function AddPostModal() {
                 type={"text"}
                 className={"form-control"}
                 name={"header"}
-                value={header}
+                defaultValue={header || ''}
                 onChange={(e) => onInputChange(e)}
               />
             </div>
@@ -204,7 +204,7 @@ function AddPostModal() {
                 type={"text"}
                 className={"form-control"}
                 name={"content"}
-                value={content}
+                defaultValue={content || ''}
                 onChange={(e) => onInputChange(e)}
               />
             </div>

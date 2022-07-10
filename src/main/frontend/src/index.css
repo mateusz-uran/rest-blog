@@ -184,6 +184,7 @@ code {
   width: 50%;
   text-align: left;
   overflow-wrap: break-word;
+  padding-right: .8rem;
 }
 
 .Home .wrapper .projects .postContainer .image {
