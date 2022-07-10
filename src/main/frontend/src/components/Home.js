@@ -7,13 +7,14 @@ import image_about from '../images/V1228_generated.jpg'
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
 import { FaRegHandPeace } from "react-icons/fa";
-import { MdDeleteForever } from 'react-icons/md';
+import { MdAddComment, MdDeleteForever } from 'react-icons/md';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import AddCommentModal from './AddCommentModal';
 import EditCommentModal from './EditCommentModal';
 import EditPostModal from './EditPostModal';
+import AddComment from './AddComment';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post/"
@@ -117,7 +118,7 @@ const Home = () => {
                   </div>
                 </div>
                 <div className='comment-button'>
-                  <AddCommentModal postId={post.id} />
+                  <AddComment postId={post.id}/>
                 </div>
                 {
                   post.comments.map((comment, index) => (

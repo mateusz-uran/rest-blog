@@ -183,6 +183,7 @@ code {
 .Home .wrapper .projects .postContainer .text {
   width: 50%;
   text-align: left;
+  overflow-wrap: break-word;
 }
 
 .Home .wrapper .projects .postContainer .image {
@@ -195,9 +196,9 @@ code {
 }
 
 .Home .wrapper .projects .postContainer .comment-button {
-  margin: .5em 0;
-  font-size: larger;
-  color: #007FFF;
+  margin: .5rem 0;
+  width: 50%;
+  text-align: left;
 }
 
 .Home .wrapper .main .rightSide,
@@ -240,6 +241,10 @@ code {
   text-align: left;
 }
 
+.Home .wrapper .projects .postContainer .comments .rightSide .row {
+  overflow-wrap: break-word;
+}
+
 .Home .wrapper .projects .postContainer .comments .side {
   width: 5%;
   background-color: #007FFF;
@@ -247,6 +252,26 @@ code {
   flex-direction: column;
   font-size: large;
   justify-content: center;
+}
+
+/*Comment form*/
+.form-wrapper form button {
+  background-color: #007FFF;
+  color: white;
+  border: 0;
+  border-radius: 5px;
+  padding: .5rem 1rem;
+}
+
+.form-wrapper form textarea {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  width: 100%;
+  height: 80px;
+}
+
+.form-wrapper form textarea:focus {
+  outline-color: #007FFF;
 }
 
 @media screen and (max-width: 850px) {
