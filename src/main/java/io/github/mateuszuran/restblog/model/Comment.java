@@ -19,6 +19,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String author;
+    @Column(length = 555)
     private String content;
     private String date;
     @JsonBackReference

@@ -19,6 +19,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String header;
+    @Column(length = 555)
     private String content;
     private String imagePath;
     private String imageName;
