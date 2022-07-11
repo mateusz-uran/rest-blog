@@ -65,8 +65,8 @@ const Home = () => {
                 {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
                 <MyDropzone postId={post.id} />
                 <div className='post-icons'>
-                  <EditPostModal postId={post.id} />
-                  <MdDeleteForever onClick={() => deletePost(post.id)} />
+                  <i><EditPostModal postId={post.id} /></i>
+                  <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
                 </div>
               </div>
               <div className='comment-button'>

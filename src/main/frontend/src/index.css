@@ -195,6 +195,22 @@ code {
 .wrapper .projects .postContainer .image .post-icons {
   background-color: #282C35;
   color: white;
+  padding: .5rem 0;
+}
+
+.wrapper .projects .postContainer .image .post-icons i {
+  padding: 0 .7rem;
+  margin: 0 5px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+}
+
+.wrapper .projects .postContainer .image .post-icons i:first-child:hover {
+  border: 2px solid white;
+}
+
+.wrapper .projects .postContainer .image .post-icons i:last-child:hover {
+  border: 2px solid red;
 }
 
 .wrapper .projects .postContainer .comment-button {
@@ -254,6 +270,21 @@ code {
   flex-direction: column;
   font-size: large;
   justify-content: center;
+}
+
+.wrapper .projects .postContainer .comments .side .icon {
+  padding: 1rem 0;
+  border-radius: 5px;
+  margin: 0 3px;
+  border: 2px solid transparent;
+}
+
+.wrapper .projects .postContainer .comments .side .icon:first-child:hover {
+  border: 2px solid white;
+}
+
+.wrapper .projects .postContainer .comments .side .icon:last-child:hover {
+  border: 2px solid red;
 }
 
 /*Comment form*/
