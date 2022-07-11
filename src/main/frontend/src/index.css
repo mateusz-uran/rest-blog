@@ -361,6 +361,19 @@ code {
   padding: 1rem 0;
 }
 
+/*modal*/
+.add-post .form .form-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-post .character-count {
+  display: flex;
+  color: #C0C0C0;
+  width: 100%;
+  justify-content: flex-end;
+}
+
 @media screen and (max-width: 850px) {
   .Navbar .leftSide .links a {
     font-size: 20px;

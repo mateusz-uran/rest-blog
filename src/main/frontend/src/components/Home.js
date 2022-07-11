@@ -127,10 +127,13 @@ function AddPostModal() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const postHeaderLength = header.length;
+  const postContentLength = content.length;
   return (
     <>
       <Button onClick={handleShow}>Add new post</Button>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} className='add-post'>
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
@@ -146,7 +149,9 @@ function AddPostModal() {
                 defaultValue={header || ''}
                 onChange={(e) => onInputChange(e)}
                 required
+                maxLength={255}
               />
+              <span className='character-count'>{postHeaderLength}/{255}</span>
             </div>
             <div className='form-row'>
               <label htmlFor='email' className='form-label'>
@@ -159,7 +164,9 @@ function AddPostModal() {
                 defaultValue={content || ''}
                 onChange={(e) => onInputChange(e)}
                 required
+                maxLength={555}
               />
+              <span className='character-count'>{postContentLength}/{555}</span>
             </div>
             <Button variant="secondary" onClick={handleClose}>
               Close
