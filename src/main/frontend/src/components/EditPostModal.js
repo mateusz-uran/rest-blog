@@ -47,7 +47,7 @@ export default function EditPostModal({ postId }) {
           <form onSubmit={(e) => onSubmit(e)}>
             <div className={"mb-3"}>
               <label htmlFor={"Name"} className={"form-label"}>
-                Nagłówek
+                Header
               </label>
               <input
                 type={"text"}
@@ -60,7 +60,7 @@ export default function EditPostModal({ postId }) {
 
             <div className={"mb-3"}>
               <label htmlFor={"Name"} className={"form-label"}>
-                Treść posta
+                Content
               </label>
               <input
                 type={"text"}
@@ -72,10 +72,10 @@ export default function EditPostModal({ postId }) {
             </div>
 
             <Button variant="secondary" onClick={handleClose}>
-              Zamknij
+              Close
             </Button>
             <Button type={"submit"} variant="primary" onClick={handleClose}>
-              Zapisz zmiany
+              Save changes
             </Button>
           </form>
         </Modal.Body>

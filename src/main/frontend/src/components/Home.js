@@ -2,11 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone'
 import axios from 'axios'
 import '../App.css';
-import image_main from '../images/undraw_hello_re_3evm.svg'
-import image_about from '../images/V1228_generated.jpg'
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
-import { FaRegHandPeace } from "react-icons/fa";
 import { MdDeleteForever } from 'react-icons/md';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
@@ -51,102 +48,58 @@ const Home = () => {
   }, [posts]);
 
   return (
-    <div className='Home'>
-      <div className='wrapper'>
-        <div className='main'>
-          <div className='leftSide'>
-            <p>Hello there <FaRegHandPeace fill='#007FFF' />, my name is</p>
-            <h1>Mateusz Uranowski</h1>
-            <p>and I'm a web developer.</p>
-          </div>
-          <div className='rightSide'>
-            <img src={image_main} alt=''></img>
-          </div>
+    <div className='wrapper'>
+      <div id='projects' className='projects'>
+        <div className='post-modal'>
+          <AddPostModal />
         </div>
-      </div>
-      <div className='wrapper'>
-        <div className='about'>
-          <div className='leftSide'><img src={image_about} alt=''></img></div>
-          <div className='rightSide'>
-            <div className='line'>&nbsp;</div>
-            <div className='content'>
-              <h2>About Me</h2>
-              <p>My name is Mateusz and I'm 25. I've graduated at the beggining of 2022 IT studies
-                with specialization for web development.
-              </p>
-              <div>
-                <h4>Technologies and Languages I'm using</h4>
-                <ul>
-                  <li>Java 11</li>
-                  <li>Spring Boot</li>
-                  <li>AWS
-                    <ul>
-                      <li>S3 Bucket</li>
-                      <li>Elastik Beanstalk</li>
-                      <li>Amplify</li>
-                    </ul>
-                  </li>
-                  <li>HTML</li>
-                  <li>CSS</li>
-                  <li>JavaScript - basics</li>
-                </ul>
+        <h2>My projects</h2>
+        {
+          posts.map((post, index) => (
+            <div className='postContainer' key={index}>
+              <div className='text'>
+                <h3>{post.header}</h3>
+                <p>{post.content}</p>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className='wrapper'>
-        <div className='projects'>
-          <div className='post-modal'>
-            <AddPostModal />
-          </div>
-          {
-            posts.map((post, index) => (
-              <div className='postContainer' key={index}>
-                <div className='text'>
-                  <h3>{post.header}</h3>
-                  <p>{post.content}</p>
+              <div className='image'>
+                {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
+                <MyDropzone postId={post.id} />
+                <div className='post-icons'>
+                  <EditPostModal postId={post.id} />
+                  <MdDeleteForever onClick={() => deletePost(post.id)} />
                 </div>
-                <div className='image'>
-                  {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
-                  <MyDropzone postId={post.id} />
-                  <div className='post-icons'>
-                    <EditPostModal postId={post.id} />
-                    <MdDeleteForever onClick={() => deletePost(post.id)}/>
-                  </div>
-                </div>
-                <div className='comment-button'>
-                  <AddComment postId={post.id}/>
-                </div>
-                {
-                  post.comments.map((comment, index) => (
-                    <div className='comments' key={index}>
-                      <div className='leftSide'>
-                        <img src={user_basic} alt=''></img>
+              </div>
+              <div className='comment-button'>
+                <AddComment postId={post.id} />
+              </div>
+              {
+                post.comments.map((comment, index) => (
+                  <div className='comments' key={index}>
+                    <div className='leftSide'>
+                      <img src={user_basic} alt=''></img>
+                    </div>
+                    <div className='rightSide'>
+                      <div className='row'>
+                        <p>{comment.author}&nbsp;&nbsp;{comment.date}</p>
                       </div>
-                      <div className='rightSide'>
-                        <div className='row'>
-                          <p>{comment.author}&nbsp;&nbsp;{comment.date}</p>
-                        </div>
-                        <div className='row'>
-                          <p>{comment.content}</p>
-                        </div>
-                      </div>
-                      <div className='side'>
-                        <div className='icon'>
-                          <EditCommentModal postId={post.id} commentId={comment.id} />
-                        </div>
-                        <div className='icon'>
-                          <MdDeleteForever onClick={() => deleteComment(post.id, comment.id)} />
-                        </div>
+                      <div className='row'>
+                        <p>{comment.content}</p>
                       </div>
                     </div>
-                  ))
-                }
-              </div>
-            ))
-          }
-        </div>
+                    <div className='side'>
+                      <div className='icon'>
+                        <EditCommentModal postId={post.id} commentId={comment.id} />
+                      </div>
+                      <div className='icon'>
+                        <MdDeleteForever onClick={() => deleteComment(post.id, comment.id)} />
+                      </div>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          ))
+        }
       </div>
     </div>
   )
@@ -176,7 +129,7 @@ function AddPostModal() {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button onClick={handleShow} >Dodaj post</Button>
+      <Button onClick={handleShow}>Add new post</Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
@@ -184,7 +137,7 @@ function AddPostModal() {
           <form className='form' onSubmit={(e) => onSubmit(e)}>
             <div className='form-row'>
               <label htmlFor='name' className='form-label'>
-                Nagłówek
+                Header
               </label>
               <input
                 type={"text"}
@@ -192,11 +145,12 @@ function AddPostModal() {
                 name={"header"}
                 defaultValue={header || ''}
                 onChange={(e) => onInputChange(e)}
+                required
               />
             </div>
             <div className='form-row'>
               <label htmlFor='email' className='form-label'>
-                Treść posta
+                Content
               </label>
               <input
                 type={"text"}
@@ -204,13 +158,14 @@ function AddPostModal() {
                 name={"content"}
                 defaultValue={content || ''}
                 onChange={(e) => onInputChange(e)}
+                required
               />
             </div>
             <Button variant="secondary" onClick={handleClose}>
-              Zamknij
+              Close
             </Button>
             <Button type={"submit"} variant="primary" onClick={handleClose}>
-              Zapisz zmiany
+              Add post
             </Button>
           </form>
         </Modal.Body>

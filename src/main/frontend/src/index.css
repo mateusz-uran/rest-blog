@@ -31,7 +31,7 @@ code {
   justify-content: center;
 }
 
-.Navbar .wrapper {
+.Navbar .wrapper-nav {
   width: 1170px;
   display: flex;
   flex-direction: row;
@@ -87,16 +87,7 @@ code {
   color: white;
 }
 
-.Home {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  background-color: white;
-  justify-content: center;
-  align-items: center;
-}
-
-.Home .wrapper {
+.wrapper {
   width: 100%;
   min-height: 80vh;
   height: 100%;
@@ -105,15 +96,19 @@ code {
   justify-content: center;
 }
 
-.Home .wrapper:nth-child(even) {
+.wrapper:nth-child(odd) {
   background-color: #282C35;
 }
 
-.Home .wrapper:nth-child(odd) {
+.wrapper:nth-child(even) {
   background-color: #eaeaeb;
 }
 
-.Home .wrapper .main {
+.wrapper:last-child {
+  min-height: 50vh;
+}
+
+.wrapper .main {
   max-width: 1170px;
   height: 100%;
   display: flex;
@@ -122,16 +117,16 @@ code {
   padding: 1.5em 2em;
 }
 
-.Home .wrapper .main .leftSide {
+.wrapper .main .leftSide {
   width: 50%;
   text-align: left;
 }
 
-.Home .wrapper .main .rightSide {
+.wrapper .main .rightSide {
   width: 50%;
 }
 
-.Home .wrapper .about {
+.wrapper .about {
   max-width: 1170px;
   height: 100%;
   display: flex;
@@ -141,16 +136,16 @@ code {
   padding: 1.5em 2em;
 }
 
-.Home .wrapper .about .leftSide {
+.wrapper .about .leftSide {
   width: 50%;
 }
 
-.Home .wrapper .about .rightSide {
+.wrapper .about .rightSide {
   width: 50%;
   text-align: left;
 }
 
-.Home .wrapper .projects {
+.wrapper .projects {
   max-width: 1170px;
   width: 100%;
   height: 100%;
@@ -160,7 +155,7 @@ code {
   padding: 1.5em 2em;
 }
 
-.Home .wrapper .projects .post-modal {
+.wrapper .projects .post-modal {
   color: white;
   font-size: larger;
   margin: 0 2em;
@@ -168,14 +163,14 @@ code {
   border-radius: 5px;
 }
 
-.Home .wrapper .projects .post-modal Button {
+.wrapper .projects .post-modal Button {
   background-color: #007FFF;
   color: white;
   border: 0;
   padding: .5rem 1rem;
 }
 
-.Home .wrapper .projects .postContainer {
+.wrapper .projects .postContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -186,34 +181,34 @@ code {
   border-bottom: 2px solid #007FFF;
 }
 
-.Home .wrapper .projects .postContainer .text {
+.wrapper .projects .postContainer .text {
   width: 50%;
   text-align: left;
   overflow-wrap: break-word;
   padding-right: .8rem;
 }
 
-.Home .wrapper .projects .postContainer .image {
+.wrapper .projects .postContainer .image {
   width: 50%;
 }
 
-.Home .wrapper .projects .postContainer .image .post-icons {
+.wrapper .projects .postContainer .image .post-icons {
   background-color: #282C35;
   color: white;
 }
 
-.Home .wrapper .projects .postContainer .comment-button {
+.wrapper .projects .postContainer .comment-button {
   margin: .5rem 0;
   width: 50%;
   text-align: left;
 }
 
-.Home .wrapper .main .rightSide,
-.Home .wrapper .about .rightSide {
+.wrapper .main .rightSide,
+.wrapper .about .rightSide {
   margin-left: 15px;
 }
 
-.Home .wrapper .projects .postContainer .comments {
+.wrapper .projects .postContainer .comments {
   width: 100%;
   height: 100%;
   display: flex;
@@ -223,36 +218,36 @@ code {
   margin: 20px 0;
 }
 
-.Home .wrapper .projects .postContainer .comments .leftSide,
-.Home .wrapper .projects .postContainer .comments .rightSide {
+.wrapper .projects .postContainer .comments .leftSide,
+.wrapper .projects .postContainer .comments .rightSide {
   padding: .5em .8em;
 }
 
-.Home .wrapper .projects .postContainer .comments .leftSide {
+.wrapper .projects .postContainer .comments .leftSide {
   width: 15%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.Home .wrapper .projects .postContainer .comments .leftSide img {
+.wrapper .projects .postContainer .comments .leftSide img {
   width: 80px;
   border-radius: 50%;
   object-fit: contain;
 }
 
-.Home .wrapper .projects .postContainer .comments .rightSide {
+.wrapper .projects .postContainer .comments .rightSide {
   width: 80%;
   display: flex;
   flex-direction: column;
   text-align: left;
 }
 
-.Home .wrapper .projects .postContainer .comments .rightSide .row {
+.wrapper .projects .postContainer .comments .rightSide .row {
   overflow-wrap: break-word;
 }
 
-.Home .wrapper .projects .postContainer .comments .side {
+.wrapper .projects .postContainer .comments .side {
   width: 5%;
   background-color: #007FFF;
   display: flex;
@@ -262,12 +257,17 @@ code {
 }
 
 /*Comment form*/
+.form-wrapper {
+  width: 100%;
+}
+
 .form-wrapper form button {
   background-color: #007FFF;
   color: white;
   border: 0;
   border-radius: 5px;
   padding: .5rem 1rem;
+  font-size: 15px;
 }
 
 .form-wrapper form textarea {
@@ -283,20 +283,15 @@ code {
 /*Footer*/
 .footer {
   width: 100%;
-  min-height: 50vh;
-  background-color: #282C35;
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  background-color: #282C35;
 }
 
 .footer .wrapper {
-  width: 100%;
   display: flex;
   flex-direction: row;
   max-width: 1170px;
+  margin: 0 auto;
 }
 
 .footer .leftSide {
@@ -399,53 +394,57 @@ code {
     font-size: 20px;
   }
 
-  .Home .wrapper .main {
+  .wrapper .main {
     flex-direction: column;
   }
 
-  .Home .wrapper .about {
+  .wrapper .about {
     flex-direction: column;
   }
 
-  .Home .wrapper .projects .postContainer {
+  .wrapper .projects .postContainer {
     flex-direction: column;
   }
 
-  .Home .wrapper .main .leftSide,
-  .Home .wrapper .about .leftSide {
+  .wrapper .main .leftSide,
+  .wrapper .about .leftSide {
     width: 100%;
     text-align: left;
   }
 
-  .Home .wrapper .main .rightSide,
-  .Home .wrapper .about .rightSide {
+  .wrapper .main .rightSide,
+  .wrapper .about .rightSide {
     width: 100%;
     margin-left: 0;
   }
 
-  .Home .wrapper .projects .postContainer .text {
+  .wrapper .projects .postContainer .text {
     width: 100%;
   }
 
-  .Home .wrapper .projects .postContainer .image {
+  .wrapper .projects .postContainer .image {
     width: 100%;
   }
 
-  .Home .wrapper .projects .postContainer .comments {
+  .wrapper .projects .postContainer .comments {
     flex-direction: column;
   }
 
-  .Home .wrapper .projects .postContainer .comments .leftSide,
-  .Home .wrapper .projects .postContainer .comments .rightSide,
-  .Home .wrapper .projects .postContainer .comments .side {
+  .wrapper .projects .postContainer .comment-button {
     width: 100%;
   }
 
-  .Home .wrapper .projects .postContainer .comments .side {
+  .wrapper .projects .postContainer .comments .leftSide,
+  .wrapper .projects .postContainer .comments .rightSide,
+  .wrapper .projects .postContainer .comments .side {
+    width: 100%;
+  }
+
+  .wrapper .projects .postContainer .comments .side {
     flex-direction: row;
   }
   
-  .Home .wrapper .projects .postContainer .comments .side .icon {
+  .wrapper .projects .postContainer .comments .side .icon {
     padding: .2em .5em;
   }
 

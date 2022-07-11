@@ -43,7 +43,7 @@ export default function AddCommentModal({ postId }) {
           <form onSubmit={(e) => onSubmit(e)}>
             <div className={"mb-3"}>
               <label htmlFor={"Name"} className={"form-label"}>
-                Treść
+                Content
               </label>
               <input
                 type={"text"}
@@ -55,10 +55,10 @@ export default function AddCommentModal({ postId }) {
             </div>
 
             <Button variant="secondary" onClick={handleClose}>
-              Zamknij
+              Close
             </Button>
             <Button type={"submit"} variant="primary" onClick={handleClose}>
-              Dodaj komentarz
+              Add comment
             </Button>
           </form>
         </Modal.Body>

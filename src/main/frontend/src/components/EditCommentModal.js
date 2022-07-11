@@ -47,7 +47,7 @@ export default function EditCommentModal({ postId, commentId }) {
           <form onSubmit={(e) => onSubmit(e)}>
             <div className={"mb-3"}>
               <label htmlFor={"Name"} className={"form-label"}>
-                Treść
+                Content
               </label>
               <input
                 type={"text"}
@@ -60,10 +60,10 @@ export default function EditCommentModal({ postId, commentId }) {
             </div>
 
             <Button variant="secondary" onClick={handleClose}>
-              Zamknij
+              Close
             </Button>
             <Button type={"submit"} variant="primary" onClick={handleClose}>
-              Zapisz zmiany
+              Save changes
             </Button>
           </form>
         </Modal.Body>
