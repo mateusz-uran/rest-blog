@@ -284,13 +284,14 @@ code {
 .footer {
   width: 100%;
   color: white;
+  background-color: #282C35;
 }
 
 .footer .wrapper {
-  width: 100%;
   display: flex;
   flex-direction: row;
   max-width: 1170px;
+  margin: 0 auto;
 }
 
 .footer .leftSide {

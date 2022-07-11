@@ -27,7 +27,7 @@ function Navbar() {
                 home && home.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
             >
-              Hero
+              Home
             </Link>
             <Link
               to="/about"

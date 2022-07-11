@@ -129,7 +129,7 @@ function AddPostModal() {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Button onClick={handleShow} >Dodaj post</Button>
+      <Button onClick={handleShow}>Add new post</Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
@@ -137,7 +137,7 @@ function AddPostModal() {
           <form className='form' onSubmit={(e) => onSubmit(e)}>
             <div className='form-row'>
               <label htmlFor='name' className='form-label'>
-                Nagłówek
+                Header
               </label>
               <input
                 type={"text"}
@@ -150,7 +150,7 @@ function AddPostModal() {
             </div>
             <div className='form-row'>
               <label htmlFor='email' className='form-label'>
-                Treść posta
+                Content
               </label>
               <input
                 type={"text"}
@@ -162,10 +162,10 @@ function AddPostModal() {
               />
             </div>
             <Button variant="secondary" onClick={handleClose}>
-              Zamknij
+              Close
             </Button>
             <Button type={"submit"} variant="primary" onClick={handleClose}>
-              Dodaj
+              Add post
             </Button>
           </form>
         </Modal.Body>

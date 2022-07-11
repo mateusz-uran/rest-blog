@@ -42,7 +42,7 @@ export default function AddComment({ postId }) {
             />
           </div>
           <button type={"submit"}>
-            Dodaj komentarz
+            Add comment
           </button>
         </form>
       </div>
