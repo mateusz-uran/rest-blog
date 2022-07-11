@@ -2,7 +2,8 @@ import React from 'react';
 import { BsTelephoneFill } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { IoMdMail } from 'react-icons/io'
-import { AiFillGithub, AiFillLinkedin, AiFillFacebook } from 'react-icons/ai'
+import { AiFillGithub, AiFillLinkedin, AiFillFacebook } from 'react-icons/ai';
+import '../App.css';
 
 const Footer = () => {
 
@@ -10,7 +11,7 @@ const Footer = () => {
 
   return (
     <>
-    <div className='footer'>
+    <div id='footer' className='footer'>
       <div className='wrapper'>
         <div className='leftSide'>
           <h4>Contact</h4>
