@@ -261,6 +261,13 @@ code {
   width: 100%;
 }
 
+.form-wrapper .comment-text .character-count {
+  display: flex;
+  color: #C0C0C0;
+  width: 100%;
+  justify-content: flex-end;
+}
+
 .form-wrapper form button {
   background-color: #007FFF;
   color: white;
@@ -362,16 +369,53 @@ code {
 }
 
 /*modal*/
-.add-post .form .form-row {
+.add-post,
+.edit-post,
+.edit-comment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+}
+
+.add-post textarea,
+.edit-post textarea,
+.edit-comment textarea {
+  height: 150px;
+}
+
+.add-post .form .form-row,
+.edit-post .form .form-row,
+.edit-comment .form .form-row {
   display: flex;
   flex-direction: column;
 }
 
-.add-post .character-count {
+.add-post .character-count,
+.edit-post .character-count,
+.edit-comment .character-count {
   display: flex;
   color: #C0C0C0;
   width: 100%;
   justify-content: flex-end;
+}
+
+.add-post .close,
+.add-post .submit,
+.edit-post .close,
+.edit-post .submit,
+.edit-comment .close,
+.edit-comment .submit {
+  border-radius: 5px;
+  padding: .5rem 1rem;
+  border: 0;
+}
+
+.add-post .close,
+.edit-post .close,
+.edit-comment .close {
+  margin-right: 15px;
+  background-color: #282C35;
 }
 
 @media screen and (max-width: 850px) {
