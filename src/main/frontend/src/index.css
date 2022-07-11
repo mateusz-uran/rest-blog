@@ -183,6 +183,7 @@ code {
   height: 100%;
   width: 100%;
   padding: 1em 2em;
+  border-bottom: 2px solid #007FFF;
 }
 
 .Home .wrapper .projects .postContainer .text {
@@ -362,6 +363,7 @@ code {
   background-color: #282C35;
   color: white;
   height: 100%;
+  padding: 1rem 0;
 }
 
 @media screen and (max-width: 850px) {

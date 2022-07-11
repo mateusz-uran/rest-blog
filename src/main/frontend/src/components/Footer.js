@@ -13,7 +13,7 @@ const Footer = () => {
     <div className='footer'>
       <div className='wrapper'>
         <div className='leftSide'>
-          <h4>Kontakt</h4>
+          <h4>Contact</h4>
           <div className='contact'>
             <span>
               <i><BsTelephoneFill /></i>
@@ -34,7 +34,7 @@ const Footer = () => {
           </div>
         </div>
         <div className='rightSide'>
-          <h4>Linki</h4>
+          <h4>Links</h4>
           <div className='social'>
             <span>
               <i><AiFillGithub /></i>

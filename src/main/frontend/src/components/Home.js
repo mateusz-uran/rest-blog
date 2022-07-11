@@ -55,7 +55,7 @@ const Home = () => {
       <div className='wrapper'>
         <div className='main'>
           <div className='leftSide'>
-            <p>Hello there <FaRegHandPeace fill='#007FFF' />, I'm</p>
+            <p>Hello there <FaRegHandPeace fill='#007FFF' />, my name is</p>
             <h1>Mateusz Uranowski</h1>
             <p>and I'm a web developer.</p>
           </div>
