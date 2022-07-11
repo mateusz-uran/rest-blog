@@ -165,9 +165,14 @@ code {
   font-size: larger;
   margin: 0 2em;
   background-color: #007FFF;
-  padding: .2em .2em;
-  display: flex;
-  border-radius: 50%;
+  border-radius: 5px;
+}
+
+.Home .wrapper .projects .post-modal Button {
+  background-color: #007FFF;
+  color: white;
+  border: 0;
+  padding: .5rem 1rem;
 }
 
 .Home .wrapper .projects .postContainer {
@@ -178,6 +183,7 @@ code {
   height: 100%;
   width: 100%;
   padding: 1em 2em;
+  border-bottom: 2px solid #007FFF;
 }
 
 .Home .wrapper .projects .postContainer .text {
@@ -274,6 +280,91 @@ code {
 .form-wrapper form textarea:focus {
   outline-color: #007FFF;
 }
+/*Footer*/
+.footer {
+  width: 100%;
+  min-height: 50vh;
+  background-color: #282C35;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.footer .wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  max-width: 1170px;
+}
+
+.footer .leftSide {
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  text-align: left;
+}
+
+.footer h4 {
+  padding: 0 1rem;
+}
+
+.footer .leftSide .contact span {
+  display: flex;
+  flex-direction: row;
+  line-height: 50px;
+}
+
+.footer .leftSide .contact span p {
+  margin: 0;
+}
+
+.footer .leftSide .contact span i,
+.footer .leftSide .contact span p,
+.footer .leftSide .contact span a {
+  padding: 0 1rem;
+  text-decoration: none;
+  color: white;
+}
+
+.footer .leftSide .contact span:hover,
+.footer .rightSide .social span:hover {
+  background-color: #007FFF;
+  border-radius: 5px;
+}
+
+.footer .rightSide {
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  text-align: left;
+}
+
+.footer .rightSide .social span {
+  display: flex;
+  flex-direction: row;
+  line-height: 50px;
+}
+
+.footer .rightSide .social span i,
+.footer .rightSide .social span a {
+  padding: 0 1rem;
+}
+
+.footer .rightSide .social span a {
+  text-decoration: none;
+  color: white;
+}
+
+.copyrights {
+  background-color: #282C35;
+  color: white;
+  height: 100%;
+  padding: 1rem 0;
+}
 
 @media screen and (max-width: 850px) {
   .Navbar .leftSide .links a {
@@ -356,6 +447,15 @@ code {
   
   .Home .wrapper .projects .postContainer .comments .side .icon {
     padding: .2em .5em;
+  }
+
+  .footer .wrapper {
+    flex-direction: column;
+  }
+
+  .footer .leftSide,
+  .footer .rightSide {
+    width: 100%;
   }
 
 }

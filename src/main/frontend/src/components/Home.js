@@ -7,11 +7,9 @@ import image_about from '../images/V1228_generated.jpg'
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
 import { FaRegHandPeace } from "react-icons/fa";
-import { MdAddComment, MdDeleteForever } from 'react-icons/md';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
+import { MdDeleteForever } from 'react-icons/md';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
-import AddCommentModal from './AddCommentModal';
 import EditCommentModal from './EditCommentModal';
 import EditPostModal from './EditPostModal';
 import AddComment from './AddComment';
@@ -57,7 +55,7 @@ const Home = () => {
       <div className='wrapper'>
         <div className='main'>
           <div className='leftSide'>
-            <p>Hello there <FaRegHandPeace fill='#007FFF' />, I'm</p>
+            <p>Hello there <FaRegHandPeace fill='#007FFF' />, my name is</p>
             <h1>Mateusz Uranowski</h1>
             <p>and I'm a web developer.</p>
           </div>
@@ -178,7 +176,7 @@ function AddPostModal() {
   const handleShow = () => setShow(true);
   return (
     <>
-      <AiOutlinePlusCircle onClick={handleShow} />
+      <Button onClick={handleShow} >Dodaj post</Button>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
         </Modal.Header>
