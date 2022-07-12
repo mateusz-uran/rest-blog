@@ -57,15 +57,6 @@ public class PostService {
             if (partialPost.getContent() != null) {
                 post.setContent(partialPost.getContent());
             }
-            if (partialPost.getImageName() != null) {
-                post.setImageName(partialPost.getImageName());
-            }
-            if (partialPost.getImagePath() != null) {
-                post.setImagePath(partialPost.getImagePath());
-            }
-            if (partialPost.getImageType() != null) {
-                post.setImageType(partialPost.getImageType());
-            }
         }
         return repository.save(post);
     }
