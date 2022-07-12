@@ -37,7 +37,7 @@ export default function EditCommentModal({ postId, commentId }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const commentContentLength = content.length;
+  const commentContentLength = content?.length || 0;
   return (
     <>
       <MdOutlineEdit onClick={handleShow}/>

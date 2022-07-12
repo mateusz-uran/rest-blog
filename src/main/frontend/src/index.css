@@ -96,14 +96,6 @@ code {
   justify-content: center;
 }
 
-.wrapper:nth-child(odd) {
-  background-color: #282C35;
-}
-
-.wrapper:nth-child(even) {
-  background-color: #eaeaeb;
-}
-
 .wrapper:last-child {
   min-height: 50vh;
 }
@@ -453,6 +445,22 @@ code {
 .edit-comment .close {
   margin-right: 15px;
   background-color: #282C35;
+}
+
+/*editor*/
+.editor {
+  display: flex;
+  justify-content: center;
+  background-color: #282C35;
+}
+
+.wrapper-class {
+  border: 1px solid #007FFF;
+  color: white;
+}
+
+.editorClassName {
+  background-color: white;
 }
 
 @media screen and (max-width: 850px) {

@@ -13,6 +13,7 @@ function App() {
     <div className="App">
       <Router>
         <Navbar />
+        <WYSIWYG />
         <Main/>
         <About />
         <Home/>
