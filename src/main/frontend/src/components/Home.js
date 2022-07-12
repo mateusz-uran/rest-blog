@@ -10,6 +10,7 @@ import { Modal, Button } from 'react-bootstrap';
 import EditCommentModal from './EditCommentModal';
 import EditPostModal from './EditPostModal';
 import AddComment from './AddComment';
+import AddTags from './AddTags';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post/"
@@ -60,6 +61,13 @@ const Home = () => {
               <div className='text'>
                 <h3>{post.header}</h3>
                 <p>{post.content}</p>
+                {
+                post.tags.map((tag, index) => (
+                  <div className='tags' key={index}>
+                    <span>{tag.tag}</span>
+                  </div>
+                ))
+              }
               </div>
               <div className='image'>
                 {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
@@ -68,6 +76,9 @@ const Home = () => {
                   <i><EditPostModal postId={post.id} /></i>
                   <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
                 </div>
+              </div>
+              <div className='tag-button'>
+                <AddTags postId={post.id}/>
               </div>
               <div className='comment-button'>
                 <AddComment postId={post.id} />
