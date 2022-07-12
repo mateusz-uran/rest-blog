@@ -37,8 +37,8 @@ export default function EditPostModal({ postId }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const postHeaderLength = header.length;
-  const postContentLength = content.length;
+  const postHeaderLength = header?.length || 0;
+  const postContentLength = content?.length || 0;
   return (
     <>
       <MdOutlineEdit onClick={handleShow}/>

@@ -318,6 +318,12 @@ code {
 .form-wrapper form textarea:focus {
   outline-color: #007FFF;
 }
+
+.form-wrapper .editor {
+  min-height: 4em;
+  border: 1px solid red;
+}
+
 /*Footer*/
 .footer {
   width: 100%;

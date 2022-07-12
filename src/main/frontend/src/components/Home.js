@@ -128,8 +128,8 @@ function AddPostModal() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const postHeaderLength = header.length;
-  const postContentLength = content.length;
+  const postHeaderLength = header?.length || 0;
+  const postContentLength = content?.length || 0;
   return (
     <>
       <Button onClick={handleShow}>Add new post</Button>

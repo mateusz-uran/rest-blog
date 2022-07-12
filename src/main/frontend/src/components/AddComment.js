@@ -27,8 +27,8 @@ export default function AddComment({ postId }) {
     setComment('');
     e.target.reset();
   };
-
-  const commentContentLength = content.length;
+  
+  const commentLength = content?.length || 0;
 
   return (
     <>
@@ -43,7 +43,7 @@ export default function AddComment({ postId }) {
               required
               maxLength={555}
             />
-            <span className='character-count'>{commentContentLength}/{555}</span>
+            <span className='character-count'>{commentLength}/{555}</span>
           </div>
           <button type={"submit"}>
             Add comment
