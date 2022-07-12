@@ -130,6 +130,7 @@ function AddPostModal() {
 
   const postHeaderLength = header?.length || 0;
   const postContentLength = content?.length || 0;
+
   return (
     <>
       <Button onClick={handleShow}>Add new post</Button>
@@ -166,6 +167,11 @@ function AddPostModal() {
                 maxLength={555}
               />
               <span className='character-count'>{postContentLength}/{555}</span>
+            </div>
+            <div className='form-row'>
+              <label htmlFor='email' className='form-label'>
+                Tags
+              </label>
             </div>
             <Button onClick={handleClose} className='close' >
               Close

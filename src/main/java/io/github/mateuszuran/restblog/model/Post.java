@@ -26,6 +26,8 @@ public class Post {
     private String imageType;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
     private List<Comment> comments;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    private List<Tags> tags;
 
     public void updateForm(Post source) {
         header = source.header;
