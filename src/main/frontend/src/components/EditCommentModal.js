@@ -36,11 +36,13 @@ export default function EditCommentModal({ postId, commentId }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const commentContentLength = content?.length || 0;
   return (
     <>
       <MdOutlineEdit onClick={handleShow}/>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} className='edit-comment' centered>
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
@@ -49,20 +51,22 @@ export default function EditCommentModal({ postId, commentId }) {
               <label htmlFor={"Name"} className={"form-label"}>
                 Content
               </label>
-              <input
+              <textarea
                 type={"text"}
                 className={"form-control"}
                 placeholder={"Enter your name"}
                 name={"content"}
                 value={content}
                 onChange={(e) => onInputChange(e)}
+                maxLength={555}
               />
+              <span className='character-count'>{commentContentLength}/{555}</span>
             </div>
 
-            <Button variant="secondary" onClick={handleClose}>
+            <Button onClick={handleClose} className='close' >
               Close
             </Button>
-            <Button type={"submit"} variant="primary" onClick={handleClose}>
+            <Button type={"submit"} onClick={handleClose} className='submit' >
               Save changes
             </Button>
           </form>

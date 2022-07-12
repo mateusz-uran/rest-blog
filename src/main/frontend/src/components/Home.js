@@ -65,8 +65,8 @@ const Home = () => {
                 {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
                 <MyDropzone postId={post.id} />
                 <div className='post-icons'>
-                  <EditPostModal postId={post.id} />
-                  <MdDeleteForever onClick={() => deletePost(post.id)} />
+                  <i><EditPostModal postId={post.id} /></i>
+                  <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
                 </div>
               </div>
               <div className='comment-button'>
@@ -127,13 +127,15 @@ function AddPostModal() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const postHeaderLength = header?.length || 0;
+  const postContentLength = content?.length || 0;
   return (
     <>
       <Button onClick={handleShow}>Add new post</Button>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-        </Modal.Header>
-        <Modal.Body>
+      <Modal show={show} onHide={handleClose} className='add-post' centered>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body className='add-post-body'>
           <form className='form' onSubmit={(e) => onSubmit(e)}>
             <div className='form-row'>
               <label htmlFor='name' className='form-label'>
@@ -146,25 +148,29 @@ function AddPostModal() {
                 defaultValue={header || ''}
                 onChange={(e) => onInputChange(e)}
                 required
+                maxLength={255}
               />
+              <span className='character-count'>{postHeaderLength}/{255}</span>
             </div>
             <div className='form-row'>
               <label htmlFor='email' className='form-label'>
                 Content
               </label>
-              <input
+              <textarea
                 type={"text"}
                 className={"form-control"}
                 name={"content"}
                 defaultValue={content || ''}
                 onChange={(e) => onInputChange(e)}
                 required
+                maxLength={555}
               />
+              <span className='character-count'>{postContentLength}/{555}</span>
             </div>
-            <Button variant="secondary" onClick={handleClose}>
+            <Button onClick={handleClose} className='close' >
               Close
             </Button>
-            <Button type={"submit"} variant="primary" onClick={handleClose}>
+            <Button type={"submit"} onClick={handleClose} className='submit' >
               Add post
             </Button>
           </form>

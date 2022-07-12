@@ -36,11 +36,14 @@ export default function EditPostModal({ postId }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const postHeaderLength = header?.length || 0;
+  const postContentLength = content?.length || 0;
   return (
     <>
       <MdOutlineEdit onClick={handleShow}/>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} className='edit-post' centered>
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
@@ -55,26 +58,32 @@ export default function EditPostModal({ postId }) {
                 name={"header"}
                 value={header}
                 onChange={(e) => onInputChange(e)}
+                required
+                maxLength={255}
               />
+              <span className='character-count'>{postHeaderLength}/{255}</span>
             </div>
 
             <div className={"mb-3"}>
               <label htmlFor={"Name"} className={"form-label"}>
                 Content
               </label>
-              <input
+              <textarea
                 type={"text"}
                 className={"form-control"}
                 name={"content"}
                 value={content}
                 onChange={(e) => onInputChange(e)}
+                required
+                maxLength={555}
               />
+              <span className='character-count'>{postContentLength}/{555}</span>
             </div>
 
-            <Button variant="secondary" onClick={handleClose}>
+            <Button onClick={handleClose} className='close' >
               Close
             </Button>
-            <Button type={"submit"} variant="primary" onClick={handleClose}>
+            <Button type={"submit"} onClick={handleClose} className='submit' >
               Save changes
             </Button>
           </form>
