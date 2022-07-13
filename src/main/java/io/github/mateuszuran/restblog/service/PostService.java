@@ -54,6 +54,11 @@ public class PostService {
             if (partialPost.getHeader() != null) {
                 post.setHeader(partialPost.getHeader());
             }
+
+            if (partialPost.getIntro() != null) {
+                post.setIntro(partialPost.getIntro());
+            }
+
             if (partialPost.getContent() != null) {
                 post.setContent(partialPost.getContent());
             }

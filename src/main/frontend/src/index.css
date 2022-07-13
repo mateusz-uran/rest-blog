@@ -220,6 +220,38 @@ code {
   margin-left: 15px;
 }
 
+.wrapper .projects .postContainer .text .tags-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.wrapper .projects .postContainer .text .tags-wrapper .tags {
+  display: flex;
+  background-color: #282C35;
+  padding: .3rem .3rem;
+  color: white;
+  margin: 5px 5px;
+  margin-left: 0;
+  border-radius: 5px;
+}
+
+.wrapper .projects .postContainer .text .tags-wrapper .tags span,
+.wrapper .projects .postContainer .text .tags-wrapper .tags i {
+  padding: 0 5px;
+}
+
+.wrapper .projects .postContainer .text .tags-wrapper .tags i {
+  border-radius: 5px;
+  transition: transform .2s;
+  transition: background-color .2s linear;
+}
+
+.wrapper .projects .postContainer .text .tags-wrapper i:hover {
+  background-color: #C0C0C0;
+  color: black;
+  transform: scale(1.1)
+}
+
 .wrapper .projects .postContainer .comments {
   width: 100%;
   height: 100%;
@@ -281,6 +313,50 @@ code {
 
 .wrapper .projects .postContainer .comments .side .icon:last-child:hover {
   border: 2px solid red;
+}
+
+/*Tag form*/
+.form-tag-wrapper {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.form-tag {
+  display: flex;
+  flex-direction: row;
+  padding: .2rem .5rem;
+  padding-left: 0;
+  color: black;
+}
+
+.form-tag input {
+  width: 120px;
+}
+
+.form-tag .tag-button {
+  background-color: transparent;
+  color: black;
+  padding: 0;
+
+}
+
+.form-tag .tag-text input:focus {
+  outline-color: #007FFF;
+}
+
+.form-tag i {
+  padding: 0 5px;
+  margin: 0 5px;
+  border-radius: 5px;
+  border: 2px solid black;
+}
+
+.form-tag i:hover {
+  border: 2px solid #007FFF;
+}
+
+.postContainer .text .tags-wrapper .tags .delete-tag:hover {
+  background-color: #007FFF;
 }
 
 /*Comment form*/
@@ -411,10 +487,27 @@ code {
   text-align: left;
 }
 
+.add-post .form-header,
+.edit-post .form-header {
+  height: 50px;
+}
+
+.add-post .form-intro,
+.edit-post .form-intro {
+  height: 100px;
+}
+
 .add-post textarea,
 .edit-post textarea,
 .edit-comment textarea {
   height: 150px;
+  width: 100%;
+}
+
+.add-post textarea:focus,
+.edit-post textarea:focus,
+.edit-comment textarea:focus {
+  outline-color: #007FFF;
 }
 
 .add-post .form .form-row,

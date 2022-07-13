@@ -4,7 +4,7 @@ import axios from 'axios'
 import '../App.css';
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
-import { MdDeleteForever } from 'react-icons/md';
+import { MdDeleteForever, MdClear } from 'react-icons/md';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import EditCommentModal from './EditCommentModal';
@@ -20,6 +20,7 @@ const Home = () => {
 
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
+  const [tags, setTags] = useState([]);
 
   const fetchPosts = async () => {
     let response = await client.get();
@@ -44,6 +45,15 @@ const Home = () => {
     );
   };
 
+  const deleteTag = async (postId, id) => {
+    await axios.delete(`http://localhost:8080/api/v1/post/${postId}/delete-tag/${id}`);
+    setTags(
+      tags.filter((tag) => {
+        return tag.id !== id;
+      })
+    );
+  };
+
   useEffect(() => {
     fetchPosts();
   }, [posts]);
@@ -60,14 +70,22 @@ const Home = () => {
             <div className='postContainer' key={index}>
               <div className='text'>
                 <h3>{post.header}</h3>
+                <span>{post.intro}</span>
                 <p>{post.content}</p>
-                {
-                post.tags.map((tag, index) => (
-                  <div className='tags' key={index}>
-                    <span>{tag.tag}</span>
-                  </div>
-                ))
-              }
+                <div className='tags-wrapper'>
+                  {
+                    post.tags.map((tag, index) => (
+                      <div className='tags' key={index}>
+                        <span>{tag.content}</span>
+                        <i
+                          onClick={() => deleteTag(post.id, tag.id)}
+                          className='delete-tag'>
+                          <MdClear/>
+                        </i>
+                      </div>
+                    ))
+                  }
+                </div>
               </div>
               <div className='image'>
                 {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
@@ -77,10 +95,8 @@ const Home = () => {
                   <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
                 </div>
               </div>
-              <div className='tag-button'>
-                <AddTags postId={post.id}/>
-              </div>
               <div className='comment-button'>
+                <AddTags postId={post.id} />
                 <AddComment postId={post.id} />
               </div>
               {
@@ -120,10 +136,11 @@ function AddPostModal() {
 
   const [post, setPost] = useState({
     header: "",
+    intro: "",
     content: ""
   });
 
-  const { header, content } = post;
+  const { header, intro, content } = post;
 
   const onInputChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -140,6 +157,7 @@ function AddPostModal() {
   const handleShow = () => setShow(true);
 
   const postHeaderLength = header?.length || 0;
+  const postIntroLength = intro?.length || 0;
   const postContentLength = content?.length || 0;
 
   return (
@@ -153,9 +171,9 @@ function AddPostModal() {
               <label htmlFor='name' className='form-label'>
                 Header
               </label>
-              <input
+              <textarea
                 type={"text"}
-                className={"form-control"}
+                className={"form-header"}
                 name={"header"}
                 defaultValue={header || ''}
                 onChange={(e) => onInputChange(e)}
@@ -165,12 +183,27 @@ function AddPostModal() {
               <span className='character-count'>{postHeaderLength}/{255}</span>
             </div>
             <div className='form-row'>
+              <label htmlFor='name' className='form-label'>
+                Intro
+              </label>
+              <textarea
+                type={"text"}
+                className={"form-intro"}
+                name={"intro"}
+                defaultValue={intro || ''}
+                onChange={(e) => onInputChange(e)}
+                required
+                maxLength={255}
+              />
+              <span className='character-count'>{postIntroLength}/{255}</span>
+            </div>
+            <div className='form-row'>
               <label htmlFor='email' className='form-label'>
                 Content
               </label>
               <textarea
                 type={"text"}
-                className={"form-control"}
+                className={"form-content"}
                 name={"content"}
                 defaultValue={content || ''}
                 onChange={(e) => onInputChange(e)}
@@ -178,11 +211,6 @@ function AddPostModal() {
                 maxLength={555}
               />
               <span className='character-count'>{postContentLength}/{555}</span>
-            </div>
-            <div className='form-row'>
-              <label htmlFor='email' className='form-label'>
-                Tags
-              </label>
             </div>
             <Button onClick={handleClose} className='close' >
               Close

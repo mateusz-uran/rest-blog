@@ -19,6 +19,7 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String header;
+    private String intro;
     @Column(length = 555)
     private String content;
     private String imagePath;
@@ -31,6 +32,7 @@ public class Post {
 
     public void updateForm(Post source) {
         header = source.header;
+        intro = source.intro;
         content = source.content;
         imagePath = source.imagePath;
         imageName = source.imageName;

@@ -18,12 +18,12 @@ public class Tags {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String tag;
+    private String content;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
     public void toUpdate(Tags toUpdate) {
-        tag = toUpdate.tag;
+        content = toUpdate.content;
     }
 }
