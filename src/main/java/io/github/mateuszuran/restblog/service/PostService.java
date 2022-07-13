@@ -62,6 +62,12 @@ public class PostService {
             if (partialPost.getContent() != null) {
                 post.setContent(partialPost.getContent());
             }
+            if (partialPost.getProjectCodeLink() != null) {
+                post.setProjectCodeLink(partialPost.getProjectCodeLink());
+            }
+            if (partialPost.getProjectDemoLink() != null) {
+                post.setProjectDemoLink(partialPost.getProjectDemoLink());
+            }
         }
         return repository.save(post);
     }
