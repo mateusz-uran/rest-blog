@@ -103,11 +103,12 @@ const Home = () => {
                       <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
                     </div> : null}
                   <div className='project-links'>
-                    <a href={post.projectCodeLink} target='_blank' rel='noopener noreferrer' className='project-link'>
-                      <i><BsCodeSlash className='project-icon' />
-                      </i>
+                    <a href={post.projectCodeLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive': ''}>
+                      <i><BsCodeSlash className='project-icon' /></i>
                     </a>
+                    <a href={post.projectDemoLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive': ''}>
                     <i><MdOutlineOpenInNew className='project-icon' /></i>
+                    </a>
                   </div>
                 </div>
                 <div className='comment-button'>

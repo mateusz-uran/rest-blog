@@ -246,8 +246,8 @@ code {
   width: 100%;
 }
 
-.wrapper .projects .postContainer .image .project-links .project-link {
-  pointer-events: none;
+.wrapper .projects .postContainer .image .project-links .inactive {
+ cursor: no-drop;
 }
 
 .wrapper .projects .postContainer .image .project-links i {
