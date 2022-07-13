@@ -55,9 +55,7 @@ const Home = () => {
     );
   };
 
-  const [hidden, setHidden] = useState(true);
-
-  const codeLink = '';
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     fetchPosts();
@@ -105,7 +103,7 @@ const Home = () => {
                       <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
                     </div> : null}
                   <div className='project-links'>
-                    <a href={codeLink} target='_blank' rel='noopener noreferrer'>
+                    <a href={post.projectCodeLink} target='_blank' rel='noopener noreferrer' className='project-link'>
                       <i><BsCodeSlash className='project-icon' />
                       </i>
                     </a>
@@ -155,10 +153,12 @@ function AddPostModal() {
   const [post, setPost] = useState({
     header: "",
     intro: "",
-    content: ""
+    content: "",
+    projectCodeLink: "",
+    projectDemoLink: ""
   });
 
-  const { header, intro, content } = post;
+  const { header, intro, content, projectCodeLink, projectDemoLink } = post;
 
   const onInputChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -229,6 +229,28 @@ function AddPostModal() {
                 maxLength={555}
               />
               <span className='character-count'>{postContentLength}/{555}</span>
+            </div>
+            <div className='form-row'>
+              <label htmlFor='email' className='form-label'>
+                Project source code link
+              </label>
+              <input
+                type={"url"}
+                className={"form-content-input"}
+                name={"projectCodeLink"}
+                defaultValue={projectCodeLink || ''}
+                onChange={(e) => onInputChange(e)}
+              />
+              <label htmlFor='email' className='form-label'>
+                Project demo link
+              </label>
+              <input
+                type={"url"}
+                className={"form-content-input"}
+                name={"projectDemoLink"}
+                defaultValue={projectDemoLink || ''}
+                onChange={(e) => onInputChange(e)}
+              />
             </div>
             <Button onClick={handleClose} className='close' >
               Close

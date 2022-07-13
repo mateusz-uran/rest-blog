@@ -25,6 +25,8 @@ public class Post {
     private String imagePath;
     private String imageName;
     private String imageType;
+    private String projectCodeLink;
+    private String projectDemoLink;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
     private List<Comment> comments;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
@@ -37,5 +39,7 @@ public class Post {
         imagePath = source.imagePath;
         imageName = source.imageName;
         imageType = source.imageType;
+        projectCodeLink = source.projectCodeLink;
+        projectDemoLink = source.projectDemoLink;
     }
 }

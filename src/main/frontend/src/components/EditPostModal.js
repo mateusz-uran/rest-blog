@@ -9,10 +9,12 @@ export default function EditPostModal({ postId }) {
   const [post, setPost] = useState({
     header: "",
     intro: "",
-    content: ""
+    content: "",
+    projectCodeLink: "",
+    projectDemoLink: ""
   });
 
-  const { header, intro, content } = post;
+  const { header, intro, content, projectCodeLink, projectDemoLink } = post;
 
   const onInputChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -94,6 +96,28 @@ export default function EditPostModal({ postId }) {
                 maxLength={555}
               />
               <span className='character-count'>{postContentLength}/{555}</span>
+            </div>
+            <div className='form-row'>
+              <label htmlFor='email' className='form-label'>
+                Project source code link
+              </label>
+              <input
+                type={"url"}
+                className={"form-content-input"}
+                name={"projectCodeLink"}
+                defaultValue={projectCodeLink || ''}
+                onChange={(e) => onInputChange(e)}
+              />
+              <label htmlFor='email' className='form-label'>
+                Project demo link
+              </label>
+              <input
+                type={"url"}
+                className={"form-content-input"}
+                name={"projectDemoLink"}
+                defaultValue={projectDemoLink || ''}
+                onChange={(e) => onInputChange(e)}
+              />
             </div>
             <Button onClick={handleClose} className='close' >
               Close

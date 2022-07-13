@@ -246,6 +246,10 @@ code {
   width: 100%;
 }
 
+.wrapper .projects .postContainer .image .project-links .project-link {
+  pointer-events: none;
+}
+
 .wrapper .projects .postContainer .image .project-links i {
   padding: 0 .5em;
 }
@@ -577,6 +581,18 @@ code {
   color: #C0C0C0;
   width: 100%;
   justify-content: flex-end;
+}
+
+.add-post .form-content-input:focus,
+.edit-post .form-content-input:focus {
+  outline-color: #007FFF;
+}
+
+.add-post .close,
+.add-post .submit,
+.edit-post .close,
+.edit-post .submit {
+  margin-top: 5px;
 }
 
 .add-post .close,
