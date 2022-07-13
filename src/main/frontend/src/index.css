@@ -149,7 +149,7 @@ code {
   padding: .5em 2em;
 }
 
-.wrapper .header  .post-modal Button {
+.wrapper .header .post-modal Button {
   background-color: #007FFF;
   color: white;
   border: 0;
@@ -165,7 +165,7 @@ code {
 }
 
 .wrapper .projects .post-wrapper {
-  border-top: 5px solid #C0C0C0;
+  border-top: 1px solid #007FFF;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -187,6 +187,29 @@ code {
   text-align: left;
   overflow-wrap: break-word;
   padding-right: .8rem;
+}
+
+.wrapper .projects .postContainer .text h3 {
+  font-weight: bold;
+}
+
+.wrapper .projects .postContainer .text .intro {
+  margin: 15px 0;
+  font-size: 18px;
+  background-color: #C0C0C0;
+  color: black;
+  border-radius: 5px;
+  padding: 0 .5em;
+  font-weight: bold;
+}
+
+.wrapper .projects .postContainer .text .content {
+  font-size: 15px;
+  background-color: #C0C0C0;
+  color: black;
+  padding: .3em .5em;
+  border-radius: 5px;
+  font-weight: bold;
 }
 
 .wrapper .projects .postContainer .image {
@@ -235,9 +258,11 @@ code {
   background-color: #282C35;
   padding: .3rem .3rem;
   color: white;
+  font-weight: bold;
   margin: 5px 5px;
   margin-left: 0;
   border-radius: 5px;
+  font-size: 12px;
 }
 
 .wrapper .projects .postContainer .text .tags-wrapper .tags span,

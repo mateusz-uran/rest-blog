@@ -73,8 +73,8 @@ const Home = () => {
               <div className='postContainer' >
                 <div className='text'>
                   <h3>{post.header}</h3>
-                  <span>{post.intro}</span>
-                  <p>{post.content}</p>
+                  <p className='intro'>{post.intro}</p>
+                  <p className='content'>{post.content}</p>
                   <div className='tags-wrapper'>
                     {
                       post.tags.map((tag, index) => (

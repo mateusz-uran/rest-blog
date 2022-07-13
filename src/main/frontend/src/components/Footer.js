@@ -39,7 +39,7 @@ const Footer = () => {
           <div className='social'>
             <span>
               <i><AiFillGithub /></i>
-              <a href={'https://github.com/mateusz-uran?tab=repositories'} target='_blank' rel='noopener noreferrer'>GitHub</a>
+              <a href={'https://github.com/mateusz-uran'} target='_blank' rel='noopener noreferrer'>GitHub</a>
             </span>
           </div>
           <div className='social'>
@@ -58,7 +58,7 @@ const Footer = () => {
       </div>
     </div>
     <div className='copyrights'>
-      <p>Copyright © 2022 mateszu-uran. All Rights Reserved</p>
+      <p>Copyright © 2022 mateusz-uran. All Rights Reserved</p>
     </div>
     </>
   )
