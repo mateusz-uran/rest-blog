@@ -60,70 +60,74 @@ const Home = () => {
 
   return (
     <div className='wrapper'>
-      <div id='projects' className='projects'>
+      <div className='header'>
+        <h2>My projects</h2>
         <div className='post-modal'>
           <AddPostModal />
         </div>
-        <h2>My projects</h2>
+      </div>
+      <div id='projects' className='projects'>
         {
           posts.map((post, index) => (
-            <div className='postContainer' key={index}>
-              <div className='text'>
-                <h3>{post.header}</h3>
-                <span>{post.intro}</span>
-                <p>{post.content}</p>
-                <div className='tags-wrapper'>
-                  {
-                    post.tags.map((tag, index) => (
-                      <div className='tags' key={index}>
-                        <span>{tag.content}</span>
-                        <i
-                          onClick={() => deleteTag(post.id, tag.id)}
-                          className='delete-tag'>
-                          <MdClear/>
-                        </i>
-                      </div>
-                    ))
-                  }
-                </div>
-              </div>
-              <div className='image'>
-                {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
-                <MyDropzone postId={post.id} />
-                <div className='post-icons'>
-                  <i><EditPostModal postId={post.id} /></i>
-                  <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
-                </div>
-              </div>
-              <div className='comment-button'>
-                <AddTags postId={post.id} />
-                <AddComment postId={post.id} />
-              </div>
-              {
-                post.comments.map((comment, index) => (
-                  <div className='comments' key={index}>
-                    <div className='leftSide'>
-                      <img src={user_basic} alt=''></img>
-                    </div>
-                    <div className='rightSide'>
-                      <div className='row'>
-                        <p>{comment.author}&nbsp;&nbsp;{comment.date}</p>
-                      </div>
-                      <div className='row'>
-                        <p>{comment.content}</p>
-                      </div>
-                    </div>
-                    <div className='side'>
-                      <div className='icon'>
-                        <EditCommentModal postId={post.id} commentId={comment.id} />
-                      </div>
-                      <div className='icon'>
-                        <MdDeleteForever onClick={() => deleteComment(post.id, comment.id)} />
-                      </div>
-                    </div>
+            <div className='post-wrapper' key={index}>
+              <div className='postContainer' >
+                <div className='text'>
+                  <h3>{post.header}</h3>
+                  <span>{post.intro}</span>
+                  <p>{post.content}</p>
+                  <div className='tags-wrapper'>
+                    {
+                      post.tags.map((tag, index) => (
+                        <div className='tags' key={index}>
+                          <span>{tag.content}</span>
+                          <i
+                            onClick={() => deleteTag(post.id, tag.id)}
+                            className='delete-tag'>
+                            <MdClear />
+                          </i>
+                        </div>
+                      ))
+                    }
                   </div>
-                ))
-              }
+                </div>
+                <div className='image'>
+                  {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
+                  <MyDropzone postId={post.id} />
+                  <div className='post-icons'>
+                    <i><EditPostModal postId={post.id} /></i>
+                    <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
+                  </div>
+                </div>
+                <div className='comment-button'>
+                  <AddTags postId={post.id} />
+                  <AddComment postId={post.id} />
+                </div>
+                {
+                  post.comments.map((comment, index) => (
+                    <div className='comments' key={index}>
+                      <div className='leftSide'>
+                        <img src={user_basic} alt=''></img>
+                      </div>
+                      <div className='rightSide'>
+                        <div className='row'>
+                          <p>{comment.author}&nbsp;&nbsp;{comment.date}</p>
+                        </div>
+                        <div className='row'>
+                          <p>{comment.content}</p>
+                        </div>
+                      </div>
+                      <div className='side'>
+                        <div className='icon'>
+                          <EditCommentModal postId={post.id} commentId={comment.id} />
+                        </div>
+                        <div className='icon'>
+                          <MdDeleteForever onClick={() => deleteComment(post.id, comment.id)} />
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
             </div>
           ))
         }
