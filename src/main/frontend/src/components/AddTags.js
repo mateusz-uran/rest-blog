@@ -25,7 +25,7 @@ export default function AddTags({ postId, tagId }) {
 
   return (
     <>
-      <div className='form-wrapper form-tag-wrapper'>
+      <div className='form-wrapper'>
         <form onSubmit={(e) => onSubmit(e)} className='form-tag'>
           <div className='tag-text'>
             <input 

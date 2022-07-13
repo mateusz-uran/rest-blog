@@ -216,6 +216,10 @@ code {
   width: 50%;
 }
 
+.wrapper .projects .postContainer .image img {
+  border-radius: 5px;
+}
+
 .wrapper .projects .postContainer .image .post-icons {
   background-color: #282C35;
   color: white;

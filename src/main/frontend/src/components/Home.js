@@ -54,6 +54,8 @@ const Home = () => {
     );
   };
 
+  const [hidden, setHidden] = useState(true);
+
   useEffect(() => {
     fetchPosts();
   }, [posts]);
@@ -63,7 +65,7 @@ const Home = () => {
       <div className='header'>
         <h2>My projects</h2>
         <div className='post-modal'>
-          <AddPostModal />
+          {!hidden ? <AddPostModal /> : null}
         </div>
       </div>
       <div id='projects' className='projects'>
@@ -80,11 +82,12 @@ const Home = () => {
                       post.tags.map((tag, index) => (
                         <div className='tags' key={index}>
                           <span>{tag.content}</span>
-                          <i
-                            onClick={() => deleteTag(post.id, tag.id)}
-                            className='delete-tag'>
-                            <MdClear />
-                          </i>
+                          {!hidden ?
+                            <i
+                              onClick={() => deleteTag(post.id, tag.id)}
+                              className='delete-tag'>
+                              <MdClear />
+                            </i> : null}
                         </div>
                       ))
                     }
@@ -92,14 +95,15 @@ const Home = () => {
                 </div>
                 <div className='image'>
                   {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
-                  <MyDropzone postId={post.id} />
-                  <div className='post-icons'>
-                    <i><EditPostModal postId={post.id} /></i>
-                    <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
-                  </div>
+                  {!hidden ? <MyDropzone postId={post.id} className='form-image-wrapper' /> : null}
+                  {!hidden ?
+                    <div className='post-icons'>
+                      <i><EditPostModal postId={post.id} /></i>
+                      <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
+                    </div> : null}
                 </div>
                 <div className='comment-button'>
-                  <AddTags postId={post.id} />
+                  {!hidden ? <AddTags postId={post.id} className='add-tags' /> : null}
                   <AddComment postId={post.id} />
                 </div>
                 {
