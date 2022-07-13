@@ -8,10 +8,11 @@ export default function EditPostModal({ postId }) {
 
   const [post, setPost] = useState({
     header: "",
+    intro: "",
     content: ""
   });
 
-  const { header, content } = post;
+  const { header, intro, content } = post;
 
   const onInputChange = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -38,6 +39,7 @@ export default function EditPostModal({ postId }) {
   const handleShow = () => setShow(true);
 
   const postHeaderLength = header?.length || 0;
+  const postIntroLength = intro?.length || 0;
   const postContentLength = content?.length || 0;
   return (
     <>
@@ -47,39 +49,52 @@ export default function EditPostModal({ postId }) {
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
-          <form onSubmit={(e) => onSubmit(e)}>
-            <div className={"mb-3"}>
-              <label htmlFor={"Name"} className={"form-label"}>
+        <form className='form' onSubmit={(e) => onSubmit(e)}>
+            <div className='form-row'>
+              <label htmlFor='name' className='form-label'>
                 Header
               </label>
-              <input
+              <textarea
                 type={"text"}
-                className={"form-control"}
+                className={"form-header"}
                 name={"header"}
-                value={header}
+                defaultValue={header || ''}
                 onChange={(e) => onInputChange(e)}
                 required
                 maxLength={255}
               />
               <span className='character-count'>{postHeaderLength}/{255}</span>
             </div>
-
-            <div className={"mb-3"}>
-              <label htmlFor={"Name"} className={"form-label"}>
+            <div className='form-row'>
+              <label htmlFor='name' className='form-label'>
+                Intro
+              </label>
+              <textarea
+                type={"text"}
+                className={"form-intro"}
+                name={"intro"}
+                defaultValue={intro || ''}
+                onChange={(e) => onInputChange(e)}
+                required
+                maxLength={255}
+              />
+              <span className='character-count'>{postIntroLength}/{255}</span>
+            </div>
+            <div className='form-row'>
+              <label htmlFor='email' className='form-label'>
                 Content
               </label>
               <textarea
                 type={"text"}
-                className={"form-control"}
+                className={"form-content"}
                 name={"content"}
-                value={content}
+                defaultValue={content || ''}
                 onChange={(e) => onInputChange(e)}
                 required
                 maxLength={555}
               />
               <span className='character-count'>{postContentLength}/{555}</span>
             </div>
-
             <Button onClick={handleClose} className='close' >
               Close
             </Button>

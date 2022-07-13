@@ -40,29 +40,24 @@ export default function EditCommentModal({ postId, commentId }) {
   const commentContentLength = content?.length || 0;
   return (
     <>
-      <MdOutlineEdit onClick={handleShow}/>
+      <MdOutlineEdit onClick={handleShow} />
 
       <Modal show={show} onHide={handleClose} className='edit-comment' centered>
         <Modal.Header closeButton>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={(e) => onSubmit(e)}>
-            <div className={"mb-3"}>
-              <label htmlFor={"Name"} className={"form-label"}>
-                Content
-              </label>
+            <div className='comment-text'>
               <textarea
                 type={"text"}
-                className={"form-control"}
-                placeholder={"Enter your name"}
                 name={"content"}
-                value={content}
+                defaultValue={content || ''}
                 onChange={(e) => onInputChange(e)}
+                required
                 maxLength={555}
               />
               <span className='character-count'>{commentContentLength}/{555}</span>
             </div>
-
             <Button onClick={handleClose} className='close' >
               Close
             </Button>
