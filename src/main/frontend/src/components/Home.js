@@ -4,7 +4,8 @@ import axios from 'axios'
 import '../App.css';
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
-import { MdDeleteForever, MdClear } from 'react-icons/md';
+import { MdDeleteForever, MdClear, MdOutlineOpenInNew } from 'react-icons/md';
+import { BsCodeSlash } from 'react-icons/bs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import EditCommentModal from './EditCommentModal';
@@ -56,6 +57,8 @@ const Home = () => {
 
   const [hidden, setHidden] = useState(true);
 
+  const codeLink = '';
+
   useEffect(() => {
     fetchPosts();
   }, [posts]);
@@ -101,6 +104,13 @@ const Home = () => {
                       <i><EditPostModal postId={post.id} /></i>
                       <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
                     </div> : null}
+                  <div className='project-links'>
+                    <a href={codeLink} target='_blank' rel='noopener noreferrer'>
+                      <i><BsCodeSlash className='project-icon' />
+                      </i>
+                    </a>
+                    <i><MdOutlineOpenInNew className='project-icon' /></i>
+                  </div>
                 </div>
                 <div className='comment-button'>
                   {!hidden ? <AddTags postId={post.id} className='add-tags' /> : null}

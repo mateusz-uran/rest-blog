@@ -196,7 +196,7 @@ code {
 .wrapper .projects .postContainer .text .intro {
   margin: 15px 0;
   font-size: 18px;
-  background-color: #C0C0C0;
+  background-color: #e5e4e2;
   color: black;
   border-radius: 5px;
   padding: 0 .5em;
@@ -205,7 +205,7 @@ code {
 
 .wrapper .projects .postContainer .text .content {
   font-size: 15px;
-  background-color: #C0C0C0;
+  background-color: #e5e4e2;
   color: black;
   padding: .3em .5em;
   border-radius: 5px;
@@ -239,6 +239,25 @@ code {
 
 .wrapper .projects .postContainer .image .post-icons i:last-child:hover {
   border: 2px solid red;
+}
+
+.wrapper .projects .postContainer .image .project-links {
+  margin-top: 15px;
+  width: 100%;
+}
+
+.wrapper .projects .postContainer .image .project-links i {
+  padding: 0 .5em;
+}
+
+.wrapper .projects .postContainer .image .project-links .project-icon {
+  font-size: 25px;
+  width: auto;
+  height: auto;
+  background-color: #007FFF;
+  border-radius: 50%;
+  padding: 5px;
+  color: black;
 }
 
 .wrapper .projects .postContainer .comment-button {
