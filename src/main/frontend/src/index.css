@@ -306,16 +306,20 @@ code {
   padding: 0 5px;
 }
 
-.wrapper .projects .postContainer .text .tags-wrapper .tags .delete-tag {
+.wrapper .projects .postContainer .text .tags-wrapper .tags .delete-tag-icon {
   border-radius: 5px;
   transition: transform .2s;
   transition: background-color .2s linear;
 }
 
-.wrapper .projects .postContainer .text .tags-wrapper .delete-tag:hover {
+.wrapper .projects .postContainer .text .tags-wrapper .delete-tag-icon:hover {
   background-color: #C0C0C0;
   color: black;
   transform: scale(1.1)
+}
+
+.edit-tag-icon {
+  border-radius: 5px;
 }
 
 .edit-tag-icon:hover {
