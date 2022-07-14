@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../App.css';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-export default function AddTags({ postId, tagId }) {
+export default function AddTags({ id, tagId }) {
 
   const [tags, setTags] = useState({
     content: ""
@@ -17,12 +17,10 @@ export default function AddTags({ postId, tagId }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`http://localhost:8080/api/v1/post/${postId}/add-tag`, tags);
-    console.log(tags)
+    await axios.post(`http://localhost:8080/api/v1/post/${id}/add-tag`, tags);
     setTags('');
     e.target.reset();
   };
-
   return (
     <>
       <div className='form-wrapper'>
@@ -33,6 +31,7 @@ export default function AddTags({ postId, tagId }) {
             name={"content"}
             defaultValue={content || ''}
             onChange={(e) => onInputChange(e)}
+            required
             />
           </div>
           <i><button type={"submit"} className='tag-button'><AiOutlinePlus/></button></i>

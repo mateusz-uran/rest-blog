@@ -4,7 +4,7 @@ import axios from 'axios'
 import '../App.css';
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
-import { MdDeleteForever, MdClear, MdOutlineOpenInNew } from 'react-icons/md';
+import { MdDeleteForever, MdClear, MdOutlineOpenInNew, MdOutlineEdit, MdCheck } from 'react-icons/md';
 import { BsCodeSlash } from 'react-icons/bs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
@@ -12,6 +12,7 @@ import EditCommentModal from './EditCommentModal';
 import EditPostModal from './EditPostModal';
 import AddComment from './AddComment';
 import AddTags from './AddTags';
+import EditTag from './EditTag';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post/"
@@ -82,12 +83,16 @@ const Home = () => {
                     {
                       post.tags.map((tag, index) => (
                         <div className='tags' key={index}>
-                          <span>{tag.content}</span>
+                          <span className='tag-content'>{tag.content}</span>
                           {!hidden ?
                             <i
                               onClick={() => deleteTag(post.id, tag.id)}
                               className='delete-tag'>
                               <MdClear />
+                            </i> : null}
+                          {!hidden ?
+                            <i>
+                              <EditTag id={post.id} tagId={tag.id} />
                             </i> : null}
                         </div>
                       ))
@@ -99,21 +104,21 @@ const Home = () => {
                   {!hidden ? <MyDropzone postId={post.id} className='form-image-wrapper' /> : null}
                   {!hidden ?
                     <div className='post-icons'>
-                      <i><EditPostModal postId={post.id} /></i>
+                      <i><EditPostModal id={post.id} /></i>
                       <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
                     </div> : null}
                   <div className='project-links'>
-                    <a href={post.projectCodeLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive': ''}>
+                    <a href={post.projectCodeLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive' : ''}>
                       <i><BsCodeSlash className='project-icon' /></i>
                     </a>
-                    <a href={post.projectDemoLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive': ''}>
-                    <i><MdOutlineOpenInNew className='project-icon' /></i>
+                    <a href={post.projectDemoLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive' : ''}>
+                      <i><MdOutlineOpenInNew className='project-icon' /></i>
                     </a>
                   </div>
                 </div>
                 <div className='comment-button'>
-                  {!hidden ? <AddTags postId={post.id} className='add-tags' /> : null}
-                  <AddComment postId={post.id} />
+                  {!hidden ? <AddTags id={post.id} className='add-tags' /> : null}
+                  <AddComment id={post.id} />
                 </div>
                 {
                   post.comments.map((comment, index) => (
@@ -131,7 +136,7 @@ const Home = () => {
                       </div>
                       <div className='side'>
                         <div className='icon'>
-                          <EditCommentModal postId={post.id} commentId={comment.id} />
+                          <EditCommentModal id={post.id} commentId={comment.id} />
                         </div>
                         <div className='icon'>
                           <MdDeleteForever onClick={() => deleteComment(post.id, comment.id)} />
