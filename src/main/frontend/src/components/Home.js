@@ -87,11 +87,11 @@ const Home = () => {
                           {!hidden ?
                             <i
                               onClick={() => deleteTag(post.id, tag.id)}
-                              className='delete-tag'>
-                              <MdClear />
+                              >
+                              <MdClear className='delete-tag-icon' />
                             </i> : null}
                           {!hidden ?
-                            <i>
+                            <i className='edit-tag'>
                               <EditTag id={post.id} tagId={tag.id} />
                             </i> : null}
                         </div>
