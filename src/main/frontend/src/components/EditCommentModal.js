@@ -27,7 +27,7 @@ export default function EditCommentModal({ id, commentId }) {
     comment.date = formatDate;
     await axios.put(`http://localhost:8080/api/v1/post/${id}/edit-comment/${commentId}`, comment);
   };
-  
+
   const loadComment = async () => {
     try {
       const result = await axios.get(`http://localhost:8080/api/v1/post/${id}/comment/${commentId}`)

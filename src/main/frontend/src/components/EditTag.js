@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal, Button } from 'react-bootstrap';
-import { MdOutlineEdit} from 'react-icons/md';
+import { MdOutlineEdit, MdCheck } from 'react-icons/md'
 
 export default function EditTag({ id, tagId }) {
 
@@ -35,36 +33,30 @@ export default function EditTag({ id, tagId }) {
     }
   }
 
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [showEditForm, setShowEditForm] = useState(true);
+  const handleShow = () => setShowEditForm(!showEditForm);
+
   return (
     <>
-      <MdOutlineEdit onClick={handleShow} />
+      <MdOutlineEdit onClick={handleShow} className='edit-tag-icon' />
 
-      <Modal show={show} onHide={handleClose} className='edit-comment' centered>
-        <Modal.Header closeButton>
-        </Modal.Header>
-        <Modal.Body>
+      <div id={showEditForm ? 'hidden' : ''} className='tag-form-wrapper'>
+        <div>
           <form onSubmit={(e) => onSubmit(e)}>
             <div className='comment-text'>
-              <textarea
+              <input
                 type={"text"}
                 name={"content"}
                 defaultValue={content || ''}
                 onChange={(e) => onInputChange(e)}
+                className='edit-tag-input'
                 required
               />
             </div>
-            <Button onClick={handleClose} className='close' >
-              Close
-            </Button>
-            <Button type={"submit"} onClick={handleClose} className='submit' >
-              Save changes
-            </Button>
+            <MdCheck type={"submit"} onClick={() => setShowEditForm(!showEditForm)} className='save-tag-edit' />
           </form>
-        </Modal.Body>
-      </Modal>
+        </div>
+      </div>
     </>
   );
 }

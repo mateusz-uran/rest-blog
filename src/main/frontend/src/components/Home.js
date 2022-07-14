@@ -91,7 +91,7 @@ const Home = () => {
                               <MdClear />
                             </i> : null}
                           {!hidden ?
-                            <i>
+                            <i className='edit-tag'>
                               <EditTag id={post.id} tagId={tag.id} />
                             </i> : null}
                         </div>
