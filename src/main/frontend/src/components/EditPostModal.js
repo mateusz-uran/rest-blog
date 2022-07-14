@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import { MdOutlineEdit } from 'react-icons/md'
 
-export default function EditPostModal({ postId }) {
+export default function EditPostModal({ id }) {
 
   const [post, setPost] = useState({
     header: "",
@@ -22,12 +22,12 @@ export default function EditPostModal({ postId }) {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8080/api/v1/post/${postId}`, post);
+    await axios.put(`http://localhost:8080/api/v1/post/${id}`, post);
   };
 
 
   const loadPost = async () => {
-    const result = await axios.get(`http://localhost:8080/api/v1/post/${postId}`)
+    const result = await axios.get(`http://localhost:8080/api/v1/post/${id}`)
     setPost(result.data)
   }
 

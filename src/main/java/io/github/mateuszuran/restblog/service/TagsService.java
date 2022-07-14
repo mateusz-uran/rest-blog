@@ -36,7 +36,7 @@ public class TagsService {
     }
 
     public Tags getTagByPostId(Long postId, Long tagId) {
-        Tags tag = repository.findById(tagId).orElseThrow(() -> new CommentNotFoundException(tagId));
+        Tags tag = repository.findById(tagId).orElseThrow(() -> new TagNotFoundException(tagId));
         return findTagsInPost(postId, tagId, tag);
     }
 

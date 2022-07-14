@@ -3,7 +3,7 @@ import axios from 'axios';
 import Moment from 'moment';
 import '../App.css';
 
-export default function AddComment({ postId }) {
+export default function AddComment({ id }) {
 
   const [comment, setComment] = useState({
     content: "",
@@ -23,7 +23,7 @@ export default function AddComment({ postId }) {
     const defaultUser = "user";
     comment.date = formatDate;
     comment.author = defaultUser;
-    await axios.post(`http://localhost:8080/api/v1/post/${postId}/add-comment`, comment);
+    await axios.post(`http://localhost:8080/api/v1/post/${id}/add-comment`, comment);
     setComment('');
     e.target.reset();
   };
