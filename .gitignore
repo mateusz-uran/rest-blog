@@ -32,4 +32,4 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/resources/application-development.properties
-/src/main/java/io/github/mateuszuran/restblog/config/AmazonConfig.java
+src/main/java/io/github/mateuszuran/restblog/config/AmazonConfig.java
