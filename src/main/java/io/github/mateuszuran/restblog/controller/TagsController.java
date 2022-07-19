@@ -4,12 +4,15 @@ import io.github.mateuszuran.restblog.model.Tags;
 import io.github.mateuszuran.restblog.service.TagsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin("*")
 @RestController
+@PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/api/v1/post/")
 public class TagsController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TagsController.class);

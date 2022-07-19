@@ -4,12 +4,14 @@ import io.github.mateuszuran.restblog.model.Comment;
 import io.github.mateuszuran.restblog.service.CommentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @CrossOrigin("*")
 @RestController
+@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 @RequestMapping("/api/v1/post/")
 public class CommentController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
