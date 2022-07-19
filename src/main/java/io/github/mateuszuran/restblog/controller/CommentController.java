@@ -21,6 +21,7 @@ public class CommentController {
         this.service = service;
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/comments")
     public List<Comment> getAllCommentsInPost(@PathVariable("id") Long id) {
         return service.getAllCommentsByPostId(id);

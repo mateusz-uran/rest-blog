@@ -23,11 +23,13 @@ public class PostController {
         this.service = service;
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping
     public List<Post> getAllPosts() {
         return service.getAllPosts();
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     @GetMapping("/{id}")
     public Post getSinglePost(@PathVariable("id") Long id) {
         return service.getPost(id);
