@@ -29,7 +29,7 @@ public class PostController {
         return service.getAllPosts();
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}")
     public Post getSinglePost(@PathVariable("id") Long id) {
         return service.getPost(id);
@@ -64,6 +64,7 @@ public class PostController {
         service.uploadImageToPost(postId, file);
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/{postId}/download")
     public byte[] downloadPostImage(@PathVariable("postId") Long postId) {
         return service.downloadPostImage(postId);

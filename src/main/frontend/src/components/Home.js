@@ -13,6 +13,7 @@ import EditPostModal from './EditPostModal';
 import AddComment from './AddComment';
 import AddTags from './AddTags';
 import EditTag from './EditTag';
+import AuthService from '../services/auth.service';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post/"
@@ -56,10 +57,14 @@ const Home = () => {
     );
   };
 
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
     fetchPosts();
+    const user = AuthService.getCurrentUser();
+    if(user.roles.includes("ROLE_ADMIN")) {
+      setHidden(false)
+    }
   }, [posts]);
 
   return (

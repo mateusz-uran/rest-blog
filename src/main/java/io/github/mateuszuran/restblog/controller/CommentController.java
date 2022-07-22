@@ -21,11 +21,13 @@ public class CommentController {
         this.service = service;
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/comments")
     public List<Comment> getAllCommentsInPost(@PathVariable("id") Long id) {
         return service.getAllCommentsByPostId(id);
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/comment/{commentId}")
     public Comment getComment(@PathVariable("id") Long id, @PathVariable("commentId") Long commentId) {
         return service.getCommentByPostId(id, commentId);

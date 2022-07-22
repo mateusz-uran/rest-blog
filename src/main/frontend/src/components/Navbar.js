@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
+import Login from './Login';
+import LoginModal from './LoginModal';
 
 function Navbar() {
 
@@ -63,8 +65,10 @@ function Navbar() {
           <button onClick={() => setShowLinks(!showLinks)}><FaBars size='1.5em' fill='#007FFF' /></button>
         </div>
         <div className='rightSide'>
-          <a href='/login'><button>Login</button></a>
-          <a href='/register'><button>Register</button></a>
+          <LoginModal />
+          <Link to={"/register"}>
+            Sign Up
+          </Link>
         </div>
       </div>
     </div>

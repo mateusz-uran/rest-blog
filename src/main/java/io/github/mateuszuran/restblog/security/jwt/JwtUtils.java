@@ -22,8 +22,6 @@ public class JwtUtils {
     }
 
     public String generateTokenFromUsername(String username) {
-        Calendar calndr1
-                = Calendar.getInstance();
         return Jwts.builder().setSubject(username).setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + Integer.parseInt(jwtExpirationMs))).signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();

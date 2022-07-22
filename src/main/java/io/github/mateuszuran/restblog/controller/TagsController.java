@@ -22,11 +22,13 @@ public class TagsController {
         this.service = service;
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/tags")
     public List<Tags> getAllTagsInPost(@PathVariable("id") Long id) {
         return service.getAllTagsByPostId(id);
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/tag/{tagId}")
     public Tags getTag(@PathVariable("id") Long id, @PathVariable("tagId") Long tagId) {
         return service.getTagByPostId(id, tagId);

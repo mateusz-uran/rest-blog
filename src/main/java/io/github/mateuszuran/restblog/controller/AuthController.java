@@ -17,6 +17,7 @@ import io.github.mateuszuran.restblog.security.jwt.JwtUtils;
 import io.github.mateuszuran.restblog.security.services.RefreshTokenService;
 import io.github.mateuszuran.restblog.security.services.UserDetailsImpl;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Slf4j
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -58,7 +60,7 @@ public class AuthController {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
-        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getToken(), userDetails.getId(),
+        return ResponseEntity.ok(new JwtResponse(jwt, refreshToken.getRefreshToken(), userDetails.getId(),
                 userDetails.getUsername(), userDetails.getEmail(), roles));
     }
 
@@ -102,7 +104,7 @@ public class AuthController {
     }
 
     @PostMapping("/refreshtoken")
-    public ResponseEntity<?> refreshtoken(@Valid @RequestBody TokenRefreshRequest request) {
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
         return refreshTokenService.findByToken(requestRefreshToken)
                 .map(refreshTokenService::verifyExpiration)
