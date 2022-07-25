@@ -3,10 +3,25 @@ import '../App.css';
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import LoginModal from './LoginModal';
+import AuthService from '../services/auth.service';
+import BlogService from '../services/blog.service';
 
 function Navbar() {
 
   const [showLinks, setShowLinks] = useState(false);
+
+  const getAll = () => {
+    BlogService.getPublicContent();
+  }
+
+  const getSecured = () => {
+    BlogService.getSecuredContent();
+  }
+
+  const logOut = () => {
+    AuthService.logout();
+    window.location.reload();
+  };
 
   useEffect(() => {
     let url = window.location.href.split("/");
@@ -65,9 +80,10 @@ function Navbar() {
         </div>
         <div className='rightSide'>
           <LoginModal />
-          <Link to={"/register"}>
-            Sign Up
-          </Link>
+          <button>Sign Up</button>
+          <button onClick={logOut}>Logout</button>
+          <button onClick={getAll}>For all</button>
+          <button onClick={getSecured}>Secured</button>
         </div>
       </div>
     </div>

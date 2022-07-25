@@ -25,7 +25,7 @@ export default function EditTag({ id, tagId }) {
       e.preventDefault();
       axios({
         method: 'put',
-        url: "http://localhost:8080/api/v1/post/edit-tag",
+        url: "http://localhost:8080/api/v1/edit-tag",
         data: tag,
         headers: authHeader(),
         params: { id, tagId }
@@ -39,7 +39,7 @@ export default function EditTag({ id, tagId }) {
     try {
       const result = await axios({
         method: 'get',
-        url: "http://localhost:8080/api/v1/post/tag",
+        url: "http://localhost:8080/api/v1/tag",
         headers: authHeader(),
         params: { id, tagId }
       });

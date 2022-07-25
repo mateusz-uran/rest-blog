@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1")
 @AllArgsConstructor
 public class AuthController {
     AuthenticationManager authenticationManager;

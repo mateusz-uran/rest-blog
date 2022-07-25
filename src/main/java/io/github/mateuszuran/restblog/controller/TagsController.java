@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @PreAuthorize("hasRole('ADMIN')")
-@RequestMapping("/api/v1/post")
+@RequestMapping("/api/v1/")
 public class TagsController {
     private static final Logger LOGGER = LoggerFactory.getLogger(TagsController.class);
     private final TagsService service;
@@ -58,5 +58,16 @@ public class TagsController {
     @DeleteMapping("/delete-tag")
     public void deleteTagByParam(@RequestParam Long id, @RequestParam Long tagId) {
         service.deleteTag(id, tagId);
+    }
+
+    @GetMapping("/test")
+    public void testTokenRefreshForAdmin() {
+        log.info("Secured data by token available only for admin");
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/test/all")
+    public void testTokenRefreshForAll() {
+        log.info("Not secured data");
     }
 }

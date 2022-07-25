@@ -17,7 +17,7 @@ import AuthService from '../services/auth.service';
 import authHeader from '../services/auth-header';
 
 const client = axios.create({
-  baseURL: "http://localhost:8080/api/v1/post/"
+  baseURL: "http://localhost:8080/api/v1/post"
 });
 
 const Home = () => {
@@ -67,7 +67,7 @@ const Home = () => {
     }
   };
 
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
     fetchPosts();

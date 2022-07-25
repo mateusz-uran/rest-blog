@@ -3,10 +3,6 @@ import axios from 'axios';
 import '../App.css';
 import { AiOutlinePlus } from 'react-icons/ai';
 import authHeader from '../services/auth-header';
-import api from '../services/api';
-const client = axios.create({
-  baseURL: "http://localhost:8080/api/v1/post/add-tag"
-});
 
 export default function AddTags({ id, tagId }) {
 
@@ -25,13 +21,13 @@ export default function AddTags({ id, tagId }) {
       e.preventDefault();
       axios({
         method: 'post',
-        url: "http://localhost:8080/api/v1/post/add-tag",
+        url: "http://localhost:8080/api/v1/add-tag",
         data: tags,
         headers: authHeader(),
         params: { id }
       });
       e.target.reset();
-      setTags('');;
+      setTags('');
     } catch (error) {
       console.log(error)
     }
