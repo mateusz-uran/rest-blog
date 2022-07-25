@@ -4,7 +4,7 @@ import axios from 'axios'
 import '../App.css';
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
-import { MdDeleteForever, MdClear, MdOutlineOpenInNew, MdOutlineEdit, MdCheck } from 'react-icons/md';
+import { MdDeleteForever, MdClear, MdOutlineOpenInNew} from 'react-icons/md';
 import { BsCodeSlash } from 'react-icons/bs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
@@ -14,6 +14,7 @@ import AddComment from './AddComment';
 import AddTags from './AddTags';
 import EditTag from './EditTag';
 import AuthService from '../services/auth.service';
+import authHeader from '../services/auth-header';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post/"
@@ -48,13 +49,22 @@ const Home = () => {
     );
   };
 
-  const deleteTag = async (postId, id) => {
-    await axios.delete(`http://localhost:8080/api/v1/post/${postId}/delete-tag/${id}`);
-    setTags(
-      tags.filter((tag) => {
-        return tag.id !== id;
-      })
-    );
+  const deleteTag = async (id, tagId) => {
+    try {
+      axios({
+        method: 'delete',
+        url: 'http://localhost:8080/api/v1/post/delete-tag',
+        headers: authHeader(),
+        params: { id, tagId }
+      });
+      setTags(
+        tags.filter((tag) => {
+          return tag.id !== id;
+        })
+      );
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const [hidden, setHidden] = useState(true);
@@ -62,7 +72,7 @@ const Home = () => {
   useEffect(() => {
     fetchPosts();
     const user = AuthService.getCurrentUser();
-    if(user.roles.includes("ROLE_ADMIN")) {
+    if(user != null && user.roles.includes("ROLE_ADMIN")) {
       setHidden(false)
     }
   }, [posts]);

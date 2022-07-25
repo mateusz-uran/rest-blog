@@ -39,6 +39,12 @@ public class TagsController {
         return service.addTagToPost(id, newTag);
     }
 
+    @PreAuthorize("permitAll()")
+    @PostMapping("/add-tag")
+    public Tags addTagToPostByParam(@RequestParam Long id, @RequestBody Tags newTag) {
+        return service.addTagToPost(id, newTag);
+    }
+
     @PutMapping("/{id}/edit-tag/{tagId}")
     public Tags editTag(@PathVariable("id") Long id, @PathVariable("tagId") Long tagId, @RequestBody Tags toUpdate) {
         return service.updateTag(id, tagId, toUpdate);
@@ -46,6 +52,11 @@ public class TagsController {
 
     @DeleteMapping("/{id}/delete-tag/{tagId}")
     public void deleteTag(@PathVariable("id") Long id, @PathVariable("tagId") Long tagId) {
+        service.deleteTag(id, tagId);
+    }
+
+    @DeleteMapping("/delete-tag")
+    public void deleteTagByParam(@RequestParam Long id, @RequestParam Long tagId) {
         service.deleteTag(id, tagId);
     }
 }

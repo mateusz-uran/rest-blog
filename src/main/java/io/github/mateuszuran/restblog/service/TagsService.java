@@ -57,6 +57,6 @@ public class TagsService {
         return repository.findAllByPostId(postId)
                 .stream()
                 .filter(findComment -> tag.getId().equals(findComment.getId())).findAny()
-                .orElseThrow(() -> new CommentNotFoundException(tagId));
+                .orElseThrow(() -> new TagNotFoundException(tagId));
     }
 }
