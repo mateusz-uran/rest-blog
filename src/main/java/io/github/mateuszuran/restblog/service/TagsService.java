@@ -1,16 +1,18 @@
 package io.github.mateuszuran.restblog.service;
 
-import io.github.mateuszuran.restblog.exception.CommentNotFoundException;
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.exception.TagNotFoundException;
-import io.github.mateuszuran.restblog.model.Comment;
+import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.model.Tags;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.TagsRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Stream;
 
+@Slf4j
 @Service
 public class TagsService {
     private final TagsRepository repository;
@@ -29,8 +31,8 @@ public class TagsService {
     }
 
     public List<Tags> getAllTagsByPostId(Long id) {
-        if(!postRepository.existsById(id)) {
-            throw  new PostNotFoundException(id);
+        if (!postRepository.existsById(id)) {
+            throw new PostNotFoundException(id);
         }
         return repository.findAllByPostId(id);
     }
@@ -53,10 +55,30 @@ public class TagsService {
         repository.delete(result);
     }
 
-    private Tags findTagsInPost(final Long postId, final Long tagId, final Tags tag) {
-        return repository.findAllByPostId(postId)
-                .stream()
-                .filter(findComment -> tag.getId().equals(findComment.getId())).findAny()
+    public Tags getTag(Long postId, Long tagId) {
+        return findTagInPost(postId, tagId);
+    }
+
+    public Tags updateTagContent(Long postId, Long tagId, Tags tagToUpdate) {
+        Tags tagFromDb = findTagInPost(postId, tagId);
+        tagFromDb.setContent(tagToUpdate.getContent());
+        return repository.save(tagFromDb);
+    }
+
+    private Tags findTagInPost(Long postId, Long tagId) {
+        List<Tags> tags = repository.findAllByPostId(postId);
+        return tags
+                .stream().filter(tag ->
+                        tag.getId().equals(tagId)).findFirst()
                 .orElseThrow(() -> new TagNotFoundException(tagId));
+    }
+
+    private Tags findTagsInPost(final Long postId, final Long tagId, final Tags tag) {
+        var result = repository.findAllByPostId(postId)
+                .stream().filter(findTag ->
+                        tag.getId().equals(findTag.getId())).findAny()
+                .orElseThrow(() -> new TagNotFoundException(tagId));
+        log.info(result.getContent());
+        return result;
     }
 }

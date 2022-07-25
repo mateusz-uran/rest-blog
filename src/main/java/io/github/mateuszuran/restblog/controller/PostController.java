@@ -40,6 +40,7 @@ public class PostController {
         return service.addPost(newPost);
     }
 
+    @PreAuthorize("permitAll()")
     @PutMapping("/{id}")
     public Post replacePost(@PathVariable("id") Long id, @RequestBody Post post) {
         return service.editPost(id, post);

@@ -12,7 +12,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-@RequestMapping("/api/v1/post/")
+@RequestMapping("/api/v1/post")
 public class CommentController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
     private final CommentService service;
@@ -28,8 +28,20 @@ public class CommentController {
     }
 
     @PreAuthorize("permitAll()")
+    @GetMapping("/comments")
+    public List<Comment> getAllCommentsInPostByParam(@RequestParam Long id) {
+        return service.getAllCommentsByPostId(id);
+    }
+
+    @PreAuthorize("permitAll()")
     @GetMapping("/{id}/comment/{commentId}")
     public Comment getComment(@PathVariable("id") Long id, @PathVariable("commentId") Long commentId) {
+        return service.getCommentByPostId(id, commentId);
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/comment")
+    public Comment getCommentByParam(@RequestParam Long id, @RequestParam Long commentId) {
         return service.getCommentByPostId(id, commentId);
     }
 
@@ -38,13 +50,28 @@ public class CommentController {
         return service.addCommentToPost(id, newComment);
     }
 
+    @PostMapping("/add-comment")
+    public Comment addCommentToPostByParam(@RequestParam Long id, @RequestBody Comment newComment) {
+        return service.addCommentToPost(id, newComment);
+    }
+
     @PutMapping("/{id}/edit-comment/{commentId}")
     public Comment editComment(@PathVariable("id") Long id, @PathVariable("commentId") Long commentId, @RequestBody Comment toUpdate) {
         return service.updateComment(id, commentId, toUpdate);
     }
 
+    @PutMapping("/edit-comment")
+    public Comment editCommentByParam(@RequestParam Long id, @RequestParam Long commentId, @RequestBody Comment toUpdate) {
+        return service.updateComment(id, commentId, toUpdate);
+    }
+
     @DeleteMapping("/{id}/delete-comment/{commentId}")
     public void deleteComment(@PathVariable("id") Long id, @PathVariable("commentId") Long commentId) {
+        service.deleteComment(id, commentId);
+    }
+
+    @DeleteMapping("/delete-comment")
+    public void deleteCommentByParam(@RequestParam Long id, @RequestParam Long commentId) {
         service.deleteComment(id, commentId);
     }
 }

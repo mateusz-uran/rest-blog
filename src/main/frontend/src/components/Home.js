@@ -67,13 +67,13 @@ const Home = () => {
     }
   };
 
-  const [hidden, setHidden] = useState(true);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     fetchPosts();
     const user = AuthService.getCurrentUser();
     if(user != null && user.roles.includes("ROLE_ADMIN")) {
-      setHidden(false)
+      setHidden(false);
     }
   }, [posts]);
 
@@ -186,9 +186,18 @@ function AddPostModal() {
   };
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    await axios.post("http://localhost:8080/api/v1/post", post);
-    setPost('');
+    try {
+      axios({
+        method: 'post',
+        url: "http://localhost:8080/api/v1/post",
+        data: post,
+        headers: authHeader()
+      });
+      e.target.reset();
+      setPost('');;
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const [show, setShow] = useState(false);

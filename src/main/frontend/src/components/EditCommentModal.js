@@ -17,10 +17,6 @@ export default function EditCommentModal({ id, commentId }) {
     setComment({ ...comment, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    loadComment()
-  }, [])
-
   const onSubmit = async (e) => {
     e.preventDefault();
     const formatDate = Moment().format('DD-MM-YYYY, h:mm A');
@@ -36,6 +32,11 @@ export default function EditCommentModal({ id, commentId }) {
       console.log(err);
     }
   }
+
+  useEffect(() => {
+    loadComment()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

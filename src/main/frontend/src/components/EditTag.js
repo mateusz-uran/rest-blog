@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { MdOutlineEdit, MdCheck } from 'react-icons/md'
+import { MdOutlineEdit, MdCheck } from 'react-icons/md';
+import authHeader from '../services/auth-header';
 
 export default function EditTag({ id, tagId }) {
 
@@ -20,16 +21,31 @@ export default function EditTag({ id, tagId }) {
 
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    await axios.put(`http://localhost:8080/api/v1/post/${id}/edit-tag/${tagId}`, tag);
+    try {
+      e.preventDefault();
+      axios({
+        method: 'put',
+        url: "http://localhost:8080/api/v1/post/edit-tag",
+        data: tag,
+        headers: authHeader(),
+        params: { id, tagId }
+      });
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const loadTag = async () => {
     try {
-      const result = await axios.get(`http://localhost:8080/api/v1/post/${id}/tag/${tagId}`);
+      const result = await axios({
+        method: 'get',
+        url: "http://localhost:8080/api/v1/post/tag",
+        headers: authHeader(),
+        params: { id, tagId }
+      });
       setTag(result.data);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -38,7 +54,7 @@ export default function EditTag({ id, tagId }) {
 
   return (
     <>
-      <MdOutlineEdit onClick={handleShow} className='edit-tag-icon' />
+      <MdOutlineEdit onClick={handleShow} className='edit-tag-icon'/>
 
       <div id={showEditForm ? 'hidden' : ''} className='tag-form-wrapper'>
         <div>
@@ -53,7 +69,7 @@ export default function EditTag({ id, tagId }) {
                 required
               />
             </div>
-            <MdCheck type={"submit"} onClick={() => setShowEditForm(!showEditForm)} className='save-tag-edit' />
+            <button type={"submit"} onClick={() => setShowEditForm(!showEditForm)}><MdCheck  /></button>
           </form>
         </div>
       </div>
