@@ -3,6 +3,7 @@ import '../App.css';
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
 import AuthService from '../services/auth.service';
 
 function Navbar() {
@@ -70,7 +71,7 @@ function Navbar() {
         </div>
         <div className='rightSide'>
           <LoginModal />
-          <button>Sign Up</button>
+          <RegisterModal />
           <button onClick={logOut}>Logout</button>
         </div>
       </div>
