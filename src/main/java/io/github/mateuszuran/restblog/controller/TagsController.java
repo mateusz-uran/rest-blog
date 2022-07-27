@@ -5,7 +5,6 @@ import io.github.mateuszuran.restblog.service.TagsService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,16 +27,6 @@ public class TagsController {
     @GetMapping("/tags")
     public List<Tags> getAllTagsInPostByParam(@RequestParam Long id) {
         return service.getAllTagsByPostId(id);
-    }
-
-    @GetMapping("/{id}/tag/{tagId}")
-    public Tags getTag(@PathVariable("id") Long id, @PathVariable("tagId") Long tagId) {
-        return service.getTagByPostId(id, tagId);
-    }
-
-    @PutMapping("/{id}/edit-tag/{tagId}")
-    public Tags editTag(@PathVariable("id") Long id, @PathVariable("tagId") Long tagId, @RequestBody Tags toUpdate) {
-        return service.updateTag(id, tagId, toUpdate);
     }
 
     @GetMapping("/tag")

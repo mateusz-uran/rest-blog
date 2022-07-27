@@ -55,6 +55,11 @@ public class PostController {
         service.deletePost(id);
     }
 
+    @DeleteMapping("/delete-post")
+    public void deletePostByParam(@RequestParam Long id) {
+        service.deletePost(id);
+    }
+
     @PostMapping(path = "/{postId}/upload",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)

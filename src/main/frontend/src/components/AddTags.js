@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../App.css';
 import { AiOutlinePlus } from 'react-icons/ai';
 import authHeader from '../services/auth-header';
+import BlogService from '../services/blog.service';
 
 export default function AddTags({ id, tagId }) {
 
@@ -16,22 +17,42 @@ export default function AddTags({ id, tagId }) {
     setTags({ ...tags, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      axios({
-        method: 'post',
-        url: "http://localhost:8080/api/v1/add-tag",
-        data: tags,
-        headers: authHeader(),
-        params: { id }
-      });
-      e.target.reset();
+  // const onSubmit = async (e) => {
+  //   try {
+  //     e.preventDefault();
+  //     axios({
+  //       method: 'post',
+  //       url: "http://localhost:8080/api/v1/add-tag",
+  //       data: tags,
+  //       headers: authHeader(),
+  //       params: { id }
+  //     });
+  //     e.target.reset();
+  //     setTags('');
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    BlogService.addTag(id, tags).then(
+      (response) => {
+        e.target.reset();
       setTags('');
-    } catch (error) {
-      console.log(error)
-    }
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
   };
+
   return (
     <>
       <div className='form-wrapper'>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { MdOutlineEdit, MdCheck } from 'react-icons/md';
-import authHeader from '../services/auth-header';
+import BlogService from '../services/blog.service';
 
 export default function EditTag({ id, tagId }) {
 
@@ -19,35 +18,41 @@ export default function EditTag({ id, tagId }) {
     loadTag()
   }, [])
 
-
-  const onSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      axios({
-        method: 'put',
-        url: "http://localhost:8080/api/v1/edit-tag",
-        data: tag,
-        headers: authHeader(),
-        params: { id, tagId }
-      });
-    } catch (error) {
-      console.log(error)
-    }
+  const onSubmit = (e) => {
+    e.preventDefault();
+    BlogService.editTag(id, tagId, tag).then(
+      (response) => {
+        e.target.reset();
+        setTag(response.data)
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
   };
 
-  const loadTag = async () => {
-    try {
-      const result = await axios({
-        method: 'get',
-        url: "http://localhost:8080/api/v1/tag",
-        headers: authHeader(),
-        params: { id, tagId }
-      });
-      setTag(result.data);
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const loadTag = () => {
+    BlogService.getTag(id, tagId).then(
+      (response) => {
+        setTag(response.data);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
+  };
 
   const [showEditForm, setShowEditForm] = useState(true);
   const handleShow = () => setShowEditForm(!showEditForm);
