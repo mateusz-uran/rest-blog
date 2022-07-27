@@ -24,6 +24,7 @@ const login = async (username, password) => {
 
 const logout = () => {
   TokenService.removeUser();
+  window.location.reload();
 };
 
 const getCurrentUser = () => {

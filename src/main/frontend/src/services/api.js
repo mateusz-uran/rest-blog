@@ -1,5 +1,6 @@
 import axios from "axios";
 import TokenService from "./token.service";
+import AuthService from "./auth.service";
 const instance = axios.create({
   baseURL: "http://localhost:8080/api/v1",
   headers: {
@@ -36,6 +37,9 @@ instance.interceptors.response.use(
           TokenService.updateLocalAccessToken(accessToken);
           return instance(originalConfig);
         } catch (_error) {
+          if(err.response.status === 401 && _error.response.status === 500) {
+            AuthService.logout()
+          }
           return Promise.reject(_error);
         }
       }

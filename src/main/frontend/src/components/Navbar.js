@@ -11,7 +11,6 @@ function Navbar() {
 
   const logOut = () => {
     AuthService.logout();
-    window.location.reload();
   };
 
   useEffect(() => {
