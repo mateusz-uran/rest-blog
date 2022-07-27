@@ -4,7 +4,7 @@ import axios from 'axios'
 import '../App.css';
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import user_basic from '../images/Basic_Ui_(186).jpg'
-import { MdDeleteForever, MdClear, MdOutlineOpenInNew, MdOutlineEdit, MdCheck } from 'react-icons/md';
+import { MdDeleteForever, MdClear, MdOutlineOpenInNew } from 'react-icons/md';
 import { BsCodeSlash } from 'react-icons/bs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
@@ -13,9 +13,13 @@ import EditPostModal from './EditPostModal';
 import AddComment from './AddComment';
 import AddTags from './AddTags';
 import EditTag from './EditTag';
+import AuthService from '../services/auth.service';
+import PostService from '../services/post.service';
+import TagsService from '../services/tags.service';
+import CommentService from '../services/comment.service';
 
 const client = axios.create({
-  baseURL: "http://localhost:8080/api/v1/post/"
+  baseURL: "http://localhost:8080/api/v1/post"
 });
 
 const Home = () => {
@@ -25,41 +29,82 @@ const Home = () => {
   const [tags, setTags] = useState([]);
 
   const fetchPosts = async () => {
-    let response = await client.get();
+    let response = await client.get("/all");
     setPosts(response.data);
   }
 
-  const deletePost = async (id) => {
-    await client.delete(`${id}`);
-    setPosts(
-      posts.filter((post) => {
-        return post.id !== id;
-      })
+  const deletePostByParam = async (id) => {
+    PostService.deletePost(id).then(
+      () => {
+        setPosts(
+          posts.filter((post) => {
+            return post.id !== id;
+          })
+        );
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
     );
-  };
+  }
 
-  const deleteComment = async (postId, id) => {
-    await axios.delete(`http://localhost:8080/api/v1/post/${postId}/delete-comment/${id}`);
-    setComments(
-      comments.filter((comment) => {
-        return comment.id !== id;
-      })
+  const deleteCommentByParam = async (id, commentId) => {
+    CommentService.deleteComment(id, commentId).then(
+      () => {
+        setComments(
+          comments.filter((comment) => {
+            return comment.id !== id;
+          })
+        );
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
     );
-  };
+  }
 
-  const deleteTag = async (postId, id) => {
-    await axios.delete(`http://localhost:8080/api/v1/post/${postId}/delete-tag/${id}`);
-    setTags(
-      tags.filter((tag) => {
-        return tag.id !== id;
-      })
+  const deleteTagByParam = async (id, tagId) => {
+    TagsService.deleteTag(id, tagId).then(
+      () => {
+        setTags(
+          tags.filter((tag) => {
+            return tag.id !== id;
+          })
+        );
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
     );
-  };
+  }
 
-  const [hidden, setHidden] = useState(false);
+
+  const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
     fetchPosts();
+    const user = AuthService.getCurrentUser();
+    if (user != null && user.roles.includes("ROLE_ADMIN")) {
+      setHidden(false);
+    }
   }, [posts]);
 
   return (
@@ -86,8 +131,8 @@ const Home = () => {
                           <span className='tag-content'>{tag.content}</span>
                           {!hidden ?
                             <i
-                              onClick={() => deleteTag(post.id, tag.id)}
-                              >
+                              onClick={() => deleteTagByParam(post.id, tag.id)}
+                            >
                               <MdClear className='delete-tag-icon' />
                             </i> : null}
                           {!hidden ?
@@ -105,7 +150,7 @@ const Home = () => {
                   {!hidden ?
                     <div className='post-icons'>
                       <i><EditPostModal id={post.id} /></i>
-                      <i><MdDeleteForever onClick={() => deletePost(post.id)} /></i>
+                      <i><MdDeleteForever onClick={() => deletePostByParam(post.id)} /></i>
                     </div> : null}
                   <div className='project-links'>
                     <a href={post.projectCodeLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive' : ''}>
@@ -139,7 +184,7 @@ const Home = () => {
                           <EditCommentModal id={post.id} commentId={comment.id} />
                         </div>
                         <div className='icon'>
-                          <MdDeleteForever onClick={() => deleteComment(post.id, comment.id)} />
+                          <MdDeleteForever onClick={() => deleteCommentByParam(post.id, comment.id)} />
                         </div>
                       </div>
                     </div>
@@ -170,10 +215,24 @@ function AddPostModal() {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/api/v1/post", post);
-    setPost('');
+    PostService.addPost(post).then(
+      () => {
+        // window.location.reload();
+        e.preventDefault();
+        setPost(post);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
   };
 
   const [show, setShow] = useState(false);
@@ -279,20 +338,36 @@ function MyDropzone({ postId }) {
 
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('postId', postId);
 
-    axios.post(
-      `http://localhost:8080/api/v1/post/${postId}/upload`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
+    // axios.post(
+    // `http://localhost:8080/api/v1/post/${postId}/upload`,
+    //   formData,
+    //   {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data"
+    //     }
+    //   }
+    // ).then(() => {
+    //   console.log("File uploaded successfully");
+    // }).catch(err => {
+    //   console.log(err)
+    // });
+
+    PostService.uploadImage(formData).then(
+      (e) => {
+        e.preventDefault();
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
       }
-    ).then(() => {
-      console.log("File uploaded successfully");
-    }).catch(err => {
-      console.log(err)
-    });
+    );
 
   });
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })

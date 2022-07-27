@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import Moment from 'moment';
 import { MdOutlineEdit } from 'react-icons/md'
+import CommentService from '../services/comment.service';
 
 export default function EditCommentModal({ id, commentId }) {
 
@@ -17,25 +17,48 @@ export default function EditCommentModal({ id, commentId }) {
     setComment({ ...comment, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    loadComment()
-  }, [])
-
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
+      const formatDate = Moment().format('DD-MM-YYYY, h:mm A');
+      comment.date = formatDate;
     e.preventDefault();
-    const formatDate = Moment().format('DD-MM-YYYY, h:mm A');
-    comment.date = formatDate;
-    await axios.put(`http://localhost:8080/api/v1/post/${id}/edit-comment/${commentId}`, comment);
+    CommentService.editComment(id, commentId, comment).then(
+      (response) => {
+        e.target.reset();
+        setComment(response.data)
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
   };
 
-  const loadComment = async () => {
-    try {
-      const result = await axios.get(`http://localhost:8080/api/v1/post/${id}/comment/${commentId}`)
-      setComment(result.data)
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  const loadComment = () => {
+    CommentService.getComment(id, commentId).then(
+      (response) => {
+        setComment(response.data);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
+  };
+
+  useEffect(() => {
+    loadComment()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Moment from 'moment';
 import '../App.css';
+import CommentService from '../services/comment.service';
 
 export default function AddComment({ id }) {
 
@@ -16,18 +16,30 @@ export default function AddComment({ id }) {
   const onInputChange = (e) => {
     setComment({ ...comment, [e.target.name]: e.target.value });
   };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  
+  const onSubmit = (e) => {
     const formatDate = Moment().format('DD-MM-YYYY, h:mm A')
     const defaultUser = "user";
     comment.date = formatDate;
     comment.author = defaultUser;
-    await axios.post(`http://localhost:8080/api/v1/post/${id}/add-comment`, comment);
-    setComment('');
-    e.target.reset();
+    e.preventDefault();
+    CommentService.addComment(id, comment).then(
+      () => {
+        e.target.reset();
+        setComment('');
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
   };
-  
+
   const commentLength = content?.length || 0;
 
   return (

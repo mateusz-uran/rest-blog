@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
+import LoginModal from './LoginModal';
+import AuthService from '../services/auth.service';
 
 function Navbar() {
 
   const [showLinks, setShowLinks] = useState(false);
+
+  const logOut = () => {
+    AuthService.logout();
+    window.location.reload();
+  };
 
   useEffect(() => {
     let url = window.location.href.split("/");
@@ -63,8 +70,9 @@ function Navbar() {
           <button onClick={() => setShowLinks(!showLinks)}><FaBars size='1.5em' fill='#007FFF' /></button>
         </div>
         <div className='rightSide'>
-          <a href='/login'><button>Login</button></a>
-          <a href='/register'><button>Register</button></a>
+          <LoginModal />
+          <button>Sign Up</button>
+          <button onClick={logOut}>Logout</button>
         </div>
       </div>
     </div>
