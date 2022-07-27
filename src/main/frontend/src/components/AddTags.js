@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import '../App.css';
 import { AiOutlinePlus } from 'react-icons/ai';
-import authHeader from '../services/auth-header';
-import BlogService from '../services/blog.service';
+import TagsService from '../services/tags.service';
 
 export default function AddTags({ id, tagId }) {
 
@@ -17,26 +15,9 @@ export default function AddTags({ id, tagId }) {
     setTags({ ...tags, [e.target.name]: e.target.value });
   };
 
-  // const onSubmit = async (e) => {
-  //   try {
-  //     e.preventDefault();
-  //     axios({
-  //       method: 'post',
-  //       url: "http://localhost:8080/api/v1/add-tag",
-  //       data: tags,
-  //       headers: authHeader(),
-  //       params: { id }
-  //     });
-  //     e.target.reset();
-  //     setTags('');
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // };
-
   const onSubmit = (e) => {
     e.preventDefault();
-    BlogService.addTag(id, tags).then(
+    TagsService.addTag(id, tags).then(
       (response) => {
         e.target.reset();
       setTags('');

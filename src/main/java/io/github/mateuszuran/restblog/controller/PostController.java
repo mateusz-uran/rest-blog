@@ -24,14 +24,13 @@ public class PostController {
     }
 
     @PreAuthorize("permitAll()")
-    @GetMapping
+    @GetMapping("/all")
     public List<Post> getAllPosts() {
         return service.getAllPosts();
     }
 
-    @PreAuthorize("permitAll()")
-    @GetMapping("/{id}")
-    public Post getSinglePost(@PathVariable("id") Long id) {
+    @GetMapping("/single")
+    public Post getSinglePostByParam(@RequestParam Long id) {
         return service.getPost(id);
     }
 
@@ -40,19 +39,14 @@ public class PostController {
         return service.addPost(newPost);
     }
 
-    @PutMapping("/{id}")
-    public Post replacePost(@PathVariable("id") Long id, @RequestBody Post post) {
+    @PutMapping("/update")
+    public Post updatePostByParam(@RequestParam Long id, @RequestBody Post post) {
         return service.editPost(id, post);
     }
 
-    @PatchMapping("/{id}")
-    public Post partialUpdate(@PathVariable("id") Long id, @RequestBody Post post) {
-        return service.updatePost(id, post);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deletePost(@PathVariable("id") Long id) {
-        service.deletePost(id);
+    @PatchMapping("/partial-update")
+    public Post partialUpdateByParam(@RequestParam Long id, @RequestBody Post toUpdate) {
+        return service.updatePost(id, toUpdate);
     }
 
     @DeleteMapping("/delete-post")
@@ -60,12 +54,10 @@ public class PostController {
         service.deletePost(id);
     }
 
-    @PostMapping(path = "/{postId}/upload",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+    @PostMapping(path = "/upload",
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE},
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public void uploadImageToPost(
-            @PathVariable("postId") Long postId,
-            @RequestParam("file") MultipartFile file) {
+    public void uploadImageToPostByParam(@RequestParam Long postId, @RequestParam MultipartFile file) {
         service.uploadImageToPost(postId, file);
     }
 

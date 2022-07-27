@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
-import { MdOutlineEdit } from 'react-icons/md'
+import { MdOutlineEdit } from 'react-icons/md';
+import PostService from '../services/post.service';
+
 
 export default function EditPostModal({ id }) {
 
@@ -20,16 +21,41 @@ export default function EditPostModal({ id }) {
     setPost({ ...post, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8080/api/v1/post/${id}`, post);
+    PostService.editPost(id, post).then(
+      (response) => {
+        e.target.reset();
+        setPost(response.data)
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
   };
 
-
-  const loadPost = async () => {
-    const result = await axios.get(`http://localhost:8080/api/v1/post/${id}`)
-    setPost(result.data)
-  }
+  const loadPost = () => {
+    PostService.getPost(id).then(
+      (response) => {
+        setPost(response.data);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
+  };
 
   useEffect(() => {
     loadPost()

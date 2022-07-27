@@ -4,19 +4,10 @@ import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import LoginModal from './LoginModal';
 import AuthService from '../services/auth.service';
-import BlogService from '../services/blog.service';
 
 function Navbar() {
 
   const [showLinks, setShowLinks] = useState(false);
-
-  const getAll = () => {
-    BlogService.getPublicContent();
-  }
-
-  const getSecured = () => {
-    BlogService.getSecuredContent();
-  }
 
   const logOut = () => {
     AuthService.logout();
@@ -82,8 +73,6 @@ function Navbar() {
           <LoginModal />
           <button>Sign Up</button>
           <button onClick={logOut}>Logout</button>
-          <button onClick={getAll}>For all</button>
-          <button onClick={getSecured}>Secured</button>
         </div>
       </div>
     </div>

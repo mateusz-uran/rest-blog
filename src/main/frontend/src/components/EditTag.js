@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MdOutlineEdit, MdCheck } from 'react-icons/md';
-import BlogService from '../services/blog.service';
+import TagsService from '../services/tags.service';
 
 export default function EditTag({ id, tagId }) {
 
@@ -20,7 +20,7 @@ export default function EditTag({ id, tagId }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    BlogService.editTag(id, tagId, tag).then(
+    TagsService.editTag(id, tagId, tag).then(
       (response) => {
         e.target.reset();
         setTag(response.data)
@@ -38,7 +38,7 @@ export default function EditTag({ id, tagId }) {
   };
 
   const loadTag = () => {
-    BlogService.getTag(id, tagId).then(
+    TagsService.getTag(id, tagId).then(
       (response) => {
         setTag(response.data);
       },
