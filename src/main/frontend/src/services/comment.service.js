@@ -1,7 +1,7 @@
 import api from './api'
 
 const addComment = (id, comment) => {
-  return api.post("/post/add-comment", comment, { params: { id: id } })
+  return api.post("/post/add-comment", comment, { params: { id: id } });
 }
 
 const getComment = (id, commentId) => {

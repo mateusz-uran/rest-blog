@@ -5,6 +5,7 @@ import { FaBars } from "react-icons/fa";
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 import AuthService from '../services/auth.service';
+import { Button } from 'react-bootstrap';
 
 function Navbar() {
 
@@ -12,6 +13,7 @@ function Navbar() {
 
   const logOut = () => {
     AuthService.logout();
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -72,7 +74,7 @@ function Navbar() {
         <div className='rightSide'>
           <LoginModal />
           <RegisterModal />
-          <button onClick={logOut}>Logout</button>
+          <Button onClick={logOut}>Logout</Button>
         </div>
       </div>
     </div>
