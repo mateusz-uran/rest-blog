@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import Moment from 'moment';
 import '../App.css';
 import CommentService from '../services/comment.service';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import AuthService from '../services/auth.service';
 
 export default function AddComment({ id }) {
 
@@ -21,7 +24,12 @@ export default function AddComment({ id }) {
     const formatDate = Moment().format('DD-MM-YYYY, h:mm A')
     const defaultUser = "user";
     comment.date = formatDate;
-    comment.author = defaultUser;
+    // comment.author = defaultUser;
+    const user = AuthService.getCurrentUser();
+    if (user != null) {
+      comment.author = user.username;
+    }
+    console.log(AuthService.getCurrentUser())
     e.preventDefault();
     CommentService.addComment(id, comment).then(
       () => {
@@ -36,6 +44,9 @@ export default function AddComment({ id }) {
           error.message ||
           error.toString();
         console.log(resMessage);
+        e.target.reset();
+        setComment('');
+        toast.error("Login to comment");
       }
     );
   };

@@ -17,6 +17,7 @@ import AuthService from '../services/auth.service';
 import PostService from '../services/post.service';
 import TagsService from '../services/tags.service';
 import CommentService from '../services/comment.service';
+import { ToastContainer } from 'react-toastify';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post"
@@ -96,7 +97,6 @@ const Home = () => {
     );
   }
 
-
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
@@ -109,6 +109,7 @@ const Home = () => {
 
   return (
     <div className='wrapper'>
+      <ToastContainer />
       <div className='header'>
         <h2>My projects</h2>
         <div className='post-modal'>
