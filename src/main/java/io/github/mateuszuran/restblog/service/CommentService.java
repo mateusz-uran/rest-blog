@@ -1,6 +1,7 @@
 package io.github.mateuszuran.restblog.service;
 
 import io.github.mateuszuran.restblog.exception.CommentNotFoundException;
+import io.github.mateuszuran.restblog.exception.IncorrectUserIdException;
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Comment;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
@@ -58,20 +59,18 @@ public class CommentService {
         return repository.save(result);
     }
 
-    public void deleteComment(Long postId, Long commentId) {
-        Comment comment = repository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
-        var result = findCommentsInPost(postId, commentId, comment);
+    public void deleteCommentByUser(Long id, Long commentId, Long userId) {
+        var result = findCommentsByUser(id, commentId, userId);
         repository.delete(result);
     }
 
-    public void deleteCommentByUser(Long commentId, Long userId) {
-        var result = findCommentsByUser(userId, commentId);
-        repository.delete(result);
-    }
-
-    private Comment findCommentsByUser(Long userId, Long commentId) {
+    private Comment findCommentsByUser(Long id, Long commentId, Long userId) {
         var result = repository.findAllByUserId(userId);
-        return result.stream().filter(findComment -> commentId.equals(findComment.getId())).findAny().orElseThrow(() -> new CommentNotFoundException(commentId));
+        return result.stream()
+                .filter(comment -> id.equals(comment.getPost().getId())
+                        && commentId.equals(comment.getId())
+                        && userId.equals(comment.getUser().getId())).findAny()
+                .orElseThrow(() -> new IncorrectUserIdException(id));
     }
 
     private Comment findCommentsInPost(final Long postId, final Long commentId, final Comment comment) {

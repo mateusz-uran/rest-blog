@@ -29,6 +29,8 @@ const Home = () => {
   const [comments, setComments] = useState([]);
   const [tags, setTags] = useState([]);
 
+  const user = AuthService.getCurrentUser();
+
   const fetchPosts = async () => {
     let response = await client.get("/all");
     setPosts(response.data);
@@ -55,12 +57,12 @@ const Home = () => {
     );
   }
 
-  const deleteCommentByParam = async (id, commentId) => {
-    CommentService.deleteComment(id, commentId).then(
+  const deleteCommentByUser = async (id, commentId, userId) => {
+    CommentService.deleteCommentByUser(id, commentId, userId).then(
       () => {
         setComments(
           comments.filter((comment) => {
-            return comment.id !== id;
+            return comment.id !== commentId;
           })
         );
       },
@@ -185,7 +187,7 @@ const Home = () => {
                           <EditCommentModal id={post.id} commentId={comment.id} />
                         </div>
                         <div className='icon'>
-                          <MdDeleteForever onClick={() => deleteCommentByParam(post.id, comment.id)} />
+                          <MdDeleteForever onClick={() => deleteCommentByUser(post.id, comment.id, user.id)} />
                         </div>
                       </div>
                     </div>

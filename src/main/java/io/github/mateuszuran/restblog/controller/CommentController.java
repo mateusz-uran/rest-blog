@@ -47,13 +47,8 @@ public class CommentController {
         return service.updateComment(id, commentId, toUpdate);
     }
 
-    @DeleteMapping("/delete-comment")
-    public void deleteCommentByParam(@RequestParam Long id, @RequestParam Long commentId) {
-        service.deleteComment(id, commentId);
-    }
-
     @DeleteMapping("/delete-comment-by-user")
-    public void deleteCommentByUsername(@RequestParam Long commentId, @RequestParam Long userId) {
-        service.deleteCommentByUser(commentId, userId);
+    public void deleteCommentByUsername(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId) {
+        service.deleteCommentByUser(id, commentId, userId);
     }
 }

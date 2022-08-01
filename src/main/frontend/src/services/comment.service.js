@@ -20,8 +20,8 @@ const deleteComment = (id, commentId) => {
   return api.delete("/post/delete-comment", { params: { id: id, commentId: commentId } })
 };
 
-const deleteCommentByUser = (commentId, userId) => {
-  return api.delete("/post/delete-comment-by-user", { params: { commentId: commentId, userId: userId }})
+const deleteCommentByUser = (id, commentId, userId) => {
+  return api.delete("/post/delete-comment-by-user", { params: { id: id, commentId: commentId, userId: userId }})
 }
 
 const CommentService = {
