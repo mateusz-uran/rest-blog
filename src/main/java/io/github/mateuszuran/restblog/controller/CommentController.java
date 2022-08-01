@@ -37,6 +37,11 @@ public class CommentController {
         return service.addCommentToPost(id, newComment);
     }
 
+    @PostMapping("/add-comment-by-user")
+    public Comment addCommentToPostByParamAndUser(@RequestParam Long id, @RequestParam Long userId, @RequestBody Comment newComment) {
+        return service.addCommentToPostByUser(id, userId, newComment);
+    }
+
     @PutMapping("/edit-comment")
     public Comment editCommentByParam(@RequestParam Long id, @RequestParam Long commentId, @RequestBody Comment toUpdate) {
         return service.updateComment(id, commentId, toUpdate);
@@ -45,5 +50,10 @@ public class CommentController {
     @DeleteMapping("/delete-comment")
     public void deleteCommentByParam(@RequestParam Long id, @RequestParam Long commentId) {
         service.deleteComment(id, commentId);
+    }
+
+    @DeleteMapping("/delete-comment-by-user")
+    public void deleteCommentByUsername(@RequestParam Long commentId, @RequestParam Long userId) {
+        service.deleteCommentByUser(commentId, userId);
     }
 }

@@ -164,7 +164,7 @@ const Home = () => {
                 </div>
                 <div className='comment-button'>
                   {!hidden ? <AddTags id={post.id} className='add-tags' /> : null}
-                  <AddComment id={post.id} />
+                  <AddComment id={post.id}/>
                 </div>
                 {
                   post.comments.map((comment, index) => (

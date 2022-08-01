@@ -4,6 +4,10 @@ const addComment = (id, comment) => {
   return api.post("/post/add-comment", comment, { params: { id: id } });
 }
 
+const addCommentByUser = (id, userId, comment) => {
+  return api.post("/post/add-comment-by-user", comment, { params: { id: id, userId: userId } });
+}
+
 const getComment = (id, commentId) => {
   return api.get("/post/comment", { params: { id: id, commentId: commentId } })
 }
@@ -16,10 +20,16 @@ const deleteComment = (id, commentId) => {
   return api.delete("/post/delete-comment", { params: { id: id, commentId: commentId } })
 };
 
+const deleteCommentByUser = (commentId, userId) => {
+  return api.delete("/post/delete-comment-by-user", { params: { commentId: commentId, userId: userId }})
+}
+
 const CommentService = {
   addComment,
+  addCommentByUser,
   getComment,
   editComment,
-  deleteComment
+  deleteComment,
+  deleteCommentByUser
 };
 export default CommentService;
