@@ -12,8 +12,16 @@ const getComment = (id, commentId) => {
   return api.get("/post/comment", { params: { id: id, commentId: commentId } })
 }
 
+const getCommentByUser = (id, commentId, userId) => {
+  return api.get("/post/comment-by-user", { params: { id: id, commentId: commentId, userId: userId }})
+}
+
 const editComment = (id, commentId, comment) => {
   return api.put("/post/edit-comment", comment, { params: { id: id, commentId: commentId } });
+}
+
+const editCommentByUser = (id, commentId, userId, comment) => {
+  return api.put("/post/edit-comment-by-user", comment, { params: { id: id, commentId: commentId, userId: userId }})
 }
 
 const deleteComment = (id, commentId) => {
@@ -28,7 +36,9 @@ const CommentService = {
   addComment,
   addCommentByUser,
   getComment,
+  getCommentByUser,
   editComment,
+  editCommentByUser,
   deleteComment,
   deleteCommentByUser
 };

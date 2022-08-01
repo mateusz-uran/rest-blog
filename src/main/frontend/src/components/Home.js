@@ -184,7 +184,7 @@ const Home = () => {
                       </div>
                       <div className='side'>
                         <div className='icon'>
-                          <EditCommentModal id={post.id} commentId={comment.id} />
+                          <EditCommentModal id={post.id} commentId={comment.id} userId={user.id}/>
                         </div>
                         <div className='icon'>
                           <MdDeleteForever onClick={() => deleteCommentByUser(post.id, comment.id, user.id)} />

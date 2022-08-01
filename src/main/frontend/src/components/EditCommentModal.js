@@ -5,7 +5,7 @@ import Moment from 'moment';
 import { MdOutlineEdit } from 'react-icons/md'
 import CommentService from '../services/comment.service';
 
-export default function EditCommentModal({ id, commentId }) {
+export default function EditCommentModal({ id, commentId, userId }) {
 
   const [comment, setComment] = useState({
     content: ""
@@ -18,10 +18,10 @@ export default function EditCommentModal({ id, commentId }) {
   };
 
   const onSubmit = (e) => {
-      const formatDate = Moment().format('DD-MM-YYYY, h:mm A');
-      comment.date = formatDate;
+    const formatDate = Moment().format('DD-MM-YYYY, h:mm A');
+    comment.date = formatDate;
     e.preventDefault();
-    CommentService.editComment(id, commentId, comment).then(
+    CommentService.editCommentByUser(id, commentId, userId, comment).then(
       (response) => {
         e.target.reset();
         setComment(response.data)
@@ -39,7 +39,7 @@ export default function EditCommentModal({ id, commentId }) {
   };
 
   const loadComment = () => {
-    CommentService.getComment(id, commentId).then(
+    CommentService.getCommentByUser(id, commentId, userId).then(
       (response) => {
         setComment(response.data);
       },

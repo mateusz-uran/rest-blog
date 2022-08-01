@@ -32,6 +32,12 @@ public class CommentController {
         return service.getCommentByPostId(id, commentId);
     }
 
+    @PreAuthorize("permitAll()")
+    @GetMapping("/comment-by-user")
+    public Comment getCommentByParamAndUser(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId) {
+        return service.getCommentByUser(id, commentId, userId);
+    }
+
     @PostMapping("/add-comment")
     public Comment addCommentToPostByParam(@RequestParam Long id, @RequestBody Comment newComment) {
         return service.addCommentToPost(id, newComment);
@@ -45,6 +51,11 @@ public class CommentController {
     @PutMapping("/edit-comment")
     public Comment editCommentByParam(@RequestParam Long id, @RequestParam Long commentId, @RequestBody Comment toUpdate) {
         return service.updateComment(id, commentId, toUpdate);
+    }
+
+    @PutMapping("/edit-comment-by-user")
+    public Comment editCommentByParamAndUser(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId, @RequestBody Comment toUpdate ) {
+        return service.updateCommentByUser(id, commentId, userId, toUpdate);
     }
 
     @DeleteMapping("/delete-comment-by-user")

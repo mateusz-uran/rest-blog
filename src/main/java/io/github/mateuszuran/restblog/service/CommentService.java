@@ -52,9 +52,19 @@ public class CommentService {
         return findCommentsInPost(postId, commentId, comment);
     }
 
+    public Comment getCommentByUser(Long id, Long postId, Long commentId) {
+        return findCommentsByUser(id, postId, commentId);
+    }
+
     public Comment updateComment(Long postId, Long commentId, Comment update) {
         Comment comment = repository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
         var result = findCommentsInPost(postId, commentId, comment);
+        result.toUpdate(update);
+        return repository.save(result);
+    }
+
+    public Comment updateCommentByUser(Long id, Long postId, Long commentId, Comment update) {
+        var result = findCommentsByUser(id, postId, commentId);
         result.toUpdate(update);
         return repository.save(result);
     }
