@@ -22,16 +22,11 @@ export default function AddComment({ id }) {
   
   const onSubmit = (e) => {
     const formatDate = Moment().format('DD-MM-YYYY, h:mm A')
-    const defaultUser = "user";
     comment.date = formatDate;
-    // comment.author = defaultUser;
     const user = AuthService.getCurrentUser();
-    if (user != null) {
-      comment.author = user.username;
-    }
-    console.log(AuthService.getCurrentUser())
+    comment.author = user.username;
     e.preventDefault();
-    CommentService.addComment(id, comment).then(
+    CommentService.addCommentByUser(id, user.id, comment).then(
       () => {
         e.target.reset();
         setComment('');

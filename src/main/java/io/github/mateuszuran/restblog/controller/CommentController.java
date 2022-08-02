@@ -32,9 +32,20 @@ public class CommentController {
         return service.getCommentByPostId(id, commentId);
     }
 
+    @PreAuthorize("permitAll()")
+    @GetMapping("/comment-by-user")
+    public Comment getCommentByParamAndUser(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId) {
+        return service.getCommentByUser(id, commentId, userId);
+    }
+
     @PostMapping("/add-comment")
     public Comment addCommentToPostByParam(@RequestParam Long id, @RequestBody Comment newComment) {
         return service.addCommentToPost(id, newComment);
+    }
+
+    @PostMapping("/add-comment-by-user")
+    public Comment addCommentToPostByParamAndUser(@RequestParam Long id, @RequestParam Long userId, @RequestBody Comment newComment) {
+        return service.addCommentToPostByUser(id, userId, newComment);
     }
 
     @PutMapping("/edit-comment")
@@ -42,8 +53,13 @@ public class CommentController {
         return service.updateComment(id, commentId, toUpdate);
     }
 
-    @DeleteMapping("/delete-comment")
-    public void deleteCommentByParam(@RequestParam Long id, @RequestParam Long commentId) {
-        service.deleteComment(id, commentId);
+    @PutMapping("/edit-comment-by-user")
+    public Comment editCommentByParamAndUser(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId, @RequestBody Comment toUpdate ) {
+        return service.updateCommentByUser(id, commentId, userId, toUpdate);
+    }
+
+    @DeleteMapping("/delete-comment-by-user")
+    public void deleteCommentByUsername(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId) {
+        service.deleteCommentByUser(id, commentId, userId);
     }
 }

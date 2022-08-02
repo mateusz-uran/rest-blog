@@ -22,9 +22,12 @@ public class Comment {
     @Column(length = 555)
     private String content;
     private String date;
-    @JsonBackReference
+    @JsonBackReference(value = "post-comment")
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
+    @JsonBackReference(value = "user-comment")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     public void toUpdate(Comment toUpdate) {
         author = toUpdate.author;
