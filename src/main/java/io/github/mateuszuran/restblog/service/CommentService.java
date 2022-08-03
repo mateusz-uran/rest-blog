@@ -52,8 +52,8 @@ public class CommentService {
         return findCommentsInPost(postId, commentId, comment);
     }
 
-    public Comment getCommentByUser(Long id, Long postId, Long commentId) {
-        return findCommentsByUser(id, postId, commentId);
+    public Comment getCommentByUser(Long id, Long commentId, Long userId) {
+        return findCommentsByUser(id, commentId, userId);
     }
 
     public Comment updateComment(Long postId, Long commentId, Comment update) {
@@ -63,8 +63,8 @@ public class CommentService {
         return repository.save(result);
     }
 
-    public Comment updateCommentByUser(Long id, Long postId, Long commentId, Comment update) {
-        var result = findCommentsByUser(id, postId, commentId);
+    public Comment updateCommentByUser(Long id, Long commentId, Long userId, Comment update) {
+        var result = findCommentsByUser(id, commentId, userId);
         result.toUpdate(update);
         return repository.save(result);
     }
@@ -80,7 +80,7 @@ public class CommentService {
                 .filter(comment -> id.equals(comment.getPost().getId())
                         && commentId.equals(comment.getId())
                         && userId.equals(comment.getUser().getId())).findAny()
-                .orElseThrow(() -> new IncorrectUserIdException(id));
+                .orElseThrow(() -> new IncorrectUserIdException(userId));
     }
 
     private Comment findCommentsInPost(final Long postId, final Long commentId, final Comment comment) {

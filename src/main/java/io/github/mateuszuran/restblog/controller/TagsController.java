@@ -29,6 +29,7 @@ public class TagsController {
         return service.getAllTagsByPostId(id);
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/tag")
     public Tags getTagByParam(@RequestParam Long id, @RequestParam Long tagId) {
         return service.getTag(id, tagId);

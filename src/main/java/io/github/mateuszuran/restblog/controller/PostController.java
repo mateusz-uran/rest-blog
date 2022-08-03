@@ -29,6 +29,7 @@ public class PostController {
         return service.getAllPosts();
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/single")
     public Post getSinglePostByParam(@RequestParam Long id) {
         return service.getPost(id);

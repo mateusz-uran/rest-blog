@@ -18,6 +18,8 @@ import PostService from '../services/post.service';
 import TagsService from '../services/tags.service';
 import CommentService from '../services/comment.service';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post"
@@ -28,12 +30,11 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
   const [tags, setTags] = useState([]);
-
-  const user = AuthService.getCurrentUser();
-
-  const fetchPosts = async () => {
-    let response = await client.get("/all");
-    setPosts(response.data);
+  
+  let user = AuthService.getCurrentUser();
+  let userId = 0;
+  if(user != null) {
+    userId = user.id;
   }
 
   const deletePostByParam = async (id) => {
@@ -74,6 +75,9 @@ const Home = () => {
           error.message ||
           error.toString();
         console.log(resMessage);
+        if (error.response.status === 500) {
+          toast.error("You can't delete someone else comment!");
+        }
       }
     );
   }
@@ -100,13 +104,23 @@ const Home = () => {
   }
 
   const [hidden, setHidden] = useState(true);
+  const [hiddenComment, setHiddenComment] = useState(true);
 
   useEffect(() => {
-    fetchPosts();
-    const user = AuthService.getCurrentUser();
+    const fetchPosts = async () => {
+      let response = await client.get("/all");
+      setPosts(response.data);
+    }
+
+    
     if (user != null && user.roles.includes("ROLE_ADMIN")) {
       setHidden(false);
     }
+
+    if (user != null) {
+      setHiddenComment(false);
+    }
+    fetchPosts();
   }, [posts]);
 
   return (
@@ -166,7 +180,7 @@ const Home = () => {
                 </div>
                 <div className='comment-button'>
                   {!hidden ? <AddTags id={post.id} className='add-tags' /> : null}
-                  <AddComment id={post.id}/>
+                  <AddComment id={post.id} />
                 </div>
                 {
                   post.comments.map((comment, index) => (
@@ -182,14 +196,14 @@ const Home = () => {
                           <p>{comment.content}</p>
                         </div>
                       </div>
-                      <div className='side'>
+                      {!hiddenComment ? <div className='side'>
                         <div className='icon'>
-                          <EditCommentModal id={post.id} commentId={comment.id} userId={user.id}/>
+                          <EditCommentModal id={post.id} commentId={comment.id} userId={userId} />
                         </div>
                         <div className='icon'>
-                          <MdDeleteForever onClick={() => deleteCommentByUser(post.id, comment.id, user.id)} />
+                          <MdDeleteForever onClick={() => deleteCommentByUser(post.id, comment.id, userId)} />
                         </div>
-                      </div>
+                      </div> : null}
                     </div>
                   ))
                 }
@@ -342,20 +356,6 @@ function MyDropzone({ postId }) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('postId', postId);
-
-    // axios.post(
-    // `http://localhost:8080/api/v1/post/${postId}/upload`,
-    //   formData,
-    //   {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data"
-    //     }
-    //   }
-    // ).then(() => {
-    //   console.log("File uploaded successfully");
-    // }).catch(err => {
-    //   console.log(err)
-    // });
 
     PostService.uploadImage(formData).then(
       (e) => {

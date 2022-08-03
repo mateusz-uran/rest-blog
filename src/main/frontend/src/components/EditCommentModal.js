@@ -4,6 +4,8 @@ import { Modal, Button } from 'react-bootstrap';
 import Moment from 'moment';
 import { MdOutlineEdit } from 'react-icons/md'
 import CommentService from '../services/comment.service';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 export default function EditCommentModal({ id, commentId, userId }) {
 
@@ -42,8 +44,10 @@ export default function EditCommentModal({ id, commentId, userId }) {
     CommentService.getCommentByUser(id, commentId, userId).then(
       (response) => {
         setComment(response.data);
+        setShow(true)
       },
       (error) => {
+        setShow(false)
         const resMessage =
           (error.response &&
             error.response.data &&
@@ -51,13 +55,14 @@ export default function EditCommentModal({ id, commentId, userId }) {
           error.message ||
           error.toString();
         console.log(resMessage);
+        if (error.response.status === 500) {
+          toast.error("You can't edit someone else comment!");
+        }
       }
     );
   };
 
   useEffect(() => {
-    loadComment()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const [show, setShow] = useState(false);
@@ -65,9 +70,10 @@ export default function EditCommentModal({ id, commentId, userId }) {
   const handleShow = () => setShow(true);
 
   const commentContentLength = content?.length || 0;
+
   return (
     <>
-      <MdOutlineEdit onClick={handleShow} />
+      <MdOutlineEdit onClick={() => loadComment()} />
 
       <Modal show={show} onHide={handleClose} className='edit-comment' centered>
         <Modal.Header closeButton>
