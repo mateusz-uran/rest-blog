@@ -20,6 +20,8 @@ import CommentService from '../services/comment.service';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { Pagination } from '@mui/material';
+import Comments from './Comments';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post"
@@ -30,10 +32,13 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
   const [tags, setTags] = useState([]);
-  
+
+  const [hidden, setHidden] = useState(true);
+  const [hiddenComment, setHiddenComment] = useState(true);
+
   let user = AuthService.getCurrentUser();
   let userId = 0;
-  if(user != null) {
+  if (user != null) {
     userId = user.id;
   }
 
@@ -103,16 +108,12 @@ const Home = () => {
     );
   }
 
-  const [hidden, setHidden] = useState(true);
-  const [hiddenComment, setHiddenComment] = useState(true);
-
   useEffect(() => {
     const fetchPosts = async () => {
       let response = await client.get("/all");
       setPosts(response.data);
     }
 
-    
     if (user != null && user.roles.includes("ROLE_ADMIN")) {
       setHidden(false);
     }
@@ -121,7 +122,7 @@ const Home = () => {
       setHiddenComment(false);
     }
     fetchPosts();
-  }, [posts]);
+  }, [posts, user]);
 
   return (
     <div className='wrapper'>
@@ -182,31 +183,7 @@ const Home = () => {
                   {!hidden ? <AddTags id={post.id} className='add-tags' /> : null}
                   <AddComment id={post.id} />
                 </div>
-                {
-                  post.comments.map((comment, index) => (
-                    <div className='comments' key={index}>
-                      <div className='leftSide'>
-                        <img src={user_basic} alt=''></img>
-                      </div>
-                      <div className='rightSide'>
-                        <div className='row'>
-                          <p>{comment.author}&nbsp;&nbsp;{comment.date}</p>
-                        </div>
-                        <div className='row'>
-                          <p>{comment.content}</p>
-                        </div>
-                      </div>
-                      {!hiddenComment ? <div className='side'>
-                        <div className='icon'>
-                          <EditCommentModal id={post.id} commentId={comment.id} userId={userId} />
-                        </div>
-                        <div className='icon'>
-                          <MdDeleteForever onClick={() => deleteCommentByUser(post.id, comment.id, userId)} />
-                        </div>
-                      </div> : null}
-                    </div>
-                  ))
-                }
+                <Comments postId={post.id}/>
               </div>
             </div>
           ))

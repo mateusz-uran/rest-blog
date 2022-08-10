@@ -8,9 +8,14 @@ import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -47,20 +52,19 @@ public class CommentService {
         return repository.findAllByPostId(id);
     }
 
-    public Comment getCommentByPostId(Long postId, Long commentId) {
-        Comment comment = repository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
-        return findCommentsInPost(postId, commentId, comment);
+    public Map<String, Object> getAllComments(Long id, int page, int size) {
+        PageRequest pageReq = PageRequest.of(page, size);
+        var commentsPage = repository.findAllByPostId(id, pageReq);
+        var totalPages = commentsPage.getTotalPages();
+        List<Comment> comments = commentsPage.getContent();
+        Map<String, Object> response = new HashMap<>();
+        response.put("totalPages", totalPages);
+        response.put("comments", comments);
+        return response;
     }
 
     public Comment getCommentByUser(Long id, Long commentId, Long userId) {
         return findCommentsByUser(id, commentId, userId);
-    }
-
-    public Comment updateComment(Long postId, Long commentId, Comment update) {
-        Comment comment = repository.findById(commentId).orElseThrow(() -> new CommentNotFoundException(commentId));
-        var result = findCommentsInPost(postId, commentId, comment);
-        result.toUpdate(update);
-        return repository.save(result);
     }
 
     public Comment updateCommentByUser(Long id, Long commentId, Long userId, Comment update) {

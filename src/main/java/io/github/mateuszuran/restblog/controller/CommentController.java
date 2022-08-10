@@ -2,24 +2,23 @@ package io.github.mateuszuran.restblog.controller;
 
 import io.github.mateuszuran.restblog.model.Comment;
 import io.github.mateuszuran.restblog.service.CommentService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
 @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 @RequestMapping("/api/v1/post")
 public class CommentController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
     private final CommentService service;
 
     public CommentController(final CommentService service) {
         this.service = service;
     }
+
     @PreAuthorize("permitAll()")
     @GetMapping("/comments")
     public List<Comment> getAllCommentsInPostByParam(@RequestParam Long id) {
@@ -27,9 +26,12 @@ public class CommentController {
     }
 
     @PreAuthorize("permitAll()")
-    @GetMapping("/comment")
-    public Comment getCommentByParam(@RequestParam Long id, @RequestParam Long commentId) {
-        return service.getCommentByPostId(id, commentId);
+    @GetMapping("/comments-page-map")
+    public Map<String, Object> getAllComments(
+            @RequestParam Long id,
+            @RequestParam int page,
+            @RequestParam int size) {
+        return service.getAllComments(id, page, size);
     }
 
     @PreAuthorize("permitAll()")
@@ -46,11 +48,6 @@ public class CommentController {
     @PostMapping("/add-comment-by-user")
     public Comment addCommentToPostByParamAndUser(@RequestParam Long id, @RequestParam Long userId, @RequestBody Comment newComment) {
         return service.addCommentToPostByUser(id, userId, newComment);
-    }
-
-    @PutMapping("/edit-comment")
-    public Comment editCommentByParam(@RequestParam Long id, @RequestParam Long commentId, @RequestBody Comment toUpdate) {
-        return service.updateComment(id, commentId, toUpdate);
     }
 
     @PutMapping("/edit-comment-by-user")
