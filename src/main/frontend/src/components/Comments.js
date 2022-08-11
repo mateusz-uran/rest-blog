@@ -16,8 +16,7 @@ export default function Comments({ postId }) {
   const [hiddenComment, setHiddenComment] = useState(true);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
-  const [pageSize, setPageSize] = useState(3);
-  const pageSizes = [3, 6, 9];
+  const [pageSize, setPageSize] = useState(5);
 
   let user = AuthService.getCurrentUser();
   let userId = 0;
@@ -66,10 +65,10 @@ export default function Comments({ postId }) {
   const handlePageChange = (event, value) => {
     setPage(value);
   };
-  const handlePageSizeChange = (event) => {
-    setPageSize(event.target.value);
-    setPage(1);
-  };
+  // const handlePageSizeChange = (event) => {
+  //   setPageSize(event.target.value);
+  //   setPage(1);
+  // };
 
   useEffect(() => {
     // const fetchComments = async () => {
@@ -96,15 +95,7 @@ export default function Comments({ postId }) {
 
   return (
     <>
-      <div className="mt-3">
-        {"Items per Page: "}
-        <select onChange={handlePageSizeChange} value={pageSize}>
-          {pageSizes.map((size) => (
-            <option key={size} value={size}>
-              {size}
-            </option>
-          ))}
-        </select>
+      <div className="comment-pagination">
         <Pagination
           className="my-3"
           count={count}

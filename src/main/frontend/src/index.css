@@ -174,7 +174,7 @@ code {
 .wrapper .projects .postContainer {
   max-width: 1170px;
   display: flex;
-  flex-direction: row;
+  /* flex-direction: row; */
   flex-wrap: wrap;
   align-items: flex-start;
   height: 100%;
@@ -370,6 +370,9 @@ code {
   background-color: #C0C0C0;
 }
 
+.wrapper .projects .postContainer .comments-wrapper {
+  width: 100%;
+}
 
 .wrapper .projects .postContainer .comments {
   width: 100%;

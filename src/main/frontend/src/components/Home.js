@@ -3,12 +3,10 @@ import { useDropzone } from 'react-dropzone'
 import axios from 'axios'
 import '../App.css';
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
-import user_basic from '../images/Basic_Ui_(186).jpg'
 import { MdDeleteForever, MdClear, MdOutlineOpenInNew } from 'react-icons/md';
 import { BsCodeSlash } from 'react-icons/bs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
-import EditCommentModal from './EditCommentModal';
 import EditPostModal from './EditPostModal';
 import AddComment from './AddComment';
 import AddTags from './AddTags';
@@ -20,7 +18,6 @@ import CommentService from '../services/comment.service';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
-import { Pagination } from '@mui/material';
 import Comments from './Comments';
 
 const client = axios.create({
@@ -30,18 +27,11 @@ const client = axios.create({
 const Home = () => {
 
   const [posts, setPosts] = useState([]);
-  const [comments, setComments] = useState([]);
   const [tags, setTags] = useState([]);
 
   const [hidden, setHidden] = useState(true);
-  const [hiddenComment, setHiddenComment] = useState(true);
 
   let user = AuthService.getCurrentUser();
-  let userId = 0;
-  if (user != null) {
-    userId = user.id;
-  }
-
   const deletePostByParam = async (id) => {
     PostService.deletePost(id).then(
       () => {
@@ -59,30 +49,6 @@ const Home = () => {
           error.message ||
           error.toString();
         console.log(resMessage);
-      }
-    );
-  }
-
-  const deleteCommentByUser = async (id, commentId, userId) => {
-    CommentService.deleteCommentByUser(id, commentId, userId).then(
-      () => {
-        setComments(
-          comments.filter((comment) => {
-            return comment.id !== commentId;
-          })
-        );
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        console.log(resMessage);
-        if (error.response.status === 500) {
-          toast.error("You can't delete someone else comment!");
-        }
       }
     );
   }
@@ -116,10 +82,6 @@ const Home = () => {
 
     if (user != null && user.roles.includes("ROLE_ADMIN")) {
       setHidden(false);
-    }
-
-    if (user != null) {
-      setHiddenComment(false);
     }
     fetchPosts();
   }, [posts, user]);
@@ -183,7 +145,9 @@ const Home = () => {
                   {!hidden ? <AddTags id={post.id} className='add-tags' /> : null}
                   <AddComment id={post.id} />
                 </div>
-                <Comments postId={post.id}/>
+                <div className='comments-wrapper'>
+                  <Comments postId={post.id}/>
+                </div>
               </div>
             </div>
           ))
