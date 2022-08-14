@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import Moment from 'moment';
 import { MdOutlineEdit } from 'react-icons/md'
+import CommentService from '../services/comment.service';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
-export default function EditCommentModal({ id, commentId }) {
+export default function EditCommentModal({ id, commentId, userId }) {
 
   const [comment, setComment] = useState({
     content: ""
@@ -17,34 +19,61 @@ export default function EditCommentModal({ id, commentId }) {
     setComment({ ...comment, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    loadComment()
-  }, [])
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = (e) => {
     const formatDate = Moment().format('DD-MM-YYYY, h:mm A');
     comment.date = formatDate;
-    await axios.put(`http://localhost:8080/api/v1/post/${id}/edit-comment/${commentId}`, comment);
+    e.preventDefault();
+    CommentService.editCommentByUser(id, commentId, userId, comment).then(
+      (response) => {
+        e.target.reset();
+        setComment(response.data)
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
   };
 
-  const loadComment = async () => {
-    try {
-      const result = await axios.get(`http://localhost:8080/api/v1/post/${id}/comment/${commentId}`)
-      setComment(result.data)
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  const loadComment = () => {
+    CommentService.getCommentByUser(id, commentId, userId).then(
+      (response) => {
+        setComment(response.data);
+        setShow(true)
+      },
+      (error) => {
+        setShow(false)
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+        if (error.response.status === 500) {
+          toast.error("You can't edit someone else comment!");
+        }
+      }
+    );
+  };
+
+  useEffect(() => {
+  }, [])
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const commentContentLength = content?.length || 0;
+
   return (
     <>
-      <MdOutlineEdit onClick={handleShow} />
+      <MdOutlineEdit onClick={() => loadComment()} />
 
       <Modal show={show} onHide={handleClose} className='edit-comment' centered>
         <Modal.Header closeButton>

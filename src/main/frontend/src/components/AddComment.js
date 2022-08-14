@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import Moment from 'moment';
 import '../App.css';
+import CommentService from '../services/comment.service';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import AuthService from '../services/auth.service';
 
 export default function AddComment({ id }) {
 
@@ -17,17 +20,42 @@ export default function AddComment({ id }) {
     setComment({ ...comment, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
+    const user = AuthService.getCurrentUser();
     const formatDate = Moment().format('DD-MM-YYYY, h:mm A')
-    const defaultUser = "user";
     comment.date = formatDate;
-    comment.author = defaultUser;
-    await axios.post(`http://localhost:8080/api/v1/post/${id}/add-comment`, comment);
-    setComment('');
-    e.target.reset();
+    if(user != null) {
+      try {
+        comment.author = user.username;
+        CommentService.addCommentByUser(id, user.id, comment).then(
+          () => {
+            e.target.reset();
+            setComment('');
+          },
+          (error) => {
+            const resMessage =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+            console.log(resMessage);
+            e.target.reset();
+            setComment('');
+            toast.error("Session expired, please login");
+          }
+        );
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      e.target.reset();
+      setComment('');
+      toast.error("Login to comment");
+    }
   };
-  
+
   const commentLength = content?.length || 0;
 
   return (

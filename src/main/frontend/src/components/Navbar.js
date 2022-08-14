@@ -2,10 +2,20 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { Link } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
+import AuthService from '../services/auth.service';
+import { Button } from 'react-bootstrap';
+import {AiOutlinePoweroff} from 'react-icons/ai'
 
 function Navbar() {
 
   const [showLinks, setShowLinks] = useState(false);
+
+  const logOut = () => {
+    AuthService.logout();
+    window.location.reload();
+  };
 
   useEffect(() => {
     let url = window.location.href.split("/");
@@ -63,8 +73,15 @@ function Navbar() {
           <button onClick={() => setShowLinks(!showLinks)}><FaBars size='1.5em' fill='#007FFF' /></button>
         </div>
         <div className='rightSide'>
-          <a href='/login'><button>Login</button></a>
-          <a href='/register'><button>Register</button></a>
+          <div className='nav-buttons'>
+            <LoginModal />
+          </div>
+          <div className='nav-buttons'>
+            <RegisterModal />
+          </div>
+          <div className='nav-buttons'>
+            <i onClick={logOut}><AiOutlinePoweroff /></i>
+          </div>
         </div>
       </div>
     </div>

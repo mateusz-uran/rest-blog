@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import '../App.css';
 import { AiOutlinePlus } from 'react-icons/ai';
+import TagsService from '../services/tags.service';
 
 export default function AddTags({ id, tagId }) {
 
@@ -15,26 +15,39 @@ export default function AddTags({ id, tagId }) {
     setTags({ ...tags, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    await axios.post(`http://localhost:8080/api/v1/post/${id}/add-tag`, tags);
-    setTags('');
-    e.target.reset();
+    TagsService.addTag(id, tags).then(
+      (response) => {
+        e.target.reset();
+      setTags('');
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+        console.log(resMessage);
+      }
+    );
   };
+
   return (
     <>
       <div className='form-wrapper'>
         <form onSubmit={(e) => onSubmit(e)} className='form-tag'>
           <div className='tag-text'>
-            <input 
-            type={"text"}
-            name={"content"}
-            defaultValue={content || ''}
-            onChange={(e) => onInputChange(e)}
-            required
+            <input
+              type={"text"}
+              name={"content"}
+              defaultValue={content || ''}
+              onChange={(e) => onInputChange(e)}
+              required
             />
           </div>
-          <i><button type={"submit"} className='tag-button'><AiOutlinePlus/></button></i>
+          <i><button type={"submit"} className='tag-button'><AiOutlinePlus /></button></i>
         </form>
       </div>
     </>
