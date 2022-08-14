@@ -3,12 +3,10 @@ import { useDropzone } from 'react-dropzone'
 import axios from 'axios'
 import '../App.css';
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
-import user_basic from '../images/Basic_Ui_(186).jpg'
 import { MdDeleteForever, MdClear, MdOutlineOpenInNew } from 'react-icons/md';
 import { BsCodeSlash } from 'react-icons/bs'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
-import EditCommentModal from './EditCommentModal';
 import EditPostModal from './EditPostModal';
 import AddComment from './AddComment';
 import AddTags from './AddTags';
@@ -16,8 +14,9 @@ import EditTag from './EditTag';
 import AuthService from '../services/auth.service';
 import PostService from '../services/post.service';
 import TagsService from '../services/tags.service';
-import CommentService from '../services/comment.service';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Comments from './Comments';
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post"
@@ -26,43 +25,17 @@ const client = axios.create({
 const Home = () => {
 
   const [posts, setPosts] = useState([]);
-  const [comments, setComments] = useState([]);
   const [tags, setTags] = useState([]);
+  const [user, setUser] = useState();
 
-  const user = AuthService.getCurrentUser();
-
-  const fetchPosts = async () => {
-    let response = await client.get("/all");
-    setPosts(response.data);
-  }
-
+  const [hidden, setHidden] = useState(true);
+  
   const deletePostByParam = async (id) => {
     PostService.deletePost(id).then(
       () => {
         setPosts(
           posts.filter((post) => {
             return post.id !== id;
-          })
-        );
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        console.log(resMessage);
-      }
-    );
-  }
-
-  const deleteCommentByUser = async (id, commentId, userId) => {
-    CommentService.deleteCommentByUser(id, commentId, userId).then(
-      () => {
-        setComments(
-          comments.filter((comment) => {
-            return comment.id !== commentId;
           })
         );
       },
@@ -99,15 +72,17 @@ const Home = () => {
     );
   }
 
-  const [hidden, setHidden] = useState(true);
-
   useEffect(() => {
-    fetchPosts();
-    const user = AuthService.getCurrentUser();
+    const fetchPosts = async () => {
+      let response = await client.get("/all");
+      setPosts(response.data);
+    }
+    setUser(AuthService.getCurrentUser());
     if (user != null && user.roles.includes("ROLE_ADMIN")) {
       setHidden(false);
     }
-  }, [posts]);
+    fetchPosts();
+  }, [posts, user]);
 
   return (
     <div className='wrapper'>
@@ -166,33 +141,11 @@ const Home = () => {
                 </div>
                 <div className='comment-button'>
                   {!hidden ? <AddTags id={post.id} className='add-tags' /> : null}
-                  <AddComment id={post.id}/>
+                  <AddComment id={post.id} />
                 </div>
-                {
-                  post.comments.map((comment, index) => (
-                    <div className='comments' key={index}>
-                      <div className='leftSide'>
-                        <img src={user_basic} alt=''></img>
-                      </div>
-                      <div className='rightSide'>
-                        <div className='row'>
-                          <p>{comment.author}&nbsp;&nbsp;{comment.date}</p>
-                        </div>
-                        <div className='row'>
-                          <p>{comment.content}</p>
-                        </div>
-                      </div>
-                      <div className='side'>
-                        <div className='icon'>
-                          <EditCommentModal id={post.id} commentId={comment.id} userId={user.id}/>
-                        </div>
-                        <div className='icon'>
-                          <MdDeleteForever onClick={() => deleteCommentByUser(post.id, comment.id, user.id)} />
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                }
+                <div className='comments-wrapper'>
+                  <Comments postId={post.id}/>
+                </div>
               </div>
             </div>
           ))
@@ -342,20 +295,6 @@ function MyDropzone({ postId }) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('postId', postId);
-
-    // axios.post(
-    // `http://localhost:8080/api/v1/post/${postId}/upload`,
-    //   formData,
-    //   {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data"
-    //     }
-    //   }
-    // ).then(() => {
-    //   console.log("File uploaded successfully");
-    // }).catch(err => {
-    //   console.log(err)
-    // });
 
     PostService.uploadImage(formData).then(
       (e) => {

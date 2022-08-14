@@ -16,6 +16,18 @@ const getCommentByUser = (id, commentId, userId) => {
   return api.get("/post/comment-by-user", { params: { id: id, commentId: commentId, userId: userId }})
 }
 
+const getComments = (id) => {
+  return api.get("/post/comments", {params: { id: id }});
+}
+
+const getCommentsPagination = (params) => {
+  return api.get("/post/comments-page", { params });
+}
+
+const getCommentsPaginationMap = (params) => {
+  return api.get("/post/comments-page-map", { params });
+}
+
 const editComment = (id, commentId, comment) => {
   return api.put("/post/edit-comment", comment, { params: { id: id, commentId: commentId } });
 }
@@ -36,7 +48,10 @@ const CommentService = {
   addComment,
   addCommentByUser,
   getComment,
+  getComments,
   getCommentByUser,
+  getCommentsPagination,
+  getCommentsPaginationMap,
   editComment,
   editCommentByUser,
   deleteComment,

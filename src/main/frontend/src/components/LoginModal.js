@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import AuthService from "../services/auth.service";
+import RegisterModal from './RegisterModal';
 
 function LoginModal() {
 
@@ -42,42 +43,36 @@ function LoginModal() {
   return (
     <>
       <Button onClick={handleShow}>Login</Button>
-      <Modal show={show} onHide={handleClose} className='login' centered>
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>
+      <Modal show={show} onHide={handleClose} id='login' centered>
+        <Modal.Header closeButton className='head'><h4>Sing in</h4></Modal.Header>
+        <Modal.Body className='login-body'>
           <form className='form' onSubmit={(e) => onSubmit(e)}>
             <div className='form-row'>
-              <label htmlFor='name' className='form-label'>
-                Username
-              </label>
               <input
                 type={"text"}
                 className={"form-header"}
-                name={"header"}
+                placeholder={"Username"}
                 defaultValue={username}
                 onChange={(e) => onChangeUsername(e)}
                 required
               />
             </div>
             <div className='form-row'>
-              <label htmlFor='name' className='form-label'>
-                Password
-              </label>
               <input
-                type={"text"}
+                type={"password"}
                 className={"form-intro"}
-                name={"intro"}
+                placeholder={"Password"}
                 defaultValue={password}
                 onChange={(e) => onChangePassword(e)}
               />
             </div>
-            <Button onClick={handleClose} className='close' >
-              Close
-            </Button>
-            <Button type={"submit"} onClick={handleClose} className='submit' >
+            <Button type={"submit"} onClick={handleClose} className='submit login-btn' >
               Login
             </Button>
           </form>
+          <div className='login-footer'>
+            <p>Not a member yet? <RegisterModal onClick={handleClose}/></p>
+          </div>
         </Modal.Body>
       </Modal>
     </>

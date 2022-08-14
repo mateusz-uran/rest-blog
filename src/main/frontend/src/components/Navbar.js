@@ -6,6 +6,7 @@ import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 import AuthService from '../services/auth.service';
 import { Button } from 'react-bootstrap';
+import {AiOutlinePoweroff} from 'react-icons/ai'
 
 function Navbar() {
 
@@ -72,9 +73,15 @@ function Navbar() {
           <button onClick={() => setShowLinks(!showLinks)}><FaBars size='1.5em' fill='#007FFF' /></button>
         </div>
         <div className='rightSide'>
-          <LoginModal />
-          <RegisterModal />
-          <Button onClick={logOut}>Logout</Button>
+          <div className='nav-buttons'>
+            <LoginModal />
+          </div>
+          <div className='nav-buttons'>
+            <RegisterModal />
+          </div>
+          <div className='nav-buttons'>
+            <i onClick={logOut}><AiOutlinePoweroff /></i>
+          </div>
         </div>
       </div>
     </div>

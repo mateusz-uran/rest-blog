@@ -19,31 +19,41 @@ export default function AddComment({ id }) {
   const onInputChange = (e) => {
     setComment({ ...comment, [e.target.name]: e.target.value });
   };
-  
+
   const onSubmit = (e) => {
+    e.preventDefault();
+    const user = AuthService.getCurrentUser();
     const formatDate = Moment().format('DD-MM-YYYY, h:mm A')
     comment.date = formatDate;
-    const user = AuthService.getCurrentUser();
-    comment.author = user.username;
-    e.preventDefault();
-    CommentService.addCommentByUser(id, user.id, comment).then(
-      () => {
-        e.target.reset();
-        setComment('');
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        console.log(resMessage);
-        e.target.reset();
-        setComment('');
-        toast.error("Login to comment");
+    if(user != null) {
+      try {
+        comment.author = user.username;
+        CommentService.addCommentByUser(id, user.id, comment).then(
+          () => {
+            e.target.reset();
+            setComment('');
+          },
+          (error) => {
+            const resMessage =
+              (error.response &&
+                error.response.data &&
+                error.response.data.message) ||
+              error.message ||
+              error.toString();
+            console.log(resMessage);
+            e.target.reset();
+            setComment('');
+            toast.error("Session expired, please login");
+          }
+        );
+      } catch (e) {
+        console.log(e)
       }
-    );
+    } else {
+      e.target.reset();
+      setComment('');
+      toast.error("Login to comment");
+    }
   };
 
   const commentLength = content?.length || 0;

@@ -47,53 +47,41 @@ function RegisterModal() {
   return (
     <>
       <Button onClick={handleShow}>Register</Button>
-      <Modal show={show} onHide={handleClose} className='login' centered>
-        <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>
+      <Modal show={show} onHide={handleClose} id='register' centered>
+        <Modal.Header closeButton className='head'><h4>Sing up</h4></Modal.Header>
+        <Modal.Body className='register-body'>
           <form className='form' onSubmit={(e) => onSubmit(e)}>
             <div className='form-row'>
-              <label htmlFor='username' className='form-label'>
-                Username
-              </label>
               <input
                 type={"text"}
                 className={"form-header"}
-                name={"username"}
+                placeholder={"Username"}
                 defaultValue={username}
                 onChange={(e) => onChangeUsername(e)}
                 required
               />
             </div>
             <div className='form-row'>
-              <label htmlFor='email' className='form-label'>
-                Email
-              </label>
               <input
                 type={"text"}
                 className={"form-header"}
-                name={"email"}
+                placeholder={"Email"}
                 defaultValue={email}
                 onChange={(e) => onChangeEmail(e)}
                 required
               />
             </div>
             <div className='form-row'>
-              <label htmlFor='name' className='form-label'>
-                Password
-              </label>
               <input
                 type={"text"}
                 className={"form-intro"}
-                name={"intro"}
+                placeholder={"Password"}
                 defaultValue={password}
                 onChange={(e) => onChangePassword(e)}
               />
             </div>
-            <Button onClick={handleClose} className='close' >
-              Close
-            </Button>
-            <Button type={"submit"} onClick={handleClose} className='submit' >
-              Register
+            <Button type={"submit"} onClick={handleClose} className='submit register-btn' >
+              Sign in
             </Button>
           </form>
         </Modal.Body>
