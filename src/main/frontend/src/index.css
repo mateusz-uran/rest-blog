@@ -74,17 +74,21 @@ code {
   padding-right: 25px;
 }
 
-.Navbar .rightSide a {
-  text-decoration: none;
+.Navbar .rightSide .nav-buttons {
+  padding: 0 5px;
+  color: white;
 }
 
-.Navbar .rightSide a button {
-  border-radius: 10%;
-  width: 80px;
-  height: 35px;
-  margin-right: 5px;
-  background-color: #007FFF;
-  color: white;
+.Navbar .rightSide .nav-buttons i {
+  font-size: 20px;
+  display: flex;
+  padding: 5px;
+  border-radius: 50%;
+}
+
+.Navbar .rightSide .nav-buttons i:hover {
+  background-color: white;
+  color: red;
 }
 
 .wrapper {
@@ -678,6 +682,72 @@ code {
   margin-right: 15px;
   background-color: #282C35;
 }
+
+/*login modal*/
+
+#login .head h4 {
+  width: 100%;
+  text-align: center;
+}
+
+#login .login-body {
+  height: 50vh;
+  text-align: center;
+}
+
+#login .form .form-row {
+  margin: 15px 0;
+}
+
+#login .form .form-row input {
+  width: 70%;
+  padding: 5px 5px;
+  margin: 5px 0;
+}
+
+#login .form .form-row input:focus {
+  outline-color: #007FFF;
+}
+
+#login .login-btn {
+  width: 70%;
+  border-radius: 15px;
+}
+
+#login .login-footer {
+  margin-top: 20px;
+}
+
+/*Register modal*/
+#register .head h4 {
+  width: 100%;
+  text-align: center;
+}
+
+#register .register-body {
+  height: 50vh;
+  text-align: center;
+}
+
+#register .form .form-row {
+  margin: 15px 0;
+}
+
+#register .form .form-row input {
+  width: 70%;
+  padding: 5px 5px;
+  margin: 5px 0;
+}
+
+#register .form .form-row input:focus {
+  outline-color: #007FFF;
+}
+
+#register .register-btn {
+  width: 70%;
+  border-radius: 15px;
+}
+
 
 /*editor*/
 .editor {

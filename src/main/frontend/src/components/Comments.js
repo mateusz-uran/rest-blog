@@ -16,9 +16,9 @@ export default function Comments({ postId }) {
   const [hiddenComment, setHiddenComment] = useState(true);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
+  const [user, setUser] = useState();
+  const pageSize = 5;
 
-  let user = AuthService.getCurrentUser();
   let userId = 0;
   if (user != null) {
     userId = user.id;
@@ -65,17 +65,8 @@ export default function Comments({ postId }) {
   const handlePageChange = (event, value) => {
     setPage(value);
   };
-  // const handlePageSizeChange = (event) => {
-  //   setPageSize(event.target.value);
-  //   setPage(1);
-  // };
-
   useEffect(() => {
-    // const fetchComments = async () => {
-    //   let response = await CommentService.getComments(postId);
-    //   setComment(response.data);
-    // }
-
+    setUser(AuthService.getCurrentUser());
     const retrieveComments = () => {
       const params = getRequestParam(postId, page, pageSize);
       CommentService.getCommentsPaginationMap(params)
@@ -91,7 +82,7 @@ export default function Comments({ postId }) {
     }
 
     retrieveComments();
-  }, [comments, user, postId, page, pageSize])
+  }, [comments, postId, page])
 
   return (
     <>

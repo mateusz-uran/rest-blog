@@ -14,10 +14,8 @@ import EditTag from './EditTag';
 import AuthService from '../services/auth.service';
 import PostService from '../services/post.service';
 import TagsService from '../services/tags.service';
-import CommentService from '../services/comment.service';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
 import Comments from './Comments';
 
 const client = axios.create({
@@ -28,10 +26,10 @@ const Home = () => {
 
   const [posts, setPosts] = useState([]);
   const [tags, setTags] = useState([]);
+  const [user, setUser] = useState();
 
   const [hidden, setHidden] = useState(true);
-
-  let user = AuthService.getCurrentUser();
+  
   const deletePostByParam = async (id) => {
     PostService.deletePost(id).then(
       () => {
@@ -79,7 +77,7 @@ const Home = () => {
       let response = await client.get("/all");
       setPosts(response.data);
     }
-
+    setUser(AuthService.getCurrentUser());
     if (user != null && user.roles.includes("ROLE_ADMIN")) {
       setHidden(false);
     }
