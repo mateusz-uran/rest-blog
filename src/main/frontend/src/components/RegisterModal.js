@@ -8,10 +8,34 @@ function RegisterModal() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [hidden, setHidden] = useState(true);
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [gender, setGender] = useState("");
+  const genders = [
+    { value: '', text: '--Choose an gender--' },
+    { value: 'male', text: 'Male' },
+    { value: 'female', text: 'Female' },
+    { value: 'other', text: 'Other' },
+  ];
+  const [selected, setSelected] = useState(genders[0].value);
+
+  const handleChange = event => {
+    if (event.target.value === "other") {
+      setHidden(false);
+    } else {
+      setHidden(true)
+    }
+    setSelected(event.target.value);
+    setGender(selected);
+  };
+
+  const onChangeGender = (e) => {
+    const gender = e.target.value;
+    setGender(gender);
+  }
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -28,7 +52,7 @@ function RegisterModal() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    AuthService.register(username, email, password).then(
+    AuthService.register(username, email, password, gender).then(
       () => {
         window.location.reload();
       },
@@ -79,6 +103,18 @@ function RegisterModal() {
                 defaultValue={password}
                 onChange={(e) => onChangePassword(e)}
               />
+            </div>
+            <div className='form-row'>
+              <select value={selected} onChange={handleChange}>
+                {genders.map(gender => (
+                  <option key={gender.value} value={gender.value}>
+                    {gender.text}
+                  </option>
+                ))}
+              </select>
+              {!hidden ? <input
+                defaultValue={gender}
+                onChange={(e) => onChangeGender(e)} /> : null}
             </div>
             <Button type={"submit"} onClick={handleClose} className='submit register-btn' >
               Sign in

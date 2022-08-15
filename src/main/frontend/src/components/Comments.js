@@ -82,7 +82,7 @@ export default function Comments({ postId }) {
     }
 
     retrieveComments();
-  }, [comments, postId, page])
+  }, [comments, postId, page, user])
 
   return (
     <>

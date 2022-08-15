@@ -24,6 +24,8 @@ public class User {
     private String email;
     @Column(nullable = false, length = 120)
     private String password;
+    @Column(nullable = false, length = 50)
+    private String gender;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -32,9 +34,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Comment> comments;
 
-    public User(final String username, final String email, final String password) {
+    public User(final String username, final String email, final String password, final String gender) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.gender = gender;
     }
 }

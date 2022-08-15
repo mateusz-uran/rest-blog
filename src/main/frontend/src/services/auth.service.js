@@ -2,11 +2,12 @@ import axios from "axios";
 import TokenService from "./token.service";
 const API_URL = "http://localhost:8080/api/v1/";
 
-const register = (username, email, password) => {
+const register = (username, email, password, gender) => {
   return axios.post(API_URL + "signup", {
     username,
     email,
-    password
+    password,
+    gender
   });
 };
 

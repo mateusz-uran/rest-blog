@@ -72,7 +72,7 @@ public class AuthController {
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already taken"));
         }
-        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), encoder.encode(signupRequest.getPassword()));
+        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), encoder.encode(signupRequest.getPassword()), signupRequest.getGender());
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
