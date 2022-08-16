@@ -175,7 +175,6 @@ function AddPostModal() {
     e.preventDefault();
     PostService.addPost(post).then(
       () => {
-        // window.location.reload();
         e.preventDefault();
         setPost(post);
       },

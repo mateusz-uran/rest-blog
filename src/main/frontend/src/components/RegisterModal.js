@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import AuthService from "../services/auth.service";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 function RegisterModal() {
 
@@ -13,28 +15,26 @@ function RegisterModal() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [gender, setGender] = useState("");
   const genders = [
     { value: '', text: '--Choose an gender--' },
     { value: 'male', text: 'Male' },
     { value: 'female', text: 'Female' },
     { value: 'other', text: 'Other' },
   ];
-  const [selected, setSelected] = useState(genders[0].value);
+  const [gender, setGender] = useState(genders[0].value);
 
   const handleChange = event => {
     if (event.target.value === "other") {
       setHidden(false);
+      setGender("");
     } else {
       setHidden(true)
+      setGender(event.target.value);
     }
-    setSelected(event.target.value);
-    setGender(selected);
   };
 
-  const onChangeGender = (e) => {
-    const gender = e.target.value;
-    setGender(gender);
+  const onChangeGender = event => {
+    setGender(event.target.value);
   }
 
   const onChangeUsername = (e) => {
@@ -54,7 +54,11 @@ function RegisterModal() {
     e.preventDefault();
     AuthService.register(username, email, password, gender).then(
       () => {
-        window.location.reload();
+        toast.success("Registered successfully, please login.");
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setGender("");
       },
       (error) => {
         const resMessage =
@@ -64,6 +68,7 @@ function RegisterModal() {
           error.message ||
           error.toString();
         console.log(resMessage);
+        toast.error(resMessage);
       }
     );
   };
@@ -105,10 +110,10 @@ function RegisterModal() {
               />
             </div>
             <div className='form-row'>
-              <select value={selected} onChange={handleChange}>
-                {genders.map(gender => (
-                  <option key={gender.value} value={gender.value}>
-                    {gender.text}
+              <select value={gender} onChange={handleChange}>
+                {genders.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.text}
                   </option>
                 ))}
               </select>
