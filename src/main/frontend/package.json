@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@bigheads/core": "^0.3.3",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@mui/material": "^5.9.3",
@@ -19,6 +20,8 @@
     "react-draft-wysiwyg": "^1.14.7",
     "react-dropzone": "^14.2.2",
     "react-icons": "^4.4.0",
+    "react-native-bigheads": "^1.1.0",
+    "react-native-svg": "^12.4.4",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.0.7",

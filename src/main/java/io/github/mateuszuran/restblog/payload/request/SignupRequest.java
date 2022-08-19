@@ -19,4 +19,5 @@ public class SignupRequest {
     private String password;
     @NotBlank @Size(min = 3, max = 40)
     private String gender;
+    private String avatar;
 }

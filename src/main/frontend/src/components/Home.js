@@ -29,7 +29,7 @@ const Home = () => {
   const [user, setUser] = useState();
 
   const [hidden, setHidden] = useState(true);
-  
+
   const deletePostByParam = async (id) => {
     PostService.deletePost(id).then(
       () => {
@@ -144,7 +144,7 @@ const Home = () => {
                   <AddComment id={post.id} />
                 </div>
                 <div className='comments-wrapper'>
-                  <Comments postId={post.id}/>
+                  <Comments postId={post.id} />
                 </div>
               </div>
             </div>

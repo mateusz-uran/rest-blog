@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { Link } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaRandom } from "react-icons/fa";
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 import AuthService from '../services/auth.service';
-import { Button } from 'react-bootstrap';
-import {AiOutlinePoweroff} from 'react-icons/ai'
+import { AiOutlinePoweroff } from 'react-icons/ai';
 
 function Navbar() {
 

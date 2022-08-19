@@ -11,7 +11,8 @@ export default function AddComment({ id }) {
   const [comment, setComment] = useState({
     content: "",
     date: "",
-    author: ""
+    author: "",
+    authorAvatar: ""
   });
 
   const { content } = comment;
@@ -28,6 +29,7 @@ export default function AddComment({ id }) {
     if(user != null) {
       try {
         comment.author = user.username;
+        comment.authorAvatar = user.avatar;
         CommentService.addCommentByUser(id, user.id, comment).then(
           () => {
             e.target.reset();

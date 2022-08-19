@@ -19,6 +19,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String author;
+    @Column(length = 400)
+    private String authorAvatar;
     @Column(length = 555)
     private String content;
     private String date;
@@ -31,6 +33,7 @@ public class Comment {
 
     public void toUpdate(Comment toUpdate) {
         author = toUpdate.author;
+        authorAvatar = toUpdate.authorAvatar;
         content = toUpdate.content;
         date = toUpdate.date;
     }

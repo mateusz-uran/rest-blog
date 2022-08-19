@@ -1,21 +1,20 @@
 package io.github.mateuszuran.restblog.service;
 
-import io.github.mateuszuran.restblog.exception.CommentNotFoundException;
 import io.github.mateuszuran.restblog.exception.IncorrectUserIdException;
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Comment;
+import io.github.mateuszuran.restblog.model.User;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -63,6 +62,10 @@ public class CommentService {
         return response;
     }
 
+    public List<User> getAll() {
+        return userRepository.findAll();
+    }
+
     public Comment getCommentByUser(Long id, Long commentId, Long userId) {
         return findCommentsByUser(id, commentId, userId);
     }
@@ -85,12 +88,5 @@ public class CommentService {
                         && commentId.equals(comment.getId())
                         && userId.equals(comment.getUser().getId())).findAny()
                 .orElseThrow(() -> new IncorrectUserIdException(userId));
-    }
-
-    private Comment findCommentsInPost(final Long postId, final Long commentId, final Comment comment) {
-        return repository.findAllByPostId(postId)
-                .stream()
-                .filter(findComment -> comment.getId().equals(findComment.getId())).findAny()
-                .orElseThrow(() -> new CommentNotFoundException(commentId));
     }
 }

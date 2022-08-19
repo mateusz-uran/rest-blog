@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import user_basic from '../images/Basic_Ui_(186).jpg'
 import { Pagination } from '@mui/material';
+import { BigHead } from '@bigheads/core'
 
 export default function Comments({ postId }) {
 
@@ -23,7 +24,6 @@ export default function Comments({ postId }) {
   if (user != null) {
     userId = user.id;
   }
-
   const getRequestParam = (postId, page, pageSize) => {
     let params = {};
     if(postId) {
@@ -71,7 +71,7 @@ export default function Comments({ postId }) {
       const params = getRequestParam(postId, page, pageSize);
       CommentService.getCommentsPaginationMap(params)
       .then((response) => {
-        const { comments, totalPages } = response.data;
+        const { totalPages, comments} = response.data;
         setComments(comments);
         setCount(totalPages);
       })
@@ -80,7 +80,6 @@ export default function Comments({ postId }) {
     if (user != null) {
       setHiddenComment(false);
     }
-
     retrieveComments();
   }, [comments, postId, page, user])
 
@@ -102,7 +101,7 @@ export default function Comments({ postId }) {
         comments.map((comment, index) => (
           <div className='comments' key={index}>
             <div className='leftSide'>
-              <img src={user_basic} alt=''></img>
+              <BigHead {...JSON.parse(comment.authorAvatar)} />
             </div>
             <div className='rightSide'>
               <div className='row'>
