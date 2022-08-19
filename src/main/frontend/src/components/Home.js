@@ -1,22 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone'
 import axios from 'axios'
-import '../App.css';
-import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
-import { MdDeleteForever, MdClear, MdOutlineOpenInNew } from 'react-icons/md';
-import { BsCodeSlash } from 'react-icons/bs'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Modal, Button } from 'react-bootstrap';
 import EditPostModal from './EditPostModal';
 import AddComment from './AddComment';
 import AddTags from './AddTags';
 import EditTag from './EditTag';
+import Comments from './Comments';
 import AuthService from '../services/auth.service';
 import PostService from '../services/post.service';
 import TagsService from '../services/tags.service';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Comments from './Comments';
+import '../App.css';
+import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
+import { MdDeleteForever, MdClear, MdOutlineOpenInNew } from 'react-icons/md';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Modal, Button } from 'react-bootstrap';
+import { BsCodeSlash } from 'react-icons/bs'
 
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post"
@@ -82,7 +82,7 @@ const Home = () => {
       setHidden(false);
     }
     fetchPosts();
-  }, [posts, user]);
+  }, [posts]);
 
   return (
     <div className='wrapper'>
@@ -296,8 +296,8 @@ function MyDropzone({ postId }) {
     formData.append('postId', postId);
 
     PostService.uploadImage(formData).then(
-      (e) => {
-        e.preventDefault();
+      () => {
+        console.log("uploaded");
       },
       (error) => {
         const resMessage =

@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import '../App.css';
 import CommentService from '../services/comment.service';
-import 'react-toastify/dist/ReactToastify.css';
 import AuthService from '../services/auth.service';
 import EditCommentModal from './EditCommentModal';
-import { MdDeleteForever } from 'react-icons/md';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
-import user_basic from '../images/Basic_Ui_(186).jpg'
 import { Pagination } from '@mui/material';
 import { BigHead } from '@bigheads/core'
+import { MdDeleteForever } from 'react-icons/md';
+import '../App.css';
 
 export default function Comments({ postId }) {
 
@@ -17,7 +15,7 @@ export default function Comments({ postId }) {
   const [hiddenComment, setHiddenComment] = useState(true);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState('');
   const pageSize = 5;
 
   let userId = 0;
@@ -65,6 +63,7 @@ export default function Comments({ postId }) {
   const handlePageChange = (event, value) => {
     setPage(value);
   };
+  
   useEffect(() => {
     setUser(AuthService.getCurrentUser());
     const retrieveComments = () => {
@@ -81,7 +80,7 @@ export default function Comments({ postId }) {
       setHiddenComment(false);
     }
     retrieveComments();
-  }, [comments, postId, page, user])
+  }, [comments, postId, page])
 
   return (
     <>
