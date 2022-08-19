@@ -1,5 +1,6 @@
 package io.github.mateuszuran.restblog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +26,10 @@ public class User {
     private String email;
     @Column(nullable = false, length = 120)
     private String password;
+    @Column(nullable = false, length = 50)
+    private String gender;
+    @Column(nullable = false, length = 400)
+    private String avatar;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -32,9 +38,11 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Comment> comments;
 
-    public User(final String username, final String email, final String password) {
+    public User(final String username, final String email, final String password, final String gender, final String avatar) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.gender = gender;
+        this.avatar = avatar;
     }
 }

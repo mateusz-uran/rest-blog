@@ -1,17 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import AuthService from "../services/auth.service";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import { getRandomOptions } from '../services/getRandomOptions';
 
 function RegisterModal() {
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [hidden, setHidden] = useState(true);
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const genders = [
+    { value: '', text: '--Choose an gender--' },
+    { value: 'male', text: 'Male' },
+    { value: 'female', text: 'Female' },
+    { value: 'other', text: 'Other' },
+  ];
+  const [gender, setGender] = useState(genders[0].value);
+  const options = getRandomOptions(gender);
+
+
+  const handleChange = event => {
+    if (event.target.value === "other") {
+      setHidden(false);
+      setGender("");
+    } else {
+      setHidden(true)
+      setGender(event.target.value);
+    }
+  };
+
+  const onChangeGender = event => {
+    setGender(event.target.value);
+  }
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -28,9 +56,13 @@ function RegisterModal() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    AuthService.register(username, email, password).then(
+    AuthService.register(username, email, password, gender, JSON.stringify(options)).then(
       () => {
-        window.location.reload();
+        toast.success("Registered successfully, please login.");
+        setUsername('');
+        setEmail('');
+        setPassword('');
+        setGender('');
       },
       (error) => {
         const resMessage =
@@ -40,9 +72,13 @@ function RegisterModal() {
           error.message ||
           error.toString();
         console.log(resMessage);
+        toast.error(resMessage);
       }
     );
   };
+
+  useEffect(() => {
+  })
 
   return (
     <>
@@ -56,6 +92,7 @@ function RegisterModal() {
                 type={"text"}
                 className={"form-header"}
                 placeholder={"Username"}
+                name={"username"}
                 defaultValue={username}
                 onChange={(e) => onChangeUsername(e)}
                 required
@@ -66,6 +103,7 @@ function RegisterModal() {
                 type={"text"}
                 className={"form-header"}
                 placeholder={"Email"}
+                name={"email"}
                 defaultValue={email}
                 onChange={(e) => onChangeEmail(e)}
                 required
@@ -76,9 +114,23 @@ function RegisterModal() {
                 type={"text"}
                 className={"form-intro"}
                 placeholder={"Password"}
+                name={"password"}
                 defaultValue={password}
                 onChange={(e) => onChangePassword(e)}
               />
+            </div>
+            <div className='form-row'>
+              <select value={gender} onChange={handleChange}>
+                {genders.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.text}
+                  </option>
+                ))}
+              </select>
+              {!hidden ? <input
+                name={"gender"}
+                defaultValue={gender}
+                onChange={(e) => onChangeGender(e)} /> : null}
             </div>
             <Button type={"submit"} onClick={handleClose} className='submit register-btn' >
               Sign in

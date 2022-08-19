@@ -386,6 +386,7 @@ code {
   background-color: #282C35;
   color: white;
   margin: 20px 0;
+  border-radius: 5px;
 }
 
 .wrapper .projects .postContainer .comments .leftSide,
@@ -398,6 +399,7 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .wrapper .projects .postContainer .comments .leftSide img {
@@ -411,6 +413,8 @@ code {
   display: flex;
   flex-direction: column;
   text-align: left;
+  background-color: #3e4149;
+  font-weight: bold;
 }
 
 .wrapper .projects .postContainer .comments .rightSide .row {
@@ -424,6 +428,8 @@ code {
   font-size: large;
   justify-content: center;
   background-color: #007FFF;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .wrapper .projects .postContainer .comments .side .icon {
