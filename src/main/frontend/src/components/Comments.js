@@ -98,9 +98,9 @@ export default function Comments({ postId }) {
       </div>
       {
         comments.map((comment, index) => (
-          <div className='comments' key={index}>
+          <div id='comments' key={index}>
             <div className='leftSide'>
-              <BigHead {...JSON.parse(comment.authorAvatar)} />
+              <BigHead {...JSON.parse(comment.authorAvatar)} className='image' />
             </div>
             <div className='rightSide'>
               <div className='row'>
