@@ -10,7 +10,7 @@ const Main = () => {
         <div className='leftSide'>
           <p>Hello there <FaRegHandPeace fill='#007FFF' />, my name is</p>
           <h1>Mateusz Uranowski</h1>
-          <p>and I'm a web developer.</p>
+          <p>and I'm a web developer. I guess</p>
         </div>
         <div className='rightSide'>
           <img src={image_main} alt=''></img>
