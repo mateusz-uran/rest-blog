@@ -100,7 +100,7 @@ function RegisterModal() {
             </div>
             <div className='form-row'>
               <input
-                type={"text"}
+                type={"email"}
                 className={"form-header"}
                 placeholder={"Email"}
                 name={"email"}
@@ -111,7 +111,7 @@ function RegisterModal() {
             </div>
             <div className='form-row'>
               <input
-                type={"text"}
+                type={"password"}
                 className={"form-intro"}
                 placeholder={"Password"}
                 name={"password"}

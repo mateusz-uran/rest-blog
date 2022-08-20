@@ -24,7 +24,7 @@ function Navbar() {
   }, []);
 
   return (
-    <div className='Navbar'>
+    <div id="navbar">
       <div className='wrapper-nav'>
         <div className='leftSide'>
           <div className='links' id={showLinks ? 'hidden' : ''}>

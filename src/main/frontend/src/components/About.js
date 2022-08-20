@@ -26,9 +26,10 @@ const About = () => {
                       <li>Amplify</li>
                     </ul>
                   </li>
+                  <li>JavaScript - basics</li>
+                  <li>React</li>
                   <li>HTML</li>
                   <li>CSS</li>
-                  <li>JavaScript - basics</li>
                 </ul>
               </div>
             </div>
