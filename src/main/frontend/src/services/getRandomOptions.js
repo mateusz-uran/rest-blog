@@ -38,6 +38,7 @@ export function getRandomOptions(gender) {
     facialHair = 'none';
   } else {
     body = selectRandomKey(bodyMap);
+    facialHair = selectRandomKey(facialHairMap);
   }
   const hairColor = selectRandomKey(theme.colors.hair)
   const clothingColor = selectRandomKey(theme.colors.clothing)
