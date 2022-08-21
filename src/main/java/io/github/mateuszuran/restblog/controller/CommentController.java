@@ -5,7 +5,6 @@ import io.github.mateuszuran.restblog.service.CommentService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @CrossOrigin("*")
@@ -17,12 +16,6 @@ public class CommentController {
 
     public CommentController(final CommentService service) {
         this.service = service;
-    }
-
-    @PreAuthorize("permitAll()")
-    @GetMapping("/comments")
-    public List<Comment> getAllCommentsInPostByParam(@RequestParam Long id) {
-        return service.getAllCommentsByPostId(id);
     }
 
     @PreAuthorize("permitAll()")
@@ -38,11 +31,6 @@ public class CommentController {
     @GetMapping("/comment-by-user")
     public Comment getCommentByParamAndUser(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId) {
         return service.getCommentByUser(id, commentId, userId);
-    }
-
-    @PostMapping("/add-comment")
-    public Comment addCommentToPostByParam(@RequestParam Long id, @RequestBody Comment newComment) {
-        return service.addCommentToPost(id, newComment);
     }
 
     @PostMapping("/add-comment-by-user")

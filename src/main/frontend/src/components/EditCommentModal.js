@@ -8,6 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 
 export default function EditCommentModal({ id, commentId, userId }) {
+  
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const [comment, setComment] = useState({
     content: ""
@@ -43,11 +47,10 @@ export default function EditCommentModal({ id, commentId, userId }) {
   const loadComment = () => {
     CommentService.getCommentByUser(id, commentId, userId).then(
       (response) => {
+        handleShow();
         setComment(response.data);
-        setShow(true)
       },
       (error) => {
-        setShow(false)
         const resMessage =
           (error.response &&
             error.response.data &&
@@ -64,10 +67,6 @@ export default function EditCommentModal({ id, commentId, userId }) {
 
   useEffect(() => {
   }, [])
-
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const commentContentLength = content?.length || 0;
 

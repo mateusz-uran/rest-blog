@@ -30,31 +30,6 @@ public class TagsService {
         return repository.save(newTag);
     }
 
-    public List<Tags> getAllTagsByPostId(Long id) {
-        if (!postRepository.existsById(id)) {
-            throw new PostNotFoundException(id);
-        }
-        return repository.findAllByPostId(id);
-    }
-
-    public Tags getTagByPostId(Long postId, Long tagId) {
-        Tags tag = repository.findById(tagId).orElseThrow(() -> new TagNotFoundException(tagId));
-        return findTagsInPost(postId, tagId, tag);
-    }
-
-    public Tags updateTag(Long postId, Long tagId, Tags update) {
-        Tags tag = repository.findById(tagId).orElseThrow(() -> new TagNotFoundException(tagId));
-        var result = findTagsInPost(postId, tagId, tag);
-        result.toUpdate(update);
-        return repository.save(result);
-    }
-
-    public void deleteTag(Long postId, Long tagId) {
-        Tags tag = repository.findById(tagId).orElseThrow(() -> new TagNotFoundException(tagId));
-        var result = findTagsInPost(postId, tagId, tag);
-        repository.delete(result);
-    }
-
     public Tags getTag(Long postId, Long tagId) {
         return findTagInPost(postId, tagId);
     }
@@ -63,6 +38,12 @@ public class TagsService {
         Tags tagFromDb = findTagInPost(postId, tagId);
         tagFromDb.setContent(tagToUpdate.getContent());
         return repository.save(tagFromDb);
+    }
+
+    public void deleteTag(Long postId, Long tagId) {
+        Tags tag = repository.findById(tagId).orElseThrow(() -> new TagNotFoundException(tagId));
+        var result = findTagsInPost(postId, tagId, tag);
+        repository.delete(result);
     }
 
     private Tags findTagInPost(Long postId, Long tagId) {

@@ -12,7 +12,7 @@ import '../App.css';
 export default function Comments({ postId }) {
 
   const [comments, setComments] = useState([]);
-  const [hiddenComment, setHiddenComment] = useState(true);
+  const [hiddenComment, setHiddenComment] = useState(false);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(0);
   const [user, setUser] = useState('');
@@ -76,8 +76,8 @@ export default function Comments({ postId }) {
       })
     }
 
-    if (user != null) {
-      setHiddenComment(false);
+    if (user === null) {
+      setHiddenComment(true);
     }
     retrieveComments();
   }, [comments, postId, page])
