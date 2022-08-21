@@ -24,12 +24,6 @@ public class TagsController {
     }
 
     @PreAuthorize("permitAll()")
-    @GetMapping("/tags")
-    public List<Tags> getAllTagsInPostByParam(@RequestParam Long id) {
-        return service.getAllTagsByPostId(id);
-    }
-
-    @PreAuthorize("permitAll()")
     @GetMapping("/tag")
     public Tags getTagByParam(@RequestParam Long id, @RequestParam Long tagId) {
         return service.getTag(id, tagId);
@@ -48,16 +42,5 @@ public class TagsController {
     @DeleteMapping("/delete-tag")
     public void deleteTagByParam(@RequestParam Long id, @RequestParam Long tagId) {
         service.deleteTag(id, tagId);
-    }
-
-    @GetMapping("/test")
-    public void testTokenRefreshForAdmin() {
-        log.info("Secured data by token available only for admin");
-    }
-
-    @PreAuthorize("permitAll()")
-    @GetMapping("/test/all")
-    public void testTokenRefreshForAll() {
-        log.info("Not secured data");
     }
 }

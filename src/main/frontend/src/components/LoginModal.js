@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import AuthService from "../services/auth.service";
 import RegisterModal from './RegisterModal';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 function LoginModal() {
 
@@ -26,6 +28,7 @@ function LoginModal() {
     e.preventDefault();
     AuthService.login(username, password).then(
       () => {
+        handleClose();
         window.location.reload();
       },
       (error) => {
@@ -35,6 +38,11 @@ function LoginModal() {
             error.response.data.message) ||
           error.message ||
           error.toString();
+          if(error.response.status === 401) {
+            toast.error("Wrong login or password");
+            console.log(error.response.status);
+          }
+          toast.error("Something went wrong");
         console.log(resMessage);
       }
     );
@@ -66,7 +74,7 @@ function LoginModal() {
                 onChange={(e) => onChangePassword(e)}
               />
             </div>
-            <Button type={"submit"} onClick={handleClose} className='submit login-btn' >
+            <Button type={"submit"} className='submit login-btn' >
               Login
             </Button>
           </form>

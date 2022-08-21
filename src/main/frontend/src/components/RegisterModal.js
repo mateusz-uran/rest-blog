@@ -58,6 +58,7 @@ function RegisterModal() {
     e.preventDefault();
     AuthService.register(username, email, password, gender, JSON.stringify(options)).then(
       () => {
+        handleClose();
         toast.success("Registered successfully, please login.");
         setUsername('');
         setEmail('');
@@ -132,7 +133,7 @@ function RegisterModal() {
                 defaultValue={gender}
                 onChange={(e) => onChangeGender(e)} /> : null}
             </div>
-            <Button type={"submit"} onClick={handleClose} className='submit register-btn' >
+            <Button type={"submit"} className='submit register-btn' >
               Sign in
             </Button>
           </form>

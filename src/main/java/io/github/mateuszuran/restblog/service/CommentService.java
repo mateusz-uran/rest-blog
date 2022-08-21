@@ -3,7 +3,6 @@ package io.github.mateuszuran.restblog.service;
 import io.github.mateuszuran.restblog.exception.IncorrectUserIdException;
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Comment;
-import io.github.mateuszuran.restblog.model.User;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -29,26 +27,12 @@ public class CommentService {
         this.userRepository = userRepository;
     }
 
-    public Comment addCommentToPost(Long id, Comment comment) {
-        Comment newComment = new Comment();
-        newComment.toUpdate(comment);
-        newComment.setPost(postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id)));
-        return repository.save(newComment);
-    }
-
     public Comment addCommentToPostByUser(Long id, Long userId, Comment comment) {
         Comment newComment = new Comment();
         newComment.toUpdate(comment);
         newComment.setPost(postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id)));
         newComment.setUser(userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User with given id not found")));
         return repository.save(newComment);
-    }
-
-    public List<Comment> getAllCommentsByPostId(Long id) {
-        if (!postRepository.existsById(id)) {
-            throw new PostNotFoundException(id);
-        }
-        return repository.findAllByPostId(id);
     }
 
     public Map<String, Object> getAllComments(Long id, int page, int size) {
@@ -60,10 +44,6 @@ public class CommentService {
         response.put("totalPages", totalPages);
         response.put("comments", comments);
         return response;
-    }
-
-    public List<User> getAll() {
-        return userRepository.findAll();
     }
 
     public Comment getCommentByUser(Long id, Long commentId, Long userId) {
