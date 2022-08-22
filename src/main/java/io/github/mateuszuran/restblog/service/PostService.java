@@ -18,8 +18,15 @@ import static org.apache.http.entity.ContentType.*;
 @Service
 public class PostService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostService.class);
-    private final PostRepository repository;
-    private final FileStore fileStore;
+    private PostRepository repository;
+    private FileStore fileStore;
+
+    public PostService() {
+    }
+
+    public PostService(final PostRepository repository) {
+        this.repository = repository;
+    }
 
     public PostService(final PostRepository repository, final FileStore fileStore) {
         this.repository = repository;
@@ -48,8 +55,9 @@ public class PostService {
                 .orElseThrow(() -> new PostNotFoundException(id));
     }
 
+    /*unused method, implement in future*/
     public Post updatePost(Long id, Post partialPost) {
-        Post post = repository.findById(id).orElseThrow();
+        Post post = repository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
         if (repository.findById(id).isPresent()) {
             if (partialPost.getHeader() != null) {
                 post.setHeader(partialPost.getHeader());
@@ -73,7 +81,9 @@ public class PostService {
     }
 
     public void deletePost(Long id) {
-        repository.deleteById(id);
+        if (repository.findById(id).orElseThrow(() -> new PostNotFoundException(id)) != null) {
+            repository.deleteById(id);
+        }
     }
 
     public void uploadImageToPost(final Long postId, final MultipartFile file) {
@@ -87,7 +97,7 @@ public class PostService {
             throw new PostNotFoundException(postId);
         }
 
-        Map<String ,String> metadata = new HashMap<>();
+        Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", file.getContentType());
         metadata.put("Content-Length", String.valueOf(file.getSize()));
 
