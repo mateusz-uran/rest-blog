@@ -1,56 +1,50 @@
 package io.github.mateuszuran.restblog.controller;
 
 import io.github.mateuszuran.restblog.model.Comment;
-import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.service.CommentService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
+@CrossOrigin("*")
 @RestController
-@RequestMapping("/api/v1/post/")
+@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+@RequestMapping("/api/v1/post")
 public class CommentController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommentController.class);
     private final CommentService service;
 
     public CommentController(final CommentService service) {
         this.service = service;
     }
 
-    @GetMapping("/{postId}/comments")
-    public ResponseEntity<List<Comment>> getAllComments(@PathVariable("postId") Long postId) {
-        List<Comment> comments = service.getAllComments(postId);
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+    @PreAuthorize("permitAll()")
+    @GetMapping("/comments-page-map")
+    public Map<String, Object> getAllComments(
+            @RequestParam Long id,
+            @RequestParam int page,
+            @RequestParam int size) {
+        return service.getAllComments(id, page, size);
     }
 
-    @GetMapping("/{postId}/comment/{commentId}")
-    public ResponseEntity<Comment> getComment(@PathVariable("postId") Long postId, @PathVariable("commentId") Long commentId) {
-        Comment comment = service.getCommentById(postId, commentId);
-        return new ResponseEntity<>(comment, HttpStatus.OK);
+    @PreAuthorize("permitAll()")
+    @GetMapping("/comment-by-user")
+    public Comment getCommentByParamAndUser(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId) {
+        return service.getCommentByUser(id, commentId, userId);
     }
 
-    @PostMapping("{postId}/add-comment")
-    public ResponseEntity<Comment> saveComment(@PathVariable("postId") Long postIdd, @RequestBody Comment comment) {
-        Comment newComment = service.addComment(postIdd ,comment);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("comment", "/api/v1/post/" + postIdd + "/comment/" + newComment.getId().toString());
-        return new ResponseEntity<>(newComment, httpHeaders, HttpStatus.CREATED);
+    @PostMapping("/add-comment-by-user")
+    public Comment addCommentToPostByParamAndUser(@RequestParam Long id, @RequestParam Long userId, @RequestBody Comment newComment) {
+        return service.addCommentToPostByUser(id, userId, newComment);
     }
 
-    @PutMapping("/{postId}/comment/{commentId}")
-    public ResponseEntity<Comment> updatePost(@PathVariable("postId") Long postId, @PathVariable("commentId") Long commentId, @RequestBody Comment comment) {
-        service.editComment(postId, commentId, comment);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/edit-comment-by-user")
+    public Comment editCommentByParamAndUser(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId, @RequestBody Comment toUpdate ) {
+        return service.updateCommentByUser(id, commentId, userId, toUpdate);
     }
 
-    @DeleteMapping("/{postId}/comment/{commentId}")
-    public ResponseEntity<Comment> deleteComment(@PathVariable("commentId") Long commentId) {
-        service.deleteComment(commentId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/delete-comment-by-user")
+    public void deleteCommentByUsername(@RequestParam Long id, @RequestParam Long commentId, @RequestParam Long userId) {
+        service.deleteCommentByUser(id, commentId, userId);
     }
 }

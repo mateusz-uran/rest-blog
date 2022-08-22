@@ -14,27 +14,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
-public class Comment {
+public class Tags {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String author;
-    @Column(length = 400)
-    private String authorAvatar;
-    @Column(length = 555)
     private String content;
-    private String date;
-    @JsonBackReference(value = "post-comment")
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
-    @JsonBackReference(value = "user-comment")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
 
-    public void toUpdate(Comment toUpdate) {
-        author = toUpdate.author;
-        authorAvatar = toUpdate.authorAvatar;
+    public void toUpdate(Tags toUpdate) {
         content = toUpdate.content;
-        date = toUpdate.date;
     }
 }

@@ -28,19 +28,6 @@ class PostServiceTest {
 
     Post post;
 
-    @BeforeEach
-    void initUseCase() {
-        service = new PostService(repository);
-        post = Post.builder()
-                .id(1L)
-                .header("Title")
-                .content("Description")
-                .imagePath("/src/bucket")
-                .imageName("img")
-                .imageType("jpg")
-                .build();
-    }
-
     @DisplayName("Test for saving post")
     @Test
     void savedPost_success() {
