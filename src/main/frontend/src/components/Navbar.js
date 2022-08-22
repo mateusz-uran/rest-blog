@@ -90,11 +90,10 @@ function Navbar() {
           <div className='nav-buttons'>
             <RegisterModal />
           </div>
-          <div className='nav-user'>
-            {showAvatar ?
-              <BigHead {...JSON.parse(user.avatar)} className='image' />
-              : null}
+          {showAvatar ? <div className='nav-user'>
+            <BigHead {...JSON.parse(user.avatar)} className='image' />
           </div>
+            : null}
           <div className='nav-buttons'>
             <i onClick={logOut}><AiOutlinePoweroff /></i>
           </div>

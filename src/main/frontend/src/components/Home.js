@@ -122,8 +122,10 @@ const Home = () => {
                     }
                   </div>
                 </div>
-                <div className='image'>
-                  {post.id && post.imageName != null ? <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" /> : <img src={empty_image_post} alt=''></img>}
+                <div className='image' >
+                  {post.id && post.imageName != null ?
+                    <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" />
+                  : <img src={empty_image_post} alt=''></img>}
                   {!hidden ? <MyDropzone postId={post.id} className='form-image-wrapper' /> : null}
                   {!hidden ?
                     <div className='post-icons'>

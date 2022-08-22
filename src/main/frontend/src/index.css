@@ -153,6 +153,13 @@ code {
   text-align: left;
 }
 
+#show {
+  background-color: #007FFF;
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+}
+
 .wrapper .main .rightSide {
   width: 50%;
 }
@@ -860,6 +867,10 @@ code {
   }
 
   .wrapper .projects .postContainer .text {
+    width: 100%;
+  }
+
+  .wrapper .projects .postContainer .image {
     width: 100%;
   }
 
