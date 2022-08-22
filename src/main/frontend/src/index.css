@@ -77,6 +77,7 @@ code {
   align-items: center;
   justify-content: flex-end;
   padding-right: 25px;
+  max-height: 80px;
 }
 
 #navbar .rightSide .nav-buttons {
@@ -94,6 +95,21 @@ code {
 #navbar .rightSide .nav-buttons i:hover {
   background-color: white;
   color: red;
+}
+
+#navbar .rightSide .nav-user {
+  display: flex;
+  flex-direction: column;
+  color: red;
+  width: 80px;
+  border: 2px solid #3e4149;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#navbar .rightSide .nav-user .image {
+  width: 100%;
+  object-fit: cover;
 }
 
 .wrapper {

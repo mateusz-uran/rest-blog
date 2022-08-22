@@ -1,22 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { Link } from "react-router-dom";
-import { FaBars, FaRandom } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 import AuthService from '../services/auth.service';
 import { AiOutlinePoweroff } from 'react-icons/ai';
+import { BigHead } from '@bigheads/core'
 
 function Navbar() {
 
   const [showLinks, setShowLinks] = useState(false);
+  const [showAvatar, setShowAvatar] = useState(false);
 
   const logOut = () => {
     AuthService.logout();
     window.location.reload();
   };
 
+  const user = AuthService.getCurrentUser();
+  const checkIfUserIsLogIn = () => {
+    if (user === null) {
+      setShowAvatar(false);
+    } else {
+      setShowAvatar(true);
+    }
+  }
+
   useEffect(() => {
+    checkIfUserIsLogIn();
     let url = window.location.href.split("/");
     let target = url[url.length - 1].toLowerCase();
     let element = document.getElementById(target);
@@ -77,6 +89,11 @@ function Navbar() {
           </div>
           <div className='nav-buttons'>
             <RegisterModal />
+          </div>
+          <div className='nav-user'>
+            {showAvatar ?
+              <BigHead {...JSON.parse(user.avatar)} className='image' />
+              : null}
           </div>
           <div className='nav-buttons'>
             <i onClick={logOut}><AiOutlinePoweroff /></i>
