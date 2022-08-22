@@ -9,8 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.parameters.P;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,7 +45,7 @@ class PostServiceTest {
     }
 
     @Test
-    public void givenPostObject_whenSavePost_thenReturnPost_Object() {
+    public void givenPostObject_whenSavePost_thenReturnPostObject() {
         //given
         given(repository.save(post)).willReturn(post);
         //when

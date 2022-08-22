@@ -5,6 +5,7 @@ import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.filestore.FileStore;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.PostRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,18 +16,12 @@ import java.util.*;
 
 import static org.apache.http.entity.ContentType.*;
 
+@Slf4j
 @Service
 public class PostService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PostService.class);
-    private PostRepository repository;
-    private FileStore fileStore;
-
-    public PostService() {
-    }
-
-    public PostService(final PostRepository repository) {
-        this.repository = repository;
-    }
+    private final PostRepository repository;
+    private final FileStore fileStore;
 
     public PostService(final PostRepository repository, final FileStore fileStore) {
         this.repository = repository;
