@@ -1,5 +1,6 @@
 package io.github.mateuszuran.restblog.service;
 
+import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
@@ -85,6 +86,18 @@ class PostServiceTest {
         //then
         assertThat(savedPost).isNotNull();
         assertThat(post.getHeader()).isEqualTo("Unit test");
+    }
+
+    @Test
+    public void givenPostId_whenGetPostById_thenReturnException() {
+        //given
+        given(repository.findById(post.getId()))
+                .willReturn(Optional.empty());
+        //when
+        //then
+        assertThatThrownBy(() -> service.getPost(post.getId()))
+                .isInstanceOf(PostNotFoundException.class)
+                .hasMessageContaining("Post with id: " + post.getId() + " not found");
     }
 
     @Test
