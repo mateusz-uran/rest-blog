@@ -1,16 +1,22 @@
 package io.github.mateuszuran.restblog.service;
 
+import com.amazonaws.services.s3.AmazonS3;
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
+import io.github.mateuszuran.restblog.filestore.FileStore;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
@@ -122,5 +129,37 @@ class PostServiceTest {
         service.deletePost(1L);
         //then
         verify(repository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    public void givenUploadImage_whenFileIsEmpty_thenThrowException() throws IOException {
+        //given
+        MockMultipartFile file
+                = new MockMultipartFile(
+                "image",
+                "image.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "".getBytes()
+        );
+        //then
+        assertThatThrownBy(() -> service.uploadImageToPost(1L, file))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("File not found");
+    }
+
+    @Test
+    public void givenUploadImage_whenFileIsNotImage_thenThrowException() {
+        //given
+        MockMultipartFile file
+                = new MockMultipartFile(
+                "text",
+                "text.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "text".getBytes()
+        );
+        //then
+        assertThatThrownBy(() -> service.uploadImageToPost(1L, file))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("File must be an image");
     }
 }

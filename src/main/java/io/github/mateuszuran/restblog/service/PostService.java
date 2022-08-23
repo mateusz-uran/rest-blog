@@ -91,7 +91,6 @@ public class PostService {
         if (repository.findById(postId).isEmpty()) {
             throw new PostNotFoundException(postId);
         }
-
         Map<String, String> metadata = new HashMap<>();
         metadata.put("Content-Type", file.getContentType());
         metadata.put("Content-Length", String.valueOf(file.getSize()));
