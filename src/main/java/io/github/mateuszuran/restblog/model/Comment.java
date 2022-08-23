@@ -31,6 +31,13 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    public Comment(final Long id, final String author, final Post post, final User user) {
+        this.id = id;
+        this.author = author;
+        this.post = post;
+        this.user = user;
+    }
+
     public void toUpdate(Comment toUpdate) {
         author = toUpdate.author;
         authorAvatar = toUpdate.authorAvatar;
