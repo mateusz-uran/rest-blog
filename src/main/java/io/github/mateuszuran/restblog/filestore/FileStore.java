@@ -6,6 +6,11 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.util.IOUtils;
+import io.github.mateuszuran.restblog.service.PostService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -13,6 +18,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class FileStore {
     private final AmazonS3 s3;
@@ -21,8 +27,7 @@ public class FileStore {
         this.s3 = s3;
     }
 
-    public void save(String path,
-                     String fileName,
+    public void save(String path, String fileName,
                      Optional<Map<String, String>> optionalMetadata,
                      InputStream stream) {
         ObjectMetadata metadata = new ObjectMetadata();

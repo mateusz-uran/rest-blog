@@ -30,6 +30,11 @@ public class Post {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
     private List<Tags> tags;
 
+    public Post(final Long id, final String header) {
+        this.id = id;
+        this.header = header;
+    }
+
     public void updateForm(Post source) {
         header = source.header;
         intro = source.intro;

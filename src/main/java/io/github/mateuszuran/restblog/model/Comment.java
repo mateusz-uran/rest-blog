@@ -1,10 +1,7 @@
 package io.github.mateuszuran.restblog.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table
+@Builder
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +28,21 @@ public class Comment {
     @JsonBackReference(value = "user-comment")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    public Comment(final Long id, final String author, final String authorAvatar, final String content, final String date) {
+        this.id = id;
+        this.author = author;
+        this.authorAvatar = authorAvatar;
+        this.content = content;
+        this.date = date;
+    }
+
+    public Comment(final Long id, final String author, final Post post, final User user) {
+        this.id = id;
+        this.author = author;
+        this.post = post;
+        this.user = user;
+    }
 
     public void toUpdate(Comment toUpdate) {
         author = toUpdate.author;

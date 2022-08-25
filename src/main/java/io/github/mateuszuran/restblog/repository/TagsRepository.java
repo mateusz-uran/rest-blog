@@ -8,6 +8,4 @@ import java.util.Optional;
 
 public interface TagsRepository extends JpaRepository<Tags, Long> {
     List<Tags> findAllByPostId(Long id);
-
-    Optional<Tags> findByPostId(Long id);
 }

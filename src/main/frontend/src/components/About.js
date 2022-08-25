@@ -1,6 +1,8 @@
 import React from 'react';
 import image_about from '../images/V1228_generated.jpg';
 import '../App.css';
+import PDF from '../documents/CV-pdf.pdf';
+import { AiOutlineFilePdf } from 'react-icons/ai';
 
 const About = () => {
   return (
@@ -31,6 +33,9 @@ const About = () => {
                   <li>HTML</li>
                   <li>CSS</li>
                 </ul>
+              </div>
+              <div>
+                <a href = {PDF} target = "_blank" rel='noopener noreferrer'><i><AiOutlineFilePdf className='pdf-icon'/></i></a>
               </div>
             </div>
           </div>
