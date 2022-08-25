@@ -3,6 +3,8 @@ package io.github.mateuszuran.restblog.service;
 import io.github.mateuszuran.restblog.exception.IncorrectUserIdException;
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Comment;
+import io.github.mateuszuran.restblog.model.Post;
+import io.github.mateuszuran.restblog.model.User;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
@@ -30,8 +32,8 @@ public class CommentService {
     public Comment addCommentToPostByUser(Long id, Long userId, Comment comment) {
         Comment newComment = new Comment();
         newComment.toUpdate(comment);
-        newComment.setPost(postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id)));
-        newComment.setUser(userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User with given id not found")));
+        newComment.setPost(getPostById(id));
+        newComment.setUser(getUserById(userId));
         return repository.save(newComment);
     }
 
@@ -68,5 +70,13 @@ public class CommentService {
                         && commentId.equals(comment.getId())
                         && userId.equals(comment.getUser().getId())).findAny()
                 .orElseThrow(() -> new IncorrectUserIdException(userId));
+    }
+
+    private User getUserById(final Long userId) {
+        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User with given id not found"));
+    }
+
+    private Post getPostById(final Long id) {
+        return postRepository.findById(id).orElseThrow(() -> new PostNotFoundException(id));
     }
 }

@@ -3,9 +3,8 @@ package io.github.mateuszuran.restblog.repository;
 import io.github.mateuszuran.restblog.model.Comment;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.model.User;
-import org.junit.jupiter.api.AfterAll;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,8 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 @DataJpaTest
 class CommentRepositoryTest {
     @Autowired
@@ -34,41 +33,19 @@ class CommentRepositoryTest {
     }
 
     @Test
-    void givePostWithComments_whenFindCommentsByPostId_thenReturnPageableList() {
+    void givePostWithComments_whenFindComments_thenReturnList() {
         //when
-        Post post = new Post(
-                1L,
-                "Header"
-        );
-        Comment comment = new Comment(
-                1L,
-                "author",
-                post,
-                null
-        );
-        postRepository.save(post);
-        commentRepository.save(comment);
-        PageRequest pageReq = PageRequest.of(0, 3);
-        //when
-        Page<Comment> comments = commentRepository.findAllByPostId(post.getId(), pageReq);
-        //then
-        assertThat(comments).isNotNull();
-    }
-
-    @Test
-    void givePostWithUserAndComments_whenFindCommentsById_thenReturnListOfComments() {
-        //given
         Post post = new Post(
                 1L,
                 "Header"
         );
         User user = new User(
                 1L,
-                "username",
-                "email",
-                "password",
-                "gender",
-                "avatar"
+                "John",
+                "john@gmail.com",
+                "john123",
+                "male",
+                "avatar_john"
         );
         Comment comment = new Comment(
                 1L,
@@ -79,9 +56,12 @@ class CommentRepositoryTest {
         postRepository.save(post);
         userRepository.save(user);
         commentRepository.save(comment);
+        PageRequest pageReq = PageRequest.of(0, 3);
         //when
+        Page<Comment> commentsPaging = commentRepository.findAllByPostId(post.getId(), pageReq);
         List<Comment> comments = commentRepository.findAllByUserId(user.getId());
         //then
+        assertThat(commentsPaging).isNotNull();
         assertThat(comments).isNotNull();
     }
 }
