@@ -47,19 +47,16 @@ public class TagsService {
     }
 
     private Tags findTagInPost(Long postId, Long tagId) {
-        List<Tags> tags = repository.findAllByPostId(postId);
-        return tags
+        return repository.findAllByPostId(postId)
                 .stream().filter(tag ->
                         tag.getId().equals(tagId)).findFirst()
                 .orElseThrow(() -> new TagNotFoundException(tagId));
     }
 
     private Tags findTagsInPost(final Long postId, final Long tagId, final Tags tag) {
-        var result = repository.findAllByPostId(postId)
+        return repository.findAllByPostId(postId)
                 .stream().filter(findTag ->
-                        tag.getId().equals(findTag.getId())).findAny()
-                .orElseThrow(() -> new TagNotFoundException(tagId));
-        log.info(result.getContent());
-        return result;
+                tag.getId().equals(findTag.getId()))
+                .findAny().orElseThrow(() -> new TagNotFoundException(tagId));
     }
 }
