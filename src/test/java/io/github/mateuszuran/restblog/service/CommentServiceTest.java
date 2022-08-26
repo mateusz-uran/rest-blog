@@ -7,32 +7,27 @@ import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.hamcrest.CoreMatchers;
 import org.hamcrest.collection.IsMapContaining;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
@@ -113,27 +108,61 @@ class CommentServiceTest {
         assertThat(result, IsMapContaining.hasValue(totalPages));
     }
 
-    @Disabled
     @Test
-    void getCommentByUser() {
+    void givenPostUserCommentId_whenGetAllCommentsByUser_thenGetComment() {
         //given
+        comment = Comment.builder()
+                .id(1L)
+                .author("John")
+                .authorAvatar("avatar")
+                .content("comment this shit")
+                .date("1.01.1997")
+                .post(post)
+                .user(user)
+                .build();
         //when
+        when(commentRepository.findAllByUserId(user.getId())).thenReturn(List.of(comment));
+        var result = service.getCommentByUser(post.getId(), comment.getId(), user.getId());
         //then
+        assertThat(result).isNotNull();
+        assertThat(result).isEqualTo(comment);
     }
 
-    @Disabled
     @Test
     void updateCommentByUser() {
         //given
+        comment = Comment.builder()
+                .id(1L)
+                .author("John")
+                .authorAvatar("avatar")
+                .content("comment this shit")
+                .date("1.01.1997")
+                .post(post)
+                .user(user)
+                .build();
         //when
+        when(commentRepository.findAllByUserId(user.getId())).thenReturn(List.of(comment));
+        service.updateCommentByUser(post.getId(), comment.getId(), user.getId(), comment);
         //then
+        verify(commentRepository).save(any(Comment.class));
     }
 
-    @Disabled
     @Test
     void deleteCommentByUser() {
         //given
+        comment = Comment.builder()
+                .id(1L)
+                .author("John")
+                .authorAvatar("avatar")
+                .content("comment this shit")
+                .date("1.01.1997")
+                .post(post)
+                .user(user)
+                .build();
         //when
+        when(commentRepository.findAllByUserId(user.getId())).thenReturn(List.of(comment));
+        service.deleteCommentByUser(post.getId(), comment.getId(), user.getId());
         //then
+        verify(commentRepository, times(1)).delete(comment);
     }
 }
