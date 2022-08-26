@@ -129,7 +129,7 @@ class PostServiceTest {
     }
 
     @Test
-    public void givenUploadImage_whenFileIsEmpty_thenThrowException() throws IOException {
+    public void givenUploadImage_whenFileIsEmpty_thenThrowException() {
         //given
         MockMultipartFile file
                 = new MockMultipartFile(
