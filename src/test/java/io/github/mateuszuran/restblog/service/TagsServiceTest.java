@@ -54,7 +54,7 @@ class TagsServiceTest {
     }
 
     @Test
-    void getTag() {
+    void givenTag_whenGetTagByIdFromPost_thenReturnTag() {
         //given
         tag = Tags.builder()
                 .id(1L)
@@ -70,7 +70,7 @@ class TagsServiceTest {
     }
 
     @Test
-    void updateTagContent() {
+    void givenTagToUpdate_whenTagIsUpdated_thenReturnTagWithNewContent() {
         //given
         tag = Tags.builder()
                 .id(1L)
@@ -84,10 +84,11 @@ class TagsServiceTest {
         service.updateTagContent(post.getId(), tag.getId(), tag2);
         //then
         verify(tagsRepository).save(any(Tags.class));
+        assertThat(tag.getContent()).isEqualTo("bar");
     }
 
     @Test
-    void deleteTag() {
+    void givenTag_whenDeleteTag_thenVerify() {
         //given
         tag = Tags.builder()
                 .id(1L)

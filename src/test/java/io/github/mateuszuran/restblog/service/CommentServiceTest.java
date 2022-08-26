@@ -1,5 +1,7 @@
 package io.github.mateuszuran.restblog.service;
 
+import io.github.mateuszuran.restblog.exception.IncorrectUserIdException;
+import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.model.Comment;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.model.User;
@@ -17,14 +19,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -81,6 +81,47 @@ class CommentServiceTest {
     }
 
     @Test
+    void givenCommentObject_whenSaveComment_thenReturnPostNotFound() {
+        //given
+        comment = Comment.builder()
+                .id(1L)
+                .author("John")
+                .authorAvatar("avatar")
+                .content("comment this shit")
+                .date("1.01.1997")
+                .post(post)
+                .user(user)
+                .build();
+        given(postRepository.findById(post.getId())).willReturn(Optional.empty());
+        //when
+        //then
+        assertThatThrownBy(() -> service.addCommentToPostByUser(post.getId(), user.getId(), comment))
+                .isInstanceOf(PostNotFoundException.class)
+                .hasMessageContaining("Post with id: " + post.getId() + " not found");
+    }
+
+    @Test
+    void givenCommentObject_whenSaveComment_thenThrowException() {
+        //given
+        comment = Comment.builder()
+                .id(1L)
+                .author("John")
+                .authorAvatar("avatar")
+                .content("comment this shit")
+                .date("1.01.1997")
+                .post(post)
+                .user(user)
+                .build();
+        given(postRepository.findById(post.getId())).willReturn(Optional.of(post));
+        given(userRepository.findById(user.getId())).willReturn(Optional.empty());
+        //when
+        //then
+        assertThatThrownBy(() -> service.addCommentToPostByUser(post.getId(), user.getId(), comment))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("User with given id not found");
+    }
+
+    @Test
     void givenCommentsList_whenGetAllComments_thenReturnCommentsList() {
         //given
         comment = Comment.builder()
@@ -109,7 +150,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void givenPostUserCommentId_whenGetAllCommentsByUser_thenGetComment() {
+    void givenPostUserCommentId_whenGetAllCommentsByUserAndGetComment_thenGetComment() {
         //given
         comment = Comment.builder()
                 .id(1L)
@@ -129,7 +170,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void updateCommentByUser() {
+    void givenPostUserCommentId_whenGetAllCommentsByUserAndGetComment_thenThrowException() {
         //given
         comment = Comment.builder()
                 .id(1L)
@@ -141,14 +182,55 @@ class CommentServiceTest {
                 .user(user)
                 .build();
         //when
-        when(commentRepository.findAllByUserId(user.getId())).thenReturn(List.of(comment));
-        service.updateCommentByUser(post.getId(), comment.getId(), user.getId(), comment);
         //then
-        verify(commentRepository).save(any(Comment.class));
+        Throwable exception = assertThrows(IncorrectUserIdException.class, () ->
+                service.getCommentByUser(post.getId(), comment.getId(), user.getId()));
+        assertEquals("User with id: " + user.getId() + " is unauthorized", exception.getMessage());
     }
 
     @Test
-    void deleteCommentByUser() {
+    void givenComment_whenGetAllCommentsByUserAndUpdate_thenReturnUpdatedComment() {
+        //given
+        comment = Comment.builder()
+                .id(1L)
+                .author("John")
+                .authorAvatar("avatar")
+                .content("comment this shit")
+                .date("1.01.1997")
+                .post(post)
+                .user(user)
+                .build();
+        Comment comment2 = new Comment();
+        comment2.setContent("updated");
+        //when
+        when(commentRepository.findAllByUserId(user.getId())).thenReturn(List.of(comment));
+        service.updateCommentByUser(post.getId(), comment.getId(), user.getId(), comment2);
+        //then
+        verify(commentRepository).save(any(Comment.class));
+        assertThat(comment.getContent()).isEqualTo("updated");
+    }
+
+    @Test
+    void givenComment_whenGetAllCommentsByUserAndUpdate_thenThrowException() {
+        //given
+        comment = Comment.builder()
+                .id(1L)
+                .author("John")
+                .authorAvatar("avatar")
+                .content("comment this shit")
+                .date("1.01.1997")
+                .post(post)
+                .user(user)
+                .build();
+        //when
+        //then
+        Throwable exception = assertThrows(IncorrectUserIdException.class, () ->
+                service.updateCommentByUser(post.getId(), comment.getId(), user.getId(), comment));
+        assertEquals("User with id: " + user.getId() + " is unauthorized", exception.getMessage());
+    }
+
+    @Test
+    void givenComment_whenDelete_thenVerify() {
         //given
         comment = Comment.builder()
                 .id(1L)
@@ -164,5 +246,24 @@ class CommentServiceTest {
         service.deleteCommentByUser(post.getId(), comment.getId(), user.getId());
         //then
         verify(commentRepository, times(1)).delete(comment);
+    }
+
+    @Test
+    void givenComment_whenDelete_thenThrowException() {
+        //given
+        comment = Comment.builder()
+                .id(1L)
+                .author("John")
+                .authorAvatar("avatar")
+                .content("comment this shit")
+                .date("1.01.1997")
+                .post(post)
+                .user(user)
+                .build();
+        //when
+        //then
+        Throwable exception = assertThrows(IncorrectUserIdException.class, () ->
+                service.deleteCommentByUser(post.getId(), comment.getId(), user.getId()));
+        assertEquals("User with id: " + user.getId() + " is unauthorized", exception.getMessage());
     }
 }
