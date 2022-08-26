@@ -129,7 +129,7 @@ class CommentServiceTest {
     }
 
     @Test
-    void updateCommentByUser() {
+    void givenComment_whenGetAllCommentsByUserAndUpdate_thenReturnUpdatedComment() {
         //given
         comment = Comment.builder()
                 .id(1L)
@@ -140,15 +140,18 @@ class CommentServiceTest {
                 .post(post)
                 .user(user)
                 .build();
+        Comment comment2 = new Comment();
+        comment2.setContent("updated");
         //when
         when(commentRepository.findAllByUserId(user.getId())).thenReturn(List.of(comment));
-        service.updateCommentByUser(post.getId(), comment.getId(), user.getId(), comment);
+        service.updateCommentByUser(post.getId(), comment.getId(), user.getId(), comment2);
         //then
         verify(commentRepository).save(any(Comment.class));
+        assertThat(comment.getContent()).isEqualTo("updated");
     }
 
     @Test
-    void deleteCommentByUser() {
+    void givenComment_whenDelete_thenVerify() {
         //given
         comment = Comment.builder()
                 .id(1L)
