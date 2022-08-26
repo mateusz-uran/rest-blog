@@ -41,9 +41,8 @@ public class TagsService {
     }
 
     public void deleteTag(Long postId, Long tagId) {
-        Tags tag = repository.findById(tagId).orElseThrow(() -> new TagNotFoundException(tagId));
-        var result = findTagsInPost(postId, tagId, tag);
-        repository.delete(result);
+        var result = findTagInPost(postId, tagId);
+        repository.deleteById(result.getId());
     }
 
     private Tags findTagInPost(Long postId, Long tagId) {
@@ -51,12 +50,5 @@ public class TagsService {
                 .stream().filter(tag ->
                         tag.getId().equals(tagId)).findFirst()
                 .orElseThrow(() -> new TagNotFoundException(tagId));
-    }
-
-    private Tags findTagsInPost(final Long postId, final Long tagId, final Tags tag) {
-        return repository.findAllByPostId(postId)
-                .stream().filter(findTag ->
-                tag.getId().equals(findTag.getId()))
-                .findAny().orElseThrow(() -> new TagNotFoundException(tagId));
     }
 }

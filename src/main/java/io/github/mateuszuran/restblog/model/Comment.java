@@ -37,9 +37,10 @@ public class Comment {
         this.date = date;
     }
 
-    public Comment(final Long id, final String author, final Post post, final User user) {
+    public Comment(final Long id, final String author, final String content, final Post post, final User user) {
         this.id = id;
         this.author = author;
+        this.content = content;
         this.post = post;
         this.user = user;
     }
