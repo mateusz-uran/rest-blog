@@ -45,7 +45,7 @@ public class PostController {
         return service.editPost(id, post);
     }
 
-    /*unused method, implement in future*/
+    /**unused method, implement in future**/
     @PatchMapping("/partial-update")
     public Post partialUpdateByParam(@RequestParam Long id, @RequestBody Post toUpdate) {
         return service.updatePost(id, toUpdate);
