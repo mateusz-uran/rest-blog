@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +30,6 @@ class PostServiceTest {
     private PostRepository repository;
     @InjectMocks
     private PostService service;
-
     private Post post;
 
     @BeforeEach
@@ -131,8 +129,7 @@ class PostServiceTest {
     @Test
     public void givenUploadImage_whenFileIsEmpty_thenThrowException() {
         //given
-        MockMultipartFile file
-                = new MockMultipartFile(
+        MockMultipartFile file = new MockMultipartFile(
                 "image",
                 "image.png",
                 MediaType.IMAGE_PNG_VALUE,
@@ -147,8 +144,7 @@ class PostServiceTest {
     @Test
     public void givenUploadImage_whenFileIsNotImage_thenThrowException() {
         //given
-        MockMultipartFile file
-                = new MockMultipartFile(
+        MockMultipartFile file = new MockMultipartFile(
                 "text",
                 "text.txt",
                 MediaType.TEXT_PLAIN_VALUE,
@@ -158,5 +154,22 @@ class PostServiceTest {
         assertThatThrownBy(() -> service.uploadImageToPost(1L, file))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("File must be an image");
+    }
+
+    @Test
+    public void givenUploadImage_whenPostNotFound_thenThrowException() {
+        //given
+        given(repository.findById(post.getId()))
+                .willReturn(Optional.empty());
+        MockMultipartFile file = new MockMultipartFile(
+                "image",
+                "image.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "image".getBytes()
+        );
+        //then
+        assertThatThrownBy(() -> service.uploadImageToPost(post.getId(), file))
+                .isInstanceOf(PostNotFoundException.class)
+                .hasMessageContaining("Post with id: " + post.getId() + " not found");
     }
 }

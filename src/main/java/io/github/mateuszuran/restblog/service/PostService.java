@@ -98,7 +98,6 @@ public class PostService {
         String path = String.format("%s/%s", BucketName.POST_IMAGE.getBucketName(), postId);
         String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
         Post post = repository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
-
         try {
             fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
             post.setImageName(fileName);
