@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.parameters.P;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.hamcrest.CoreMatchers.is;
+
+import java.util.Arrays;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -82,8 +84,8 @@ class PostControllerIntegrationTest {
                         .param("id", String.valueOf(post.getId()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newPost)))
-        //then
-        .andExpect(status().isOk())
+                //then
+                .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.header", is(newPost.getHeader())));
     }
@@ -96,8 +98,39 @@ class PostControllerIntegrationTest {
         repository.save(post);
         //when
         mockMvc.perform(delete(URL + "/delete-post")
-                .param("id", String.valueOf(post.getId())))
-        //then
+                        .param("id", String.valueOf(post.getId())))
+                //then
                 .andExpect(status().isOk());
+    }
+
+    @WithMockUser(username = "spring", roles = "ADMIN")
+    @Test
+    void givenPostImage_whenPost_thenReturn200isOk() throws Exception {
+        //given
+        Post post = new Post(1L, "Integration test");
+        repository.save(post);
+        MockMultipartFile file = new MockMultipartFile("file", "image.png", "image/png", "data".getBytes());
+        //when
+        mockMvc.perform(multipart(URL + "/upload").file(file)
+                        .param("postId", String.valueOf(post.getId())))
+                //then
+                .andExpect(status().isOk());
+    }
+
+    @WithMockUser(username = "spring", roles = "ADMIN")
+    @Test
+    void givenPostId_whenGet_thenReturnImage() throws Exception {
+        //given
+        MockMultipartFile file = new MockMultipartFile("file", "image.png", "image/png", "data".getBytes());
+        Post post = new Post(1L, "Integration test");
+        repository.save(post);
+        mockMvc.perform(multipart(URL + "/upload").file(file)
+                .param("postId", String.valueOf(post.getId())));
+        //when
+        mockMvc.perform(get(URL + "/" + post.getId() + "/download"))
+                .andDo(print())
+                //then
+                .andExpect(status().isOk())
+                .andExpect(content().bytes(file.getBytes()));
     }
 }
