@@ -6,8 +6,6 @@ import io.github.mateuszuran.restblog.filestore.FileStore;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +17,6 @@ import static org.apache.http.entity.ContentType.*;
 @Slf4j
 @Service
 public class PostService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PostService.class);
     private final PostRepository repository;
     private final FileStore fileStore;
 
@@ -98,7 +95,6 @@ public class PostService {
         String path = String.format("%s/%s", BucketName.POST_IMAGE.getBucketName(), postId);
         String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
         Post post = repository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId));
-
         try {
             fileStore.save(path, fileName, Optional.of(metadata), file.getInputStream());
             post.setImageName(fileName);

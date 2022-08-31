@@ -1,6 +1,10 @@
 package io.github.mateuszuran.restblog.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import io.github.mateuszuran.restblog.bucket.BucketName;
 import io.github.mateuszuran.restblog.exception.PostNotFoundException;
+import io.github.mateuszuran.restblog.filestore.FileStore;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -14,24 +18,27 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.io.InputStream;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
     @Mock
     private PostRepository repository;
+    @Mock
+    private AmazonS3 s3;
+    @Mock
+    private FileStore fileStore;
     @InjectMocks
     private PostService service;
-
     private Post post;
 
     @BeforeEach
@@ -131,8 +138,7 @@ class PostServiceTest {
     @Test
     public void givenUploadImage_whenFileIsEmpty_thenThrowException() {
         //given
-        MockMultipartFile file
-                = new MockMultipartFile(
+        MockMultipartFile file = new MockMultipartFile(
                 "image",
                 "image.png",
                 MediaType.IMAGE_PNG_VALUE,
@@ -147,8 +153,7 @@ class PostServiceTest {
     @Test
     public void givenUploadImage_whenFileIsNotImage_thenThrowException() {
         //given
-        MockMultipartFile file
-                = new MockMultipartFile(
+        MockMultipartFile file = new MockMultipartFile(
                 "text",
                 "text.txt",
                 MediaType.TEXT_PLAIN_VALUE,
@@ -158,5 +163,100 @@ class PostServiceTest {
         assertThatThrownBy(() -> service.uploadImageToPost(1L, file))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("File must be an image");
+    }
+
+    @Test
+    public void givenUploadImage_whenPostNotFound_thenThrowException() {
+        //given
+        given(repository.findById(post.getId()))
+                .willReturn(Optional.empty());
+        MockMultipartFile file = new MockMultipartFile(
+                "image",
+                "image.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "image".getBytes()
+        );
+        //then
+        assertThatThrownBy(() -> service.uploadImageToPost(post.getId(), file))
+                .isInstanceOf(PostNotFoundException.class)
+                .hasMessageContaining("Post with id: " + post.getId() + " not found");
+    }
+
+    @Test
+    public void givenUploadImage_whenUpload_thenThrowException() {
+        //given
+        MockMultipartFile file = new MockMultipartFile(
+                "image",
+                "image.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "test".getBytes()
+        );
+        given(repository.findById(post.getId())).willReturn(Optional.of(post));
+        //when
+        service.uploadImageToPost(post.getId(), file);
+        //then
+        verify(repository).save(any(Post.class));
+
+    }
+
+    @Test
+    public void givenUploadImage_whenDownload_thenVerify() throws IOException {
+        //given
+        MockMultipartFile file = new MockMultipartFile(
+                "image",
+                "image.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "test".getBytes()
+        );
+        given(repository.findById(post.getId())).willReturn(Optional.of(post));
+        service.uploadImageToPost(post.getId(), file);
+        //when
+        when(service.downloadPostImage(post.getId())).thenReturn(file.getBytes());
+        var result = service.downloadPostImage(post.getId());
+        //then
+        assertThat(result).isEqualTo(file.getBytes());
+    }
+
+    @Test
+    public void givenUploadImage_whenSaveFile_thenVerify() throws IOException {
+        //given
+        MockMultipartFile file = new MockMultipartFile(
+                "image",
+                "image.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "test".getBytes()
+        );
+        String path = String.format("%s/%s", BucketName.POST_IMAGE.getBucketName(), post.getId());
+        String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
+        InputStream inputStream = file.getInputStream();
+        Map<String, String> optionalMetadata = new HashMap<>();
+        optionalMetadata.put("Content-Type", file.getContentType());
+        optionalMetadata.put("Content-Length", String.valueOf(file.getSize()));
+        //when
+        fileStore.save(path, fileName, Optional.of(optionalMetadata), inputStream);
+        //then
+        verify(fileStore, times(1)).save(path, fileName, Optional.of(optionalMetadata), inputStream);
+
+    }
+
+    @Test
+    public void givenUploadImage_whenPutObject_thenVerify() throws IOException {
+        //given
+        MockMultipartFile file = new MockMultipartFile(
+                "image",
+                "image.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "test".getBytes()
+        );
+        String path = String.format("%s/%s", BucketName.POST_IMAGE.getBucketName(), post.getId());
+        String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
+        InputStream inputStream = file.getInputStream();
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(file.getContentType());
+        metadata.setContentLength(file.getSize());
+        //when
+        s3.putObject(path, fileName, inputStream, metadata);
+        //then
+        verify(s3, times(1)).putObject(path, fileName, inputStream, metadata);
     }
 }
