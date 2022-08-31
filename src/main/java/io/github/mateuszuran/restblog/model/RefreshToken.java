@@ -1,6 +1,7 @@
 package io.github.mateuszuran.restblog.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -21,4 +22,12 @@ public class RefreshToken {
     private String refreshToken;
     @Column(nullable = false)
     private Instant expiryDate;
+
+    public RefreshToken() {
+    }
+
+    public RefreshToken(final String refreshToken, final Instant expiryDate) {
+        this.refreshToken = refreshToken;
+        this.expiryDate = expiryDate;
+    }
 }
