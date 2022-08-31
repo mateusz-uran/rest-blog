@@ -13,8 +13,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Arrays;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -61,12 +59,11 @@ class PostControllerIntegrationTest {
     @Test
     void whenGetSingle_thenReturn200andObjectBody() throws Exception {
         //given
-        long id = 1L;
-        Post post = new Post(id, "Integration test");
+        Post post = new Post(1L, "Integration test");
         repository.save(post);
         //when + then
         mockMvc.perform(get(URL + "/single")
-                        .param("id", String.valueOf(id))).andDo(print())
+                        .param("id", String.valueOf(post.getId()))).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
     }
