@@ -21,4 +21,18 @@ public class RefreshToken {
     private String refreshToken;
     @Column(nullable = false)
     private Instant expiryDate;
+
+    public RefreshToken() {
+    }
+
+    public RefreshToken(final String refreshToken, final Instant expiryDate) {
+        this.refreshToken = refreshToken;
+        this.expiryDate = expiryDate;
+    }
+
+    public RefreshToken(final User user, final String refreshToken, final Instant expiryDate) {
+        this.user = user;
+        this.refreshToken = refreshToken;
+        this.expiryDate = expiryDate;
+    }
 }

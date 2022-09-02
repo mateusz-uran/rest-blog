@@ -23,10 +23,9 @@ import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.*;
+import static org.mockito.BDDMockito.*;
 
 @Slf4j
 @ExtendWith(MockitoExtension.class)
@@ -183,7 +182,7 @@ class PostServiceTest {
     }
 
     @Test
-    public void givenUploadImage_whenUpload_thenThrowException() {
+    public void givenUploadImage_whenUpload_thenVerify() {
         //given
         MockMultipartFile file = new MockMultipartFile(
                 "image",
@@ -196,7 +195,6 @@ class PostServiceTest {
         service.uploadImageToPost(post.getId(), file);
         //then
         verify(repository).save(any(Post.class));
-
     }
 
     @Test
@@ -237,6 +235,29 @@ class PostServiceTest {
         //then
         verify(fileStore, times(1)).save(path, fileName, Optional.of(optionalMetadata), inputStream);
 
+    }
+
+    @Test
+    public void givenUploadImage_whenSaveFile_thenThrowException() throws IOException {
+        //given
+        MockMultipartFile file = new MockMultipartFile(
+                "image",
+                "image.png",
+                MediaType.IMAGE_PNG_VALUE,
+                "test".getBytes()
+        );
+        String path = String.format("%s/%s", BucketName.POST_IMAGE.getBucketName(), post.getId());
+        String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID());
+        InputStream inputStream = file.getInputStream();
+        Map<String, String> optionalMetadata = new HashMap<>();
+        optionalMetadata.put("Content-Type", file.getContentType());
+        optionalMetadata.put("Content-Length", String.valueOf(file.getSize()));
+        //when
+        doThrow(IllegalStateException.class).when(fileStore).save(path, fileName, Optional.of(optionalMetadata), inputStream);
+        //then
+        assertThrows(IllegalStateException.class, () -> {
+            fileStore.save(path, fileName, Optional.of(optionalMetadata), inputStream);
+        });
     }
 
     @Test
