@@ -1,10 +1,7 @@
 package io.github.mateuszuran.restblog.controller;
 
 import io.github.mateuszuran.restblog.exception.TokenRefreshException;
-import io.github.mateuszuran.restblog.model.ERole;
 import io.github.mateuszuran.restblog.model.RefreshToken;
-import io.github.mateuszuran.restblog.model.Role;
-import io.github.mateuszuran.restblog.model.User;
 import io.github.mateuszuran.restblog.payload.request.LoginRequest;
 import io.github.mateuszuran.restblog.payload.request.SignupRequest;
 import io.github.mateuszuran.restblog.payload.request.TokenRefreshRequest;
@@ -16,6 +13,7 @@ import io.github.mateuszuran.restblog.repository.UserRepository;
 import io.github.mateuszuran.restblog.security.jwt.JwtUtils;
 import io.github.mateuszuran.restblog.security.services.RefreshTokenService;
 import io.github.mateuszuran.restblog.security.services.UserDetailsImpl;
+import io.github.mateuszuran.restblog.service.AuthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -45,6 +41,7 @@ public class AuthController {
     PasswordEncoder encoder;
     JwtUtils jwtUtils;
     RefreshTokenService refreshTokenService;
+    private AuthService service;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -66,23 +63,13 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
-        if (userRepository.existsByUsername(signupRequest.getUsername())) {
+        if (service.checkIfUserExistsByUsername(signupRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken"));
         }
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+        if (service.checkIfUserExistsByEmail(signupRequest.getEmail())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already taken"));
         }
-        User user = new User(signupRequest.getUsername(),
-                signupRequest.getEmail(),
-                encoder.encode(signupRequest.getPassword()),
-                signupRequest.getGender(),
-                signupRequest.getAvatar());
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-        roles.add(userRole);
-        user.setRoles(roles);
-        userRepository.save(user);
+        service.signUp(signupRequest);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 

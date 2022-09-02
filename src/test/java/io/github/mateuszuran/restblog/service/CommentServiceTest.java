@@ -138,10 +138,6 @@ class CommentServiceTest {
         //when
         var result = service.getAllComments(post.getId(), pageReq.getPageNumber(), pageReq.getPageSize());
         var totalPages = commentRepository.findAllByPostId(post.getId(), pageReq).getTotalPages();
-
-        Map<String, Object> comments = new HashMap<>();
-        comments.put("totalPages", totalPages);
-        comments.put("comment", comment);
         //then
         assertThat(result).isNotNull();
         assertTrue(result.containsKey("comments"));
