@@ -3,7 +3,6 @@ package io.github.mateuszuran.restblog.service;
 import io.github.mateuszuran.restblog.model.ERole;
 import io.github.mateuszuran.restblog.model.Role;
 import io.github.mateuszuran.restblog.model.User;
-import io.github.mateuszuran.restblog.payload.request.LoginRequest;
 import io.github.mateuszuran.restblog.payload.request.SignupRequest;
 import io.github.mateuszuran.restblog.repository.RoleRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
@@ -15,16 +14,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

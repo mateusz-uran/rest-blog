@@ -57,4 +57,14 @@ public class User {
         this.gender = gender;
         this.avatar = avatar;
     }
+
+    public User(final Long id, final String username, final String email, final String password, final String gender, final String avatar, final Set<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.gender = gender;
+        this.avatar = avatar;
+        this.roles = roles;
+    }
 }

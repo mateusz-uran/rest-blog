@@ -7,6 +7,7 @@ import io.github.mateuszuran.restblog.model.User;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
