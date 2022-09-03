@@ -6,6 +6,7 @@ import io.github.mateuszuran.restblog.model.Tags;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.TagsRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,23 +34,29 @@ class TagsControllerTest {
     private PostRepository postRepository;
     @Autowired
     private TagsRepository repository;
+    private Post post;
 
     private final String URL = "/api/v1";
 
+    @BeforeEach
+    void setUp() {
+        post = new Post(1L, "Integration test");
+        postRepository.save(post);
+    }
+
+    @DirtiesContext(methodMode = DirtiesContext.MethodMode.BEFORE_METHOD)
     @WithMockUser(username = "spring", roles = "ADMIN")
     @Test
     void givenPostAndTagObject_whenPost_thenReturnObjectAndStatus200() throws Exception {
         //given
-        Post post = new Post(1L, "Integration test");
-        postRepository.save(post);
         Tags tag = new Tags(1L, "foo bar", post);
         //when
         mockMvc.perform(post(URL + "/add-tag")
                         .param("id", String.valueOf(post.getId()))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(tag)))
+                //then
                 .andExpect(status().isOk());
-        //then
         Tags result = repository.findById(1L).orElseThrow();
         assertThat(result.getContent()).isEqualTo("foo bar");
     }
@@ -58,14 +65,13 @@ class TagsControllerTest {
     @Test
     void whenGetSingleTag_thenReturnStatus200andObject() throws Exception {
         //given
-        Post post = new Post(1L, "Integration test");
-        postRepository.save(post);
         Tags tag = new Tags(1L, "foo bar", post);
         repository.save(tag);
-        //when + then
+        //when
         mockMvc.perform(get(URL + "/tag")
                         .param("id", String.valueOf(post.getId()))
                         .param("tagId", String.valueOf(tag.getId())))
+                //then
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"));
@@ -76,8 +82,6 @@ class TagsControllerTest {
     @Test
     void givenSingleTag_whenUpdate_thenReturnUpdatedObjectAndStatus200() throws Exception {
         //given
-        Post post = new Post(1L, "Integration test");
-        postRepository.save(post);
         Tags tag = new Tags(1L, "foo bar", post);
         repository.save(tag);
         Tags newTag = new Tags();
@@ -97,10 +101,8 @@ class TagsControllerTest {
     @DirtiesContext(methodMode = DirtiesContext.MethodMode.AFTER_METHOD)
     @WithMockUser(username = "spring", roles = "ADMIN")
     @Test
-    void givenTagId_whenDelete_thenReturnStatus200() throws Exception{
+    void givenTagId_whenDelete_thenReturnStatus200() throws Exception {
         //given
-        Post post = new Post(1L, "Integration test");
-        postRepository.save(post);
         Tags tag = new Tags(1L, "foo bar", post);
         repository.save(tag);
         //when
