@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaRegHandPeace } from "react-icons/fa";
-import image_main from '../images/undraw_hello_re_3evm.svg';
+import image_main from '../images/4002785.jpg';
 import '../App.css';
 
 const Main = () => {
@@ -41,6 +41,7 @@ const Main = () => {
         </div>
         <div className='rightSide'>
           <img src={image_main} alt=''></img>
+          <a className='credits' href="http://www.freepik.com" target='_blank' rel='noopener noreferrer'>Designed by stories / Freepik</a>
         </div>
       </div>
     </div>
