@@ -7,8 +7,6 @@ import '../App.css';
 
 const Footer = () => {
 
-  const url = '';
-
   return (
     <>
     <div id='footer' className='footer'>
