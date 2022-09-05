@@ -139,6 +139,7 @@ code {
   display: flex;
   flex-direction: row;
   padding: 1.5em 2em;
+  align-items: center;
 }
 
 #hide {
@@ -151,6 +152,7 @@ code {
 #home .leftSide {
   width: 50%;
   text-align: left;
+  position: relative;
 }
 
 #show {
@@ -194,7 +196,14 @@ code {
   width: 100%;
   height: 100%;
   background-color: #007FFF;
+  animation: img-bng-border 3s normal forwards;
 }
+
+@keyframes img-bng-border {
+  0% { width: 0; height: 0; }
+  100% { width: 100%; height: 100%; }
+}
+
 
 #about .leftSide img {
   position: relative;
@@ -204,6 +213,130 @@ code {
 #about .rightSide {
   width: 50%;
   text-align: left;
+}
+
+#about .rightSide .content {
+  align-content: center;
+}
+
+#about .rightSide .content .list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#about .rightSide .content .list ul {
+  list-style: none;
+  padding: 10px;
+}
+
+#about .rightSide .content .list .tech-list {
+  width: 50%;
+}
+
+#about .rightSide .content .list .bar-list {
+  width: 50%;
+}
+
+#about .rightSide .content .list .bar-list .bng-bar {
+  content: '';
+  background: rgba(255,255,255,0.1);
+  border-radius: 50px;
+  position: relative;
+  padding: 5px 5px;
+  height: 100%;
+  margin: 3px 0;
+  overflow: hidden;
+}
+#about .rightSide .content .list .bar-list .bng-bar .java-11-bar-progress {
+  animation: load-java 3s normal forwards;
+  box-shadow: 0 10px 40px -10px #fd0100;
+  border-radius: 100px;
+  background: #fd0100;
+  height: 10px;
+}
+
+#about .rightSide .content .list .bar-list .bng-bar .spring-boot-bar-progress {
+  animation: load-spring 3s normal forwards;
+  box-shadow: 0 10px 40px -10px #6db33f;
+  border-radius: 100px;
+  background: #6db33f;
+  height: 10px;
+}
+
+#about .rightSide .content .list .bar-list .bng-bar .aws-bar-progress {
+  animation: load-aws 3s normal forwards;
+  box-shadow: 0 10px 40px -10px #fe9900;
+  border-radius: 100px;
+  background: #fe9900;
+  height: 10px;
+}
+
+#about .rightSide .content .list .bar-list .bng-bar .js-progress {
+  animation: js-aws 3s normal forwards;
+  box-shadow: 0 10px 40px -10px #f7df1d;
+  border-radius: 100px;
+  background: #f7df1d;
+  height: 10px;
+}
+
+#about .rightSide .content .list .bar-list .bng-bar .react-progress {
+  animation: react-aws 3s normal forwards;
+  box-shadow: 0 10px 40px -10px #62dafc;
+  border-radius: 100px;
+  background: #62dafc;
+  height: 10px;
+}
+
+#about .rightSide .content .list .bar-list .bng-bar .html-progress {
+  animation: html-aws 3s normal forwards;
+  box-shadow: 0 10px 40px -10px #e54d26;
+  border-radius: 100px;
+  background: #e54d26;
+  height: 10px;
+}
+
+#about .rightSide .content .list .bar-list .bng-bar .css-progress {
+  animation: css-aws 3s normal forwards;
+  box-shadow: 0 10px 40px -10px #264ee4;
+  border-radius: 100px;
+  background: #264ee4;
+  height: 10px;
+}
+
+@keyframes load-java {
+  0% { width: 0; }
+  100% { width: 68%; }
+}
+
+@keyframes load-spring {
+  0% { width: 0; }
+  100% { width: 40%; }
+}
+
+@keyframes load-aws {
+  0% { width: 0; }
+  100% { width: 25%; }
+}
+
+@keyframes js-aws {
+  0% { width: 0; }
+  100% { width: 15%; }
+}
+
+@keyframes react-aws {
+  0% { width: 0; }
+  100% { width: 35%; }
+}
+
+@keyframes html-aws {
+  0% { width: 0; }
+  100% { width: 66%; }
+}
+
+@keyframes css-aws {
+  0% { width: 0; }
+  100% { width: 72%; }
 }
 
 #about .rightSide .pdf-link {
@@ -223,6 +356,11 @@ code {
   padding: 5px;
   border: 2px solid #007FFF;
   border-radius: 50px;
+}
+
+#about .rightSide .pdf-link .pdf-border:hover {
+  background-color: #007FFF;
+  transform: scale(1.1);
 }
 
 #about .rightSide .pdf-link .pdf-border p {
@@ -246,7 +384,7 @@ code {
 
 #about .rightSide .pdf-link .pdf-icon:hover {
   color: white;
-  background-color: #007FFF;
+  background-color: #3e4149;
   transform: scale(1.1);
 }
 
