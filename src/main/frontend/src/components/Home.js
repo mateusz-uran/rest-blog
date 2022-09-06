@@ -18,6 +18,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import { BsCodeSlash } from 'react-icons/bs'
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post"
 });
@@ -88,7 +91,7 @@ const Home = () => {
     <div className='wrapper'>
       <ToastContainer />
       <div className='header'>
-        <h2>My projects</h2>
+        <h2 data-aos='fade-right'>My projects</h2>
         <div className='post-modal'>
           {!hidden ? <AddPostModal /> : null}
         </div>
@@ -97,7 +100,7 @@ const Home = () => {
         {
           posts.map((post, index) => (
             <div className='post-wrapper' key={index}>
-              <div className='postContainer' >
+              <div data-aos='fade-left' className='postContainer' >
                 <div className='text'>
                   <h3>{post.header}</h3>
                   <p className='intro'>{post.intro}</p>
@@ -125,7 +128,7 @@ const Home = () => {
                 <div className='image' >
                   {post.id && post.imageName != null ?
                     <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" />
-                  : <img src={empty_image_post} alt=''></img>}
+                    : <img src={empty_image_post} alt=''></img>}
                   {!hidden ? <MyDropzone postId={post.id} className='form-image-wrapper' /> : null}
                   {!hidden ?
                     <div className='post-icons'>
@@ -145,7 +148,7 @@ const Home = () => {
                   {!hidden ? <AddTags id={post.id} className='add-tags' /> : null}
                   <AddComment id={post.id} />
                 </div>
-                <div className='comments-wrapper'>
+                <div data-aos='fade-right' className='comments-wrapper'>
                   <Comments postId={post.id} />
                 </div>
               </div>

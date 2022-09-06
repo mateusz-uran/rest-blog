@@ -53,7 +53,6 @@ code {
   max-height: 80px;
 }
 
-
 #navbar .leftSide .links a {
   text-decoration: none;
   color: white;
@@ -113,6 +112,7 @@ code {
 }
 
 .wrapper {
+  position: relative;
   width: 100%;
   min-height: 80vh;
   height: 100%;
@@ -124,7 +124,7 @@ code {
   font-weight: bold;
 }
 
-.wrapper:nth-child(odd) {
+.wrapper:nth-child(even) {
   background-color: #282C35;
 }
 
@@ -153,6 +153,26 @@ code {
   width: 50%;
   text-align: left;
   position: relative;
+  overflow: hidden;
+  position: relative;
+}
+
+#home .leftSide h1 {
+  position: relative;
+  left: -100%;
+  animation: slide-text 0.5s forwards;
+  animation-delay: 2s;
+}
+
+#home .leftSide p {
+  position: relative;
+  left: -100%;
+  animation: slide-text 0.5s forwards;
+  animation-delay: 1.5s;
+}
+
+@keyframes slide-text {
+  100% { left: 0; }
 }
 
 #show {
@@ -160,6 +180,7 @@ code {
   padding: 5px;
   border-radius: 5px;
   color: white;
+  margin-right: 5px;
 }
 
 #home .rightSide {
@@ -200,8 +221,15 @@ code {
 }
 
 @keyframes img-bng-border {
-  0% { width: 0; height: 0; }
-  100% { width: 100%; height: 100%; }
+  0% {
+    width: 0;
+    height: 0;
+  }
+
+  100% {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 
@@ -240,7 +268,7 @@ code {
 
 #about .rightSide .content .list .bar-list .bng-bar {
   content: '';
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 50px;
   position: relative;
   padding: 5px 5px;
@@ -248,6 +276,7 @@ code {
   margin: 3px 0;
   overflow: hidden;
 }
+
 #about .rightSide .content .list .bar-list .bng-bar .java-11-bar-progress {
   animation: load-java 3s normal forwards;
   box-shadow: 0 10px 40px -10px #fd0100;
@@ -305,38 +334,73 @@ code {
 }
 
 @keyframes load-java {
-  0% { width: 0; }
-  100% { width: 68%; }
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 68%;
+  }
 }
 
 @keyframes load-spring {
-  0% { width: 0; }
-  100% { width: 40%; }
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 40%;
+  }
 }
 
 @keyframes load-aws {
-  0% { width: 0; }
-  100% { width: 25%; }
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 25%;
+  }
 }
 
 @keyframes js-aws {
-  0% { width: 0; }
-  100% { width: 15%; }
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 15%;
+  }
 }
 
 @keyframes react-aws {
-  0% { width: 0; }
-  100% { width: 35%; }
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 35%;
+  }
 }
 
 @keyframes html-aws {
-  0% { width: 0; }
-  100% { width: 66%; }
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 66%;
+  }
 }
 
 @keyframes css-aws {
-  0% { width: 0; }
-  100% { width: 72%; }
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 72%;
+  }
 }
 
 #about .rightSide .pdf-link {
@@ -346,21 +410,55 @@ code {
   width: 100%;
 }
 
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
 #about .rightSide .pdf-link .pdf-border {
-  min-width: 100px;
-  height: 100%;
   display: flex;
   text-align: center;
   justify-content: center;
   align-items: center;
-  padding: 5px;
-  border: 2px solid #007FFF;
+  position: relative;
+  z-index: 0;
   border-radius: 50px;
+  overflow: hidden;
+  padding: 10px 5px;
+  min-width: 100px;
+  height: 100%;
 }
 
-#about .rightSide .pdf-link .pdf-border:hover {
-  background-color: #007FFF;
-  transform: scale(1.1);
+#about .rightSide .pdf-link .pdf-border::before {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background-repeat: no-repeat;
+  background-size: 50% 50%, 50% 50%;
+  background-position: 0 0%, 100% 0, 100% 100%, 0 100%;
+  background-image:
+    linear-gradient(#3e4149, #3e4149),
+    linear-gradient(#007FFF, #007FFF),
+    linear-gradient(#007FFF, #007FFF),
+    linear-gradient(#007FFF, #007FFF);
+  animation: rotate 4s linear infinite;
+}
+
+#about .rightSide .pdf-link .pdf-border::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 6px;
+  top: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  background-color: #282C35;
+  border-radius: 50px;
 }
 
 #about .rightSide .pdf-link .pdf-border p {
@@ -383,8 +481,7 @@ code {
 }
 
 #about .rightSide .pdf-link .pdf-icon:hover {
-  color: white;
-  background-color: #3e4149;
+  color: #007FFF;
   transform: scale(1.1);
 }
 
@@ -408,6 +505,7 @@ code {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 
 #projects .post-wrapper {
@@ -485,7 +583,6 @@ code {
   background-color: #C0C0C0;
   color: black;
   cursor: pointer;
-  transform: scale(1.1);
 }
 
 #projects .postContainer .image .project-links {
@@ -1031,6 +1128,7 @@ code {
 
   #navbar .leftSide #hidden {
     position: absolute;
+    z-index: 9999;
     left: 0;
     top: 80px;
     height: 230px;
@@ -1112,6 +1210,31 @@ code {
   #footer .leftSide,
   #footer .rightSide {
     width: 100%;
+  }
+
+  /*login modal*/
+  #login .form .form-row input {
+    width: 60%;
+  }
+
+  #login .login-btn {
+    width: 60%;
+  }
+
+  /*Register modal*/
+  #register .register-body {
+    height: 55vh;
+  }
+
+  #register .form .form-row input {
+    width: 60%;
+  }
+  #register .register-btn {
+    width: 60%;
+  }
+
+  #register .form .form-row .otherGender {
+    margin-top: 5px;
   }
 
 }

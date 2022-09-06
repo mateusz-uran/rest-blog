@@ -60,7 +60,7 @@ export default function Comments({ postId }) {
     );
   }
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = (value) => {
     setPage(value);
   };
   
