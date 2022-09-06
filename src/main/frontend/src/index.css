@@ -113,6 +113,7 @@ code {
 }
 
 .wrapper {
+  position: relative;
   width: 100%;
   min-height: 80vh;
   height: 100%;
@@ -124,34 +125,12 @@ code {
   font-weight: bold;
 }
 
-.wrapper:nth-child(odd) {
+.wrapper:nth-child(even) {
   background-color: #282C35;
 }
 
 .wrapper:last-child {
   min-height: 50vh;
-}
-
-#progressBarContainer {
-  position: fixed;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.05);
-  width: 100%;
-  top: 0;
-  left: 0;
-}
-
-
-#progressBar {
-  background: linear-gradient(to left, #007FFF, #3e4149);
-  transform-origin: top left;
-  transform: scale(0, 0);
-  opacity: 0;
-}
-
-#progressBarContainer,
-#progressBar {
-  height: 10px;
 }
 
 #home {
@@ -175,6 +154,26 @@ code {
   width: 50%;
   text-align: left;
   position: relative;
+  overflow: hidden;
+  position: relative;
+}
+
+#home .leftSide h1 {
+  position: relative;
+  left: -100%;
+  animation: slide-text 0.5s forwards;
+  animation-delay: 2s;
+}
+
+#home .leftSide p {
+  position: relative;
+  left: -100%;
+  animation: slide-text 0.5s forwards;
+  animation-delay: 1.5s;
+}
+
+@keyframes slide-text {
+  100% { left: 0; }
 }
 
 #show {
@@ -1148,6 +1147,10 @@ code {
 
   #home {
     flex-direction: column;
+  }
+
+  #home .leftSide p {
+    border: 1px solid red;
   }
 
   #about {
