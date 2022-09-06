@@ -4,14 +4,10 @@ import '../App.css';
 import PDF from '../documents/CV-pdf.pdf';
 import { AiOutlineFilePdf } from 'react-icons/ai';
 
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-
 
 const About = () => {
 
   useEffect(() => {
-    AOS.init({ duration: 1000 });
   }, []);
 
   return (

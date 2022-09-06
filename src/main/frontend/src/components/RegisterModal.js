@@ -129,6 +129,7 @@ function RegisterModal() {
                 ))}
               </select>
               {!hidden ? <input
+                className='otherGender'
                 name={"gender"}
                 defaultValue={gender}
                 onChange={(e) => onChangeGender(e)} /> : null}

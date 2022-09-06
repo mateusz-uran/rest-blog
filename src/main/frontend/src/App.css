@@ -39,6 +39,16 @@
   right: 0;
 }
 
+.arrow-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 5px;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: #007FFF;
+  color: white;
+}
+
 #progressBarContainer {
   position: fixed;
   z-index: 999;
@@ -102,5 +112,11 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .arrow-to-top {
+    right: 10px;
   }
 }

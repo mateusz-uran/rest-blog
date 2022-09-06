@@ -6,11 +6,18 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Footer from './components/Footer';
 import Main from './components/Main';
 import About from './components/About';
+import { AiOutlineArrowUp } from 'react-icons/ai'
+
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function App() {
   const [scroll, setScroll] = useState(0);
+  const [scrollArrow, setScrollArrow] = useState(0);
 
   useEffect(() => {
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    AOS.init({ duration: 1000 });
 
     let progressBarHandler = () => {
 
@@ -19,6 +26,11 @@ function App() {
       const scroll = `${totalScroll / windowHeight}`;
 
       setScroll(scroll);
+      if(totalScroll >= 700) {
+        setScrollArrow(1)
+      } else {
+        setScrollArrow(0)
+      }
     }
 
     window.addEventListener("scroll", progressBarHandler);
@@ -41,6 +53,15 @@ function App() {
             <Footer />
           </Router>
         </div>
+        <button className='arrow-to-top'
+          data-aos='fade'
+          onClick={() => {
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+          }}
+          style={{ opacity: `${scrollArrow}` }}
+          >
+          <i><AiOutlineArrowUp/></i>
+        </button>
       </div>
     </div>
   );

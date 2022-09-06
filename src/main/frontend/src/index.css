@@ -53,7 +53,6 @@ code {
   max-height: 80px;
 }
 
-
 #navbar .leftSide .links a {
   text-decoration: none;
   color: white;
@@ -506,6 +505,7 @@ code {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 }
 
 #projects .post-wrapper {
@@ -583,7 +583,6 @@ code {
   background-color: #C0C0C0;
   color: black;
   cursor: pointer;
-  transform: scale(1.1);
 }
 
 #projects .postContainer .image .project-links {
@@ -1129,6 +1128,7 @@ code {
 
   #navbar .leftSide #hidden {
     position: absolute;
+    z-index: 9999;
     left: 0;
     top: 80px;
     height: 230px;
@@ -1147,10 +1147,6 @@ code {
 
   #home {
     flex-direction: column;
-  }
-
-  #home .leftSide p {
-    border: 1px solid red;
   }
 
   #about {
@@ -1214,6 +1210,31 @@ code {
   #footer .leftSide,
   #footer .rightSide {
     width: 100%;
+  }
+
+  /*login modal*/
+  #login .form .form-row input {
+    width: 60%;
+  }
+
+  #login .login-btn {
+    width: 60%;
+  }
+
+  /*Register modal*/
+  #register .register-body {
+    height: 55vh;
+  }
+
+  #register .form .form-row input {
+    width: 60%;
+  }
+  #register .register-btn {
+    width: 60%;
+  }
+
+  #register .form .form-row .otherGender {
+    margin-top: 5px;
   }
 
 }
