@@ -13,6 +13,8 @@ function Navbar() {
   const [showLinks, setShowLinks] = useState(false);
   const [showAvatar, setShowAvatar] = useState(false);
 
+  const [scroll, setScroll] = useState(0);
+
   const logOut = () => {
     AuthService.logout();
     window.location.reload();
@@ -33,10 +35,26 @@ function Navbar() {
     let target = url[url.length - 1].toLowerCase();
     let element = document.getElementById(target);
     element && element.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    let progressBarHandler = () => {
+
+      const totalScroll = document.documentElement.scrollTop;
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scroll = `${totalScroll / windowHeight}`;
+
+      setScroll(scroll);
+    }
+
+    window.addEventListener("scroll", progressBarHandler);
+
+    return () => window.removeEventListener("scroll", progressBarHandler);
   }, []);
 
   return (
     <div id="navbar">
+      <div id="progressBarContainer">
+        <div id="progressBar" style={{ transform: `scale(${scroll}, 1)`, opacity: `${scroll * 1.5}` }} />
+      </div>
       <div className='wrapper-nav'>
         <div className='leftSide'>
           <div className='links' id={showLinks ? 'hidden' : ''}>

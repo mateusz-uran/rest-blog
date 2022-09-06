@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect} from 'react';
 import image_about from '../images/V1228_generated.jpg';
 import '../App.css';
 import PDF from '../documents/CV-pdf.pdf';
@@ -11,7 +11,7 @@ import 'aos/dist/aos.css';
 const About = () => {
 
   useEffect(() => {
-    AOS.init({duration: 1000, once: true});
+    AOS.init({ duration: 1000 });
   }, []);
 
   return (
