@@ -1,0 +1,2 @@
+src/main/java/io/github/mateuszuran/restblog/config/AmazonConfig.java
+src/main/resources/application-development.properties
