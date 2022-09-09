@@ -1,0 +1,122 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.hero-effect {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top:0;
+  left:0;
+  right: 0;
+}
+
+.arrow-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 5px;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: #007FFF;
+  color: white;
+}
+
+#progressBarContainer {
+  position: fixed;
+  z-index: 999;
+  background: rgba(255, 255, 255, 0.05);
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+#progressBar {
+  background: linear-gradient(to left, #007FFF, #3e4149);
+  transform-origin: top left;
+  transform: scale(0, 0);
+  opacity: 0;
+}
+
+#progressBarContainer,
+#progressBar {
+  height: 10px;
+}
+
+.overlay:before {
+  content: '';
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background-color: #66b2ff;
+  z-index: 3;
+  animation: reveal .5s reverse forwards;
+  animation-delay: .5s;
+}
+
+.overlay:after {
+  content: '';
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background: #004080;
+  z-index: 2;
+  animation: reveal 0.7s reverse forwards;
+  animation-delay: .7s;
+  transform-origin: left;
+}
+
+@keyframes reveal {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .arrow-to-top {
+    right: 10px;
+  }
+}
