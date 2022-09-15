@@ -7,7 +7,6 @@ import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.filestore.FileStore;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.PostRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 
-@Slf4j
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
     @Mock

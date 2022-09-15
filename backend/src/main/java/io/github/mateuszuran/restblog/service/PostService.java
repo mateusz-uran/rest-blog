@@ -5,7 +5,6 @@ import io.github.mateuszuran.restblog.exception.PostNotFoundException;
 import io.github.mateuszuran.restblog.filestore.FileStore;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.repository.PostRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +13,6 @@ import java.util.*;
 
 import static org.apache.http.entity.ContentType.*;
 
-@Slf4j
 @Service
 public class PostService {
     private final PostRepository repository;

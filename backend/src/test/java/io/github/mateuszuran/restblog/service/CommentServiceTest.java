@@ -8,7 +8,6 @@ import io.github.mateuszuran.restblog.model.User;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.hamcrest.collection.IsMapContaining;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +18,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -29,7 +29,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-@Slf4j
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest {
     @InjectMocks

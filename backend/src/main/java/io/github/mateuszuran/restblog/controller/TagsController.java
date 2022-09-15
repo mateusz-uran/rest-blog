@@ -2,15 +2,11 @@ package io.github.mateuszuran.restblog.controller;
 
 import io.github.mateuszuran.restblog.model.Tags;
 import io.github.mateuszuran.restblog.service.TagsService;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-@Slf4j
 @CrossOrigin("*")
 @RestController
 @PreAuthorize("hasRole('ADMIN')")

@@ -7,7 +7,6 @@ import io.github.mateuszuran.restblog.payload.request.SignupRequest;
 import io.github.mateuszuran.restblog.repository.RoleRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
 import io.github.mateuszuran.restblog.security.services.UserDetailsImpl;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,7 +23,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Slf4j
 @ExtendWith(MockitoExtension.class)
 class AuthServiceTest {
     @InjectMocks

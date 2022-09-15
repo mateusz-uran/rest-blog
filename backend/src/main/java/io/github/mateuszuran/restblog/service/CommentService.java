@@ -8,7 +8,6 @@ import io.github.mateuszuran.restblog.model.User;
 import io.github.mateuszuran.restblog.repository.CommentRepository;
 import io.github.mateuszuran.restblog.repository.PostRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 @Service
 public class CommentService {
     private final CommentRepository repository;

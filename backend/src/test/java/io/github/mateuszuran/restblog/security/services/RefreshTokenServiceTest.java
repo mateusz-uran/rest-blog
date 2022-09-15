@@ -5,7 +5,6 @@ import io.github.mateuszuran.restblog.model.RefreshToken;
 import io.github.mateuszuran.restblog.model.User;
 import io.github.mateuszuran.restblog.repository.RefreshTokenRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +22,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.verify;
 
-@Slf4j
 @ExtendWith(MockitoExtension.class)
 class RefreshTokenServiceTest {
     @InjectMocks

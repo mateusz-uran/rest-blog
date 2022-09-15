@@ -3,8 +3,6 @@ package io.github.mateuszuran.restblog.repository;
 import io.github.mateuszuran.restblog.model.Comment;
 import io.github.mateuszuran.restblog.model.Post;
 import io.github.mateuszuran.restblog.model.User;
-import lombok.extern.slf4j.Slf4j;
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,7 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Slf4j
 @DataJpaTest
 class CommentRepositoryTest {
     @Autowired

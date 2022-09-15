@@ -1,23 +1,16 @@
 package io.github.mateuszuran.restblog.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.mateuszuran.restblog.exception.TokenRefreshException;
 import io.github.mateuszuran.restblog.model.ERole;
 import io.github.mateuszuran.restblog.model.RefreshToken;
 import io.github.mateuszuran.restblog.model.Role;
 import io.github.mateuszuran.restblog.model.User;
 import io.github.mateuszuran.restblog.payload.request.LoginRequest;
 import io.github.mateuszuran.restblog.payload.request.SignupRequest;
-import io.github.mateuszuran.restblog.payload.request.TokenRefreshRequest;
-import io.github.mateuszuran.restblog.payload.response.MessageResponse;
 import io.github.mateuszuran.restblog.repository.RefreshTokenRepository;
 import io.github.mateuszuran.restblog.repository.RoleRepository;
 import io.github.mateuszuran.restblog.repository.UserRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,20 +18,17 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
 class AuthControllerTest {
