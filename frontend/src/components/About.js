@@ -86,7 +86,7 @@ const About = () => {
             <div className='pdf-link'>
               <div className='pdf-border'>
                 <p>CV</p>
-                <a href={PDF} target="_blank" rel='noopener noreferrer'><i><AiOutlineFilePdf className='pdf-icon' /></i></a>
+                <a href={PDF} target="_blank" download={"Mateusz Uranowski - CV"} rel='noopener noreferrer'><i><AiOutlineFilePdf className='pdf-icon' /></i></a>
               </div>
             </div>
           </div>

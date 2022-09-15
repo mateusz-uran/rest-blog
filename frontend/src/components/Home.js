@@ -18,9 +18,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Modal, Button } from 'react-bootstrap';
 import { BsCodeSlash } from 'react-icons/bs'
 
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-
 const client = axios.create({
   baseURL: "http://localhost:8080/api/v1/post"
 });
