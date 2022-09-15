@@ -1,0 +1,31 @@
+services:
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      DB_URL: jdbc:mysql://mysql-db/blog-db
+      DB_USERNAME: root
+      DB_PASSWORD: password
+    depends_on:
+      - mysql-container
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - 80:3000
+    depends_on:
+      - backend
+  mysql-container:
+    image: mysql:8.0.30-oracle
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: blog-db
+      MYSQL_ROOT_PASSWORD: password
+
+volumes:
+  dbdata:
