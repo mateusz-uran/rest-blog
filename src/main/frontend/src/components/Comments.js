@@ -22,6 +22,7 @@ export default function Comments({ postId }) {
   if (user != null) {
     userId = user.id;
   }
+
   const getRequestParam = (postId, page, pageSize) => {
     let params = {};
     if(postId) {
@@ -60,7 +61,7 @@ export default function Comments({ postId }) {
     );
   }
 
-  const handlePageChange = (value) => {
+  const handlePageChange = (event, value) => {
     setPage(value);
   };
   
@@ -80,7 +81,7 @@ export default function Comments({ postId }) {
       setHiddenComment(true);
     }
     retrieveComments();
-  }, [comments, postId, page])
+  }, [postId, page])
 
   return (
     <>

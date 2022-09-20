@@ -26,7 +26,6 @@ const Home = () => {
 
   const [posts, setPosts] = useState([]);
   const [tags, setTags] = useState([]);
-  const [user, setUser] = useState();
 
   const [hidden, setHidden] = useState(true);
 
@@ -77,12 +76,13 @@ const Home = () => {
       let response = await client.get("/all");
       setPosts(response.data);
     }
-    setUser(AuthService.getCurrentUser());
-    if (user != null && user.roles.includes("ROLE_ADMIN")) {
+
+    const user = AuthService.getCurrentUser();
+    if (user && user.roles.includes("ROLE_ADMIN")) {
       setHidden(false);
     }
     fetchPosts();
-  }, [posts]);
+  }, []);
 
   return (
     <div className='wrapper'>
