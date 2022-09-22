@@ -26,7 +26,7 @@ export default function Comments({ postId }) {
 
   const getRequestParam = (postId, page, pageSize) => {
     let params = {};
-    if(postId) {
+    if (postId) {
       params["id"] = postId;
     }
     if (page) {
@@ -65,18 +65,19 @@ export default function Comments({ postId }) {
   const handlePageChange = (event, value) => {
     setPage(value);
   };
+
   const [fetchedComments, setFetchedComments] = useState(true)
-  
+
   useEffect(() => {
     const user = AuthService.getCurrentUser();
     const retrieveComments = () => {
       const params = getRequestParam(postId, page, pageSize);
       CommentService.getCommentsPaginationMap(params)
-      .then((response) => {
-        const { totalPages, comments} = response.data;
-        setComments(comments);
-        setCount(totalPages);
-      })
+        .then((response) => {
+          const { totalPages, comments } = response.data;
+          setComments(comments);
+          setCount(totalPages);
+        })
     }
 
     if (user === null) {
@@ -84,13 +85,14 @@ export default function Comments({ postId }) {
     }
     retrieveComments();
     setFetchedComments(false);
+    setUser(user);
   }, [fetchedComments, postId, page])
 
   return (
     <>
-    <div className='add-comment'>
-      <AddComment id={postId} setFetchedComments={setFetchedComments} />
-    </div>
+      <div className='add-comment'>
+        <AddComment id={postId} setFetchedComments={setFetchedComments} />
+      </div>
       <div className="comment-pagination">
         <Pagination
           className="my-3"
@@ -119,7 +121,7 @@ export default function Comments({ postId }) {
             </div>
             {!hiddenComment ? <div className='side'>
               <div className='icon'>
-                <EditCommentModal id={postId} commentId={comment.id} userId={userId} />
+                <EditCommentModal id={postId} commentId={comment.id} userId={userId} setFetchedComments={setFetchedComments} />
               </div>
               <div className='icon'>
                 <MdDeleteForever onClick={() => deleteCommentByUser(postId, comment.id, userId)} />

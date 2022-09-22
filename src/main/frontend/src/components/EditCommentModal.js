@@ -7,7 +7,7 @@ import CommentService from '../services/comment.service';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 
-export default function EditCommentModal({ id, commentId, userId }) {
+export default function EditCommentModal({ id, commentId, userId, setFetchedComments }) {
   
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -31,6 +31,7 @@ export default function EditCommentModal({ id, commentId, userId }) {
       (response) => {
         e.target.reset();
         setComment(response.data)
+        setFetchedComments(true);
       },
       (error) => {
         const resMessage =

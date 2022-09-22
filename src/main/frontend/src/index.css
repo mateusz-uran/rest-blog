@@ -1082,6 +1082,17 @@ code {
 
 #register .form .form-row {
   margin: 15px 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+#register .form .form-row small {
+  color: red;
+  font-weight: bold;
+  font-size: 12px;
 }
 
 #register .form .form-row input {

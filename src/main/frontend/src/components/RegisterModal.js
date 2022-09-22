@@ -12,6 +12,7 @@ function RegisterModal() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [hidden, setHidden] = useState(true);
+  const [error, setError] = useState(false);
 
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -52,6 +53,11 @@ function RegisterModal() {
   const onChangePassword = (e) => {
     const password = e.target.value;
     setPassword(password);
+    if(e.target.value.length < 6) {
+      setError(true);
+    } else {
+      setError(false);
+    }
   };
 
   const onSubmit = (e) => {
@@ -79,7 +85,7 @@ function RegisterModal() {
   };
 
   useEffect(() => {
-  })
+  }, [password])
 
   return (
     <>
@@ -119,6 +125,7 @@ function RegisterModal() {
                 defaultValue={password}
                 onChange={(e) => onChangePassword(e)}
               />
+              {error ? <small>Password must have minimum 6 characters and max 40</small> : null}
             </div>
             <div className='form-row'>
               <select value={gender} onChange={handleChange}>
