@@ -68,7 +68,7 @@ export default function Comments({ postId }) {
   const [fetchedComments, setFetchedComments] = useState(true)
   
   useEffect(() => {
-    setUser(AuthService.getCurrentUser());
+    const user = AuthService.getCurrentUser();
     const retrieveComments = () => {
       const params = getRequestParam(postId, page, pageSize);
       CommentService.getCommentsPaginationMap(params)
@@ -88,7 +88,9 @@ export default function Comments({ postId }) {
 
   return (
     <>
-    <AddComment id={postId} setFetchedComments={setFetchedComments} />
+    <div className='add-comment'>
+      <AddComment id={postId} setFetchedComments={setFetchedComments} />
+    </div>
       <div className="comment-pagination">
         <Pagination
           className="my-3"

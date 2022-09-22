@@ -38,6 +38,7 @@ const Home = () => {
             return post.id !== id;
           })
         );
+        setFetchedPosts(true);
       },
       (error) => {
         const resMessage =
@@ -59,6 +60,7 @@ const Home = () => {
             return tag.id !== id;
           })
         );
+        setFetchedPosts(true);
       },
       (error) => {
         const resMessage =
@@ -119,7 +121,7 @@ const Home = () => {
                             </i> : null}
                           {!hidden ?
                             <i className='edit-tag'>
-                              <EditTag id={post.id} tagId={tag.id} setFetchedPosts={setFetchedPosts}  />
+                              <EditTag id={post.id} tagId={tag.id} setFetchedPosts={setFetchedPosts} />
                             </i> : null}
                         </div>
                       ))
@@ -130,7 +132,7 @@ const Home = () => {
                   {post.id && post.imageName != null ?
                     <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" />
                     : <img src={empty_image_post} alt=''></img>}
-                  {!hidden ? <MyDropzone postId={post.id} className='form-image-wrapper' /> : null}
+                  {!hidden ? <MyDropzone postId={post.id} setFetchedPosts={setFetchedPosts} className='form-image-wrapper' /> : null}
                   {!hidden ?
                     <div className='post-icons'>
                       <i><EditPostModal id={post.id} setFetchedPosts={setFetchedPosts} /></i>
@@ -147,7 +149,6 @@ const Home = () => {
                 </div>
                 <div className='comment-button'>
                   {!hidden ? <AddTags id={post.id} setFetchedPosts={setFetchedPosts} className='add-tags' /> : null}
-                  {/* <AddComment id={post.id} setFetchedPosts={setFetchedPosts} /> */}
                 </div>
                 <div data-aos='fade-right' className='comments-wrapper'>
                   <Comments postId={post.id} />
@@ -292,7 +293,7 @@ function AddPostModal({ setFetchedPosts }) {
   );
 }
 
-function MyDropzone({ postId }) {
+function MyDropzone({ postId, setFetchedPosts }) {
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0];
 
@@ -304,6 +305,7 @@ function MyDropzone({ postId }) {
 
     PostService.uploadImage(formData).then(
       () => {
+        setFetchedPosts(true);
         console.log("uploaded");
       },
       (error) => {
@@ -317,7 +319,7 @@ function MyDropzone({ postId }) {
       }
     );
 
-  });
+  }, [postId, setFetchedPosts]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
   return (
