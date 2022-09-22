@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MdOutlineEdit, MdCheck } from 'react-icons/md';
 import TagsService from '../services/tags.service';
 
-export default function EditTag({ id, tagId }) {
+export default function EditTag({ id, tagId, setFetchedPosts }) {
 
   const [tag, setTag] = useState({
     content: ""
@@ -24,6 +24,7 @@ export default function EditTag({ id, tagId }) {
       (response) => {
         e.target.reset();
         setTag(response.data)
+        setFetchedPosts(true);
       },
       (error) => {
         const resMessage =

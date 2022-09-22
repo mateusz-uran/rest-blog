@@ -11,6 +11,8 @@ import PostService from '../services/post.service';
 import TagsService from '../services/tags.service';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../App.css';
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
 import { MdDeleteForever, MdClear, MdOutlineOpenInNew } from 'react-icons/md';
@@ -24,9 +26,8 @@ const client = axios.create({
 
 const Home = () => {
 
-  const [posts, setPosts] = useState([]);
   const [tags, setTags] = useState([]);
-
+  const [posts, setPosts] = useState([]);
   const [hidden, setHidden] = useState(true);
 
   const deletePostByParam = async (id) => {
@@ -71,18 +72,21 @@ const Home = () => {
     );
   }
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      let response = await client.get("/all");
-      setPosts(response.data);
-    }
+  const [fetchedPosts, setFetchedPosts] = useState(true)
 
+  const fetchPosts = async () => {
+    const result = await client.get("/all");
+    return result.data;
+  };
+
+  useEffect(() => {
     const user = AuthService.getCurrentUser();
     if (user && user.roles.includes("ROLE_ADMIN")) {
       setHidden(false);
     }
-    fetchPosts();
-  }, []);
+    fetchedPosts && fetchPosts().then(setPosts);
+    setFetchedPosts(false);
+  }, [fetchedPosts, setPosts]);
 
   return (
     <div className='wrapper'>
@@ -90,7 +94,7 @@ const Home = () => {
       <div className='header'>
         <h2 data-aos='fade-right'>My projects</h2>
         <div className='post-modal'>
-          {!hidden ? <AddPostModal /> : null}
+          {!hidden ? <AddPostModal setFetchedPosts={setFetchedPosts} /> : null}
         </div>
       </div>
       <div id='projects' className='projects'>
@@ -115,7 +119,7 @@ const Home = () => {
                             </i> : null}
                           {!hidden ?
                             <i className='edit-tag'>
-                              <EditTag id={post.id} tagId={tag.id} />
+                              <EditTag id={post.id} tagId={tag.id} setFetchedPosts={setFetchedPosts}  />
                             </i> : null}
                         </div>
                       ))
@@ -129,7 +133,7 @@ const Home = () => {
                   {!hidden ? <MyDropzone postId={post.id} className='form-image-wrapper' /> : null}
                   {!hidden ?
                     <div className='post-icons'>
-                      <i><EditPostModal id={post.id} /></i>
+                      <i><EditPostModal id={post.id} setFetchedPosts={setFetchedPosts} /></i>
                       <i><MdDeleteForever onClick={() => deletePostByParam(post.id)} /></i>
                     </div> : null}
                   <div className='project-links'>
@@ -142,8 +146,8 @@ const Home = () => {
                   </div>
                 </div>
                 <div className='comment-button'>
-                  {!hidden ? <AddTags id={post.id} className='add-tags' /> : null}
-                  <AddComment id={post.id} />
+                  {!hidden ? <AddTags id={post.id} setFetchedPosts={setFetchedPosts} className='add-tags' /> : null}
+                  {/* <AddComment id={post.id} setFetchedPosts={setFetchedPosts} /> */}
                 </div>
                 <div data-aos='fade-right' className='comments-wrapper'>
                   <Comments postId={post.id} />
@@ -157,7 +161,7 @@ const Home = () => {
   )
 }
 
-function AddPostModal() {
+function AddPostModal({ setFetchedPosts }) {
 
   const [post, setPost] = useState({
     header: "",
@@ -177,8 +181,9 @@ function AddPostModal() {
     e.preventDefault();
     PostService.addPost(post).then(
       () => {
-        e.preventDefault();
-        setPost(post);
+        handleClose();
+        setPost('');
+        setFetchedPosts(true);
       },
       (error) => {
         const resMessage =
@@ -277,7 +282,7 @@ function AddPostModal() {
             <Button onClick={handleClose} className='close' >
               Close
             </Button>
-            <Button type={"submit"} onClick={handleClose} className='submit' >
+            <Button type={"submit"} className='submit' >
               Add post
             </Button>
           </form>

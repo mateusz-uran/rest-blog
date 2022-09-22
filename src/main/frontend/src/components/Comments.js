@@ -8,6 +8,7 @@ import { Pagination } from '@mui/material';
 import { BigHead } from '@bigheads/core'
 import { MdDeleteForever } from 'react-icons/md';
 import '../App.css';
+import AddComment from './AddComment';
 
 export default function Comments({ postId }) {
 
@@ -64,6 +65,7 @@ export default function Comments({ postId }) {
   const handlePageChange = (event, value) => {
     setPage(value);
   };
+  const [fetchedComments, setFetchedComments] = useState(true)
   
   useEffect(() => {
     setUser(AuthService.getCurrentUser());
@@ -81,10 +83,12 @@ export default function Comments({ postId }) {
       setHiddenComment(true);
     }
     retrieveComments();
-  }, [postId, page])
+    setFetchedComments(false);
+  }, [fetchedComments, postId, page])
 
   return (
     <>
+    <AddComment id={postId} setFetchedComments={setFetchedComments} />
       <div className="comment-pagination">
         <Pagination
           className="my-3"

@@ -5,7 +5,7 @@ import { MdOutlineEdit } from 'react-icons/md';
 import PostService from '../services/post.service';
 
 
-export default function EditPostModal({ id }) {
+export default function EditPostModal({ id, setFetchedPosts }) {
 
   const [post, setPost] = useState({
     header: "",
@@ -27,6 +27,8 @@ export default function EditPostModal({ id }) {
       (response) => {
         e.target.reset();
         setPost(response.data)
+        handleClose();
+        setFetchedPosts(true);
       },
       (error) => {
         const resMessage =
@@ -148,7 +150,7 @@ export default function EditPostModal({ id }) {
             <Button onClick={handleClose} className='close' >
               Close
             </Button>
-            <Button type={"submit"} onClick={handleClose} className='submit' >
+            <Button type={"submit"} className='submit' >
               Save changes
             </Button>
           </form>

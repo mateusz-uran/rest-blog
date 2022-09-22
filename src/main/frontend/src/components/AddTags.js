@@ -3,7 +3,7 @@ import '../App.css';
 import { AiOutlinePlus } from 'react-icons/ai';
 import TagsService from '../services/tags.service';
 
-export default function AddTags({ id, tagId }) {
+export default function AddTags({ id, tagId, setFetchedPosts }) {
 
   const [tags, setTags] = useState({
     content: ""
@@ -20,7 +20,8 @@ export default function AddTags({ id, tagId }) {
     TagsService.addTag(id, tags).then(
       (response) => {
         e.target.reset();
-      setTags('');
+        setTags('');
+        setFetchedPosts(true);
       },
       (error) => {
         const resMessage =

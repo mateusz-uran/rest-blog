@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import AuthService from '../services/auth.service';
 
-export default function AddComment({ id }) {
+export default function AddComment({ id, setFetchedComments }) {
 
   const [comment, setComment] = useState({
     content: "",
@@ -34,6 +34,7 @@ export default function AddComment({ id }) {
           () => {
             e.target.reset();
             setComment('');
+            setFetchedComments(true);
           },
           (error) => {
             const resMessage =
