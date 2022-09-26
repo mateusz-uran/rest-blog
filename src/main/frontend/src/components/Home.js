@@ -74,19 +74,28 @@ const Home = () => {
     );
   }
 
-  const [fetchedPosts, setFetchedPosts] = useState(true)
+  const [fetchedPosts, setFetchedPosts] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const fetchPosts = async () => {
-    const result = await client.get("/all");
-    return result.data;
-  };
+  // const fetchPosts = async () => {
+  //   const result = await client.get("/all");
+  //   return result.data;
+  // };
 
   useEffect(() => {
+    const fetchPosts = async () => {
+      let result;
+      setIsLoading(true);
+      result = await client.get("/all");
+      setPosts(result.data);
+      setIsLoading(false);
+    }
+
     const user = AuthService.getCurrentUser();
     if (user && user.roles.includes("ROLE_ADMIN")) {
       setHidden(false);
     }
-    fetchedPosts && fetchPosts().then(setPosts);
+    fetchedPosts && fetchPosts();
     setFetchedPosts(false);
   }, [fetchedPosts, setPosts]);
 
@@ -99,65 +108,71 @@ const Home = () => {
           {!hidden ? <AddPostModal setFetchedPosts={setFetchedPosts} /> : null}
         </div>
       </div>
-      <div id='projects' className='projects'>
-        {
-          posts.map((post, index) => (
-            <div className='post-wrapper' key={index}>
-              <div data-aos='fade-left' className='postContainer' >
-                <div className='text'>
-                  <h3>{post.header}</h3>
-                  <p className='intro'>{post.intro}</p>
-                  <p className='content'>{post.content}</p>
-                  <div className='tags-wrapper'>
-                    {
-                      post.tags.map((tag, index) => (
-                        <div className='tags' key={index}>
-                          <span className='tag-content'>{tag.content}</span>
-                          {!hidden ?
-                            <i
-                              onClick={() => deleteTagByParam(post.id, tag.id)}
-                            >
-                              <MdClear className='delete-tag-icon' />
-                            </i> : null}
-                          {!hidden ?
-                            <i className='edit-tag'>
-                              <EditTag id={post.id} tagId={tag.id} setFetchedPosts={setFetchedPosts} />
-                            </i> : null}
-                        </div>
-                      ))
-                    }
+      { {!isLoading ?
+        <div id='projects' className='projects'>
+          {
+            posts.map((post, index) => (
+              <div className='post-wrapper' key={index}>
+                <div data-aos='fade-left' className='postContainer' >
+                  <div className='text'>
+                    <h3>{post.header}</h3>
+                    <p className='intro'>{post.intro}</p>
+                    <p className='content'>{post.content}</p>
+                    <div className='tags-wrapper'>
+                      {
+                        post.tags.map((tag, index) => (
+                          <div className='tags' key={index}>
+                            <span className='tag-content'>{tag.content}</span>
+                            {!hidden ?
+                              <i
+                                onClick={() => deleteTagByParam(post.id, tag.id)}
+                              >
+                                <MdClear className='delete-tag-icon' />
+                              </i> : null}
+                            {!hidden ?
+                              <i className='edit-tag'>
+                                <EditTag id={post.id} tagId={tag.id} setFetchedPosts={setFetchedPosts} />
+                              </i> : null}
+                          </div>
+                        ))
+                      }
+                    </div>
                   </div>
-                </div>
-                <div className='image' >
-                  {post.id && post.imageName != null ?
-                    <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" />
-                    : <img src={empty_image_post} alt=''></img>}
-                  {!hidden ? <MyDropzone postId={post.id} setFetchedPosts={setFetchedPosts} className='form-image-wrapper' /> : null}
-                  {!hidden ?
-                    <div className='post-icons'>
-                      <i><EditPostModal id={post.id} setFetchedPosts={setFetchedPosts} /></i>
-                      <i><MdDeleteForever onClick={() => deletePostByParam(post.id)} /></i>
-                    </div> : null}
-                  <div className='project-links'>
-                    <a href={post.projectCodeLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive' : ''}>
-                      <i><BsCodeSlash className='project-icon' /></i>
-                    </a>
-                    <a href={post.projectDemoLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive' : ''}>
-                      <i><MdOutlineOpenInNew className='project-icon' /></i>
-                    </a>
+                  <div className='image' >
+                    {post.id && post.imageName != null ?
+                      <img src={`https://spring-boot-based-blog-backend.herokuapp.com/api/v1/post/${post.id}/download`} alt="" />
+                      : <img src={empty_image_post} alt=''></img>}
+                    {!hidden ? <MyDropzone postId={post.id} setFetchedPosts={setFetchedPosts} className='form-image-wrapper' /> : null}
+                    {!hidden ?
+                      <div className='post-icons'>
+                        <i><EditPostModal id={post.id} setFetchedPosts={setFetchedPosts} /></i>
+                        <i><MdDeleteForever onClick={() => deletePostByParam(post.id)} /></i>
+                      </div> : null}
+                    <div className='project-links'>
+                      <a href={post.projectCodeLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive' : ''}>
+                        <i><BsCodeSlash className='project-icon' /></i>
+                      </a>
+                      <a href={post.projectDemoLink} target='_blank' rel='noopener noreferrer' className={post.projectCodeLink === null ? 'inactive' : ''}>
+                        <i><MdOutlineOpenInNew className='project-icon' /></i>
+                      </a>
+                    </div>
                   </div>
-                </div>
-                <div className='comment-button'>
-                  {!hidden ? <AddTags id={post.id} setFetchedPosts={setFetchedPosts} className='add-tags' /> : null}
-                </div>
-                <div data-aos='fade-right' className='comments-wrapper'>
-                  <Comments postId={post.id} />
+                  <div className='comment-button'>
+                    {!hidden ? <AddTags id={post.id} setFetchedPosts={setFetchedPosts} className='add-tags' /> : null}
+                  </div>
+                  <div data-aos='fade-right' className='comments-wrapper'>
+                    <Comments postId={post.id} />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
-        }
-      </div>
+            ))
+          }
+        </div>
+        : <div id="loader">
+            <p>Loading projects, please wait...</p>
+            <div className='spinner'></div>
+          </div>
+      } }
     </div>
   )
 }

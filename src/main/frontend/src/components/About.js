@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React from 'react';
 import image_about from '../images/V1228_generated.jpg';
 import '../App.css';
 import PDF from '../documents/CV-pdf.pdf';
@@ -6,9 +6,6 @@ import { AiOutlineFilePdf } from 'react-icons/ai';
 
 
 const About = () => {
-
-  useEffect(() => {
-  }, []);
 
   return (
     <div className='wrapper'>
@@ -28,14 +25,8 @@ const About = () => {
               <ul className='tech-list'>
                 <li>Java 11</li>
                 <li>Spring Boot</li>
-                <li>AWS
-                  <ul>
-                    <li>S3 Bucket</li>
-                    <li>Elastik Beanstalk</li>
-                    <li>Amplify</li>
-                  </ul>
-                </li>
-                <li>JavaScript - basics</li>
+                <li>AWS</li>
+                <li>JavaScript</li>
                 <li>React</li>
                 <li>HTML</li>
                 <li>CSS</li>
@@ -55,11 +46,6 @@ const About = () => {
                   <div className='bng-bar'>
                     <div data-aos='fade-right' className='aws-bar-progress'>&nbsp;</div>
                   </div>
-                  <ul>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                    <li>&nbsp;</li>
-                  </ul>
                 </li>
                 <li>
                   <div className='bng-bar'>
