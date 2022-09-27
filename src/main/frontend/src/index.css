@@ -1145,8 +1145,6 @@ code {
     flex-direction: column;
   }
 
-  #about .rightSide .content .list {}
-
   #projects .postContainer {
     flex-direction: column;
   }
@@ -1185,7 +1183,7 @@ code {
   }
 
   #projects .postContainer .comments-wrapper .add-comment {
-    width: 50%;
+    width: 80%;
     text-align: left;
   }
 

@@ -108,7 +108,7 @@ const Home = () => {
           {!hidden ? <AddPostModal setFetchedPosts={setFetchedPosts} /> : null}
         </div>
       </div>
-      { {!isLoading ?
+      {!isLoading ?
         <div id='projects' className='projects'>
           {
             posts.map((post, index) => (
@@ -172,7 +172,7 @@ const Home = () => {
             <p>Loading projects, please wait...</p>
             <div className='spinner'></div>
           </div>
-      } }
+      }
     </div>
   )
 }
