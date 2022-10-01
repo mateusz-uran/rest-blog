@@ -13,6 +13,8 @@
     <br />
     <br />
     <a href="https://mateusz-uran.pl/">View Demo</a>
+    <br />
+    <i>Project section can be loading few seconds because of free plan cloud heroku.</i>
   </p>
   <p>
   You can login and comment available posts.
