@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone'
 import axios from 'axios'
 import EditPostModal from './EditPostModal';
-import AddComment from './AddComment';
 import AddTags from './AddTags';
 import EditTag from './EditTag';
 import Comments from './Comments';
@@ -11,7 +10,6 @@ import PostService from '../services/post.service';
 import TagsService from '../services/tags.service';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../App.css';
 import empty_image_post from '../images/Basic_Element_15-30_(18).jpg'
@@ -140,7 +138,7 @@ const Home = () => {
                   </div>
                   <div className='image' >
                     {post.id && post.imageName != null ?
-                      <img src={`https://spring-boot-based-blog-backend.herokuapp.com/api/v1/post/${post.id}/download`} alt="" />
+                      <img src={`http://localhost:8080/api/v1/post/${post.id}/download`} alt="" />
                       : <img src={empty_image_post} alt=''></img>}
                     {!hidden ? <MyDropzone postId={post.id} setFetchedPosts={setFetchedPosts} className='form-image-wrapper' /> : null}
                     {!hidden ?
@@ -169,9 +167,9 @@ const Home = () => {
           }
         </div>
         : <div id="loader">
-            <p>Loading projects, please wait...</p>
-            <div className='spinner'></div>
-          </div>
+          <p>Loading projects, please wait...</p>
+          <div className='spinner'></div>
+        </div>
       }
     </div>
   )
