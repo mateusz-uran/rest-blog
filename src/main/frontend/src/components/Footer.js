@@ -15,14 +15,8 @@ const Footer = () => {
           <h4>Contact</h4>
           <div className='contact'>
             <span>
-              <i><BsTelephoneFill /></i>
-              <a href='tel:+48 739670714'>+48 739670714</a>
-            </span>
-          </div>
-          <div className='contact'>
-            <span>
               <i><FaMapMarkerAlt /></i>
-              <p>Nieszawa 23, 24-340 Józefów nad Wisłą</p>
+              <p>Lublin, Polska</p>
             </span>
           </div>
           <div className='contact'>
@@ -44,12 +38,6 @@ const Footer = () => {
             <span>
               <i><AiFillLinkedin /></i>
               <a href={'https://pl.linkedin.com/'} target='_blank' rel='noopener noreferrer'>Linkedin</a>
-            </span>
-          </div>
-          <div className='social'>
-          <span>
-              <i><AiFillFacebook /></i>
-              <a href={'https://www.facebook.com/'} target='_blank' rel='noopener noreferrer'>Facebook</a>
             </span>
           </div>
         </div>
