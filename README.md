@@ -56,7 +56,7 @@ user can register and comment posts. Page is responsive so browsing is possible 
 Features:
 * JWT mechanism. Token is stored in local storage and refreshed if is expired.
 * Backend has two profiles - for admin and user. Admin can manage whole application and user can comment posts.
-* React framework make its easier to manage posts thanks to modals. After new post or tag is added only component is refreshed instead of whole page.
+* React framework make its easier to manage posts thanks to modals. When new post or tag is added only component is refreshed instead of whole page.
 * Validation extension informs user if inputs are incorrect or there is problem with requests.
 * Animations makes blog more interesting.
 
@@ -126,7 +126,7 @@ _Here I will explain how to get all together so application can work on your mac
      for profile, if user will choose gender "other" plugin will generate random avatar.**
   ![Login and Register][log-reg]
   
-2. **About section has animations when on viewport, when user scroll in or out animations are triggered. CV button border has infinite loop animation.**
+2. **About section has animations triggered on scroll into by user. CV button border has infinite loop animation.**
   ![About][about]
   
 3. **Projects section has also animation when user scroll in or out. If logged in user has admin privileges on screen apears few more buttons.
@@ -134,10 +134,10 @@ _Here I will explain how to get all together so application can work on your mac
   ![Projects][projects]
   
 4. **Comments component has previous generated user avatar, nickname and comment date creation. When user is logged in 
-     are available buttons to manage posted comment. Validations make impossible to ingerent into someone else comment.**
+     on sreen are available buttons to manage posted comment. Validations make impossible to ingerent into someone else comment.**
   ![Comments][comments]
   
-5. **Footer has all needed links and when user scroll further than about section on screen appears arrow to scroll back to top.**
+5. **Footer has all needed links and when user scroll further then about section on screen appears arrow to scroll back to top.**
   ![Footer][footer]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
