@@ -2,9 +2,6 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="readme-img/logo.png" alt="Logo" width="100" height="100">
-  </a>
 
   <h3 align="center">Blog Portfolio</h3>
 
@@ -12,12 +9,6 @@
     One page blog as portfolio with projects.
     <br />
     <br />
-    <a href="https://mateusz-uran.pl/">View Demo</a>
-    <br />
-    <i>Project section can be loading few seconds because of free plan cloud heroku.</i>
-  </p>
-  <p>
-  You can login and comment available posts.
   </p>
 </div>
 
@@ -47,9 +38,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Main page Screen Shot][home]]((https://mateusz-uran.pl/))
+![Main page Screen Shot][home]
 
-[Blog](https://mateusz-uran.pl/) is deisgned for best user experience. Spring-boot and react are working together to make everything smooth.
+Blog is deisgned for best user experience. Spring-boot and react are working together to make everything smooth.
 Secured system has two roles - for admin and user. Each role has own privileges like admin can add, edit, delete posts or tags. On the other hand
 user can register and comment posts. Page is responsive so browsing is possible on mobiles as well.
 
@@ -83,7 +74,6 @@ Application is using external tools like S3 Bucket from Amazon.
 ### Prerequisites
 
 Requirements for application to work properly: 
-* MySQL server
 * S3 Bucket from Amazon
 
 ### Installation
@@ -93,30 +83,25 @@ _Here I will explain how to get all together so application can work on your mac
 1. Create AWS account, there is available free tier for one year [AWS free tier]
     - then create [AWS S3 bucket]
     - the most important is to get [access and secret key] to your account. Paste the correct username and password into the application.properties file.
-2. Create mysql database
-    - [Creating and Selecting a Database]
-    - Paste the correct username and password into the application.properties file.
-3. First run backend for example by command line
+3. Build backen JAR file required for Dockerfile
     ```sh
-    ./mvnw clean package -DskipTests
+    mvnw clean package -DskipTests
     ```
-    When backend is running you can start nodejs server to serve frontend. You can do this by command
+4. Run docker compose command to build project from Dockerfile's:
     ```sh
-    npm start
+    docker compose up -d
     ```
-4. In backend controllers cross origin is setup for default 3000 port but you can change this:
-    ```
-    @CrossOrigin(origins = "http://localhost:3000/")
-    ```
-5. Same in frontend services, axios requests are mapped to port 8080, u can change this:
-    ```
-    const instance = axios.create({
-      baseURL: "http://localhost:8080/api/v1",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    ```
+5. Open browser and navigate to http://localhost:9090
+
+6. There is no default or admin user to after registration you need to add admin role to your profile
+    - get into docker container
+      - docker exec -it blog-db bash
+    - login into mysql as root user
+      - mysql -uroot -p
+    - use blog database
+      - use blog-db;
+    - insert into user_roles table new added user id and role id assigned to admin
+      - insert into (user_id, role_id) values ('1', '2');
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -146,8 +131,6 @@ _Here I will explain how to get all together so application can work on your mac
 ## Contact
 
 Email - mateusz.uranowski@onet.pl
-
-My personal blog: [https://mateusz-uran.pl/](https://mateusz-uran.pl/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -184,7 +167,6 @@ Resources I've used to create this project!
 [AWS S3 bucket]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-bucket.html
 [GMAIL]: https://support.google.com/mail/answer/56256?hl=en
 [access and secret key]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
-[Creating and Selecting a Database]: https://dev.mysql.com/doc/refman/8.0/en/creating-database.html
 
 [log-reg]: readme-img/log-reg.jpg
 [about]: readme-img/about.png
