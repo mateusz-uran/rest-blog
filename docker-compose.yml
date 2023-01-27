@@ -1,0 +1,41 @@
+version: '3.1'
+services:
+
+  blog-backend-compose:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - blog-db-compose
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      SPRING_DATASOURCE_URL: jdbc:mysql://blog-db-compose:3306/blog-db
+
+  blog-frontend-compose:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "9090:80"
+    restart: always
+    depends_on:
+      - blog-backend-compose
+
+  blog-db-compose:
+    image: mysql
+    environment:
+      MYSQL_DATABASE: blog-db
+      MYSQL_USER: mateuszuran
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - blog-db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+
+volumes:
+  blog-db:
