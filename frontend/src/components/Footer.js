@@ -1,5 +1,4 @@
 import React from 'react';
-import { BsTelephoneFill } from 'react-icons/bs';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { IoMdMail } from 'react-icons/io'
 import { AiFillGithub, AiFillLinkedin, AiFillFacebook } from 'react-icons/ai';
@@ -22,7 +21,7 @@ const Footer = () => {
           <div className='contact'>
             <span>
               <i><IoMdMail /></i>
-              <a href='mailto:jonhbravo@gmailni.com'>jonhbravo@gmailni.com</a>
+              <a href='mailto:jonhbravo@gmailni.com'>jonhybravo@gmailni.com</a>
             </span>
           </div>
         </div>
