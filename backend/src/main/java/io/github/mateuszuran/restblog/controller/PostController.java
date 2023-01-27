@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000/")
+@CrossOrigin(origins = "http://localhost:9090/")
 @RestController
 @PreAuthorize("hasRole('ADMIN')")
 @RequestMapping("/api/v1/post")
