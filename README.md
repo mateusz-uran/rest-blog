@@ -93,7 +93,7 @@ _Here I will explain how to get all together so application can work on your mac
     ```
 5. Open browser and navigate to http://localhost:9090
 
-6. There is no default or admin user to after registration you need to add admin role to your profile
+6. There is no default or admin user to be able to add or edit post you need to manualy add admin role to registered user
     - get into docker container
       - docker exec -it blog-db bash
     - login into mysql as root user
